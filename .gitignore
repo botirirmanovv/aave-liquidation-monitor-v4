@@ -1,0 +1,54 @@
+# Secrets & local env
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+.venv-run/
+.venv312/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node / Foundry / deploy artifacts
+node_modules/
+cache/
+out/
+broadcast/
+typechain-types/
+artifacts/
+
+# Runtime state & logs (local observation)
+*.log
+monitor_state*.json
+would_have_*.json
+live_*.log
+live_*.err
+monitor_*.log
+
+# Local reports / dumps (optional keep — ignored to stay clean)
+stats_*.txt
+*_status.txt
+overnight_*.txt
+workday_*.txt
+monitoring_week.txt
+flash_arb_90d_monthly.txt
+liq_turnover_90d_monthly.txt
+balancer_*.txt
+yield_probe*
+once_*.log
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+Desktop.ini
+
+# Keys
+*.pem
+id_rsa*
