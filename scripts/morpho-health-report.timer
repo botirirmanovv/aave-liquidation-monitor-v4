@@ -1,0 +1,13 @@
+[Unit]
+Description=Run Morpho health report every 6h (skip local 00:00–08:00 UTC+5)
+
+[Timer]
+# UTC+5: 08:00, 14:00, 20:00 → UTC 03:00, 09:00, 15:00
+OnCalendar=*-*-* 03:00:00
+OnCalendar=*-*-* 09:00:00
+OnCalendar=*-*-* 15:00:00
+Persistent=true
+Unit=morpho-health-report.service
+
+[Install]
+WantedBy=timers.target

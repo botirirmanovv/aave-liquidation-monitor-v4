@@ -1,0 +1,19 @@
+[Unit]
+Description=Morpho Blue flash liquidation scanner (Base)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/aave-liquidation-monitor-v4
+EnvironmentFile=/root/aave-liquidation-monitor-v4/.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/root/aave-liquidation-monitor-v4/.venv/bin/python -u morpho_research/morpho_scanner.py --chains base
+Restart=always
+RestartSec=5
+StandardOutput=append:/root/aave-liquidation-monitor-v4/morpho_scanner.out.log
+StandardError=append:/root/aave-liquidation-monitor-v4/morpho_scanner.err.log
+
+[Install]
+WantedBy=multi-user.target

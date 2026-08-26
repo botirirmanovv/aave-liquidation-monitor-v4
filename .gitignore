@@ -29,6 +29,7 @@ would_have_*.json
 live_*.log
 live_*.err
 monitor_*.log
+recon/
 
 # Local reports / dumps (optional keep — ignored to stay clean)
 stats_*.txt
@@ -52,3 +53,13 @@ Desktop.ini
 # Keys
 *.pem
 id_rsa*
+
+# Trade analytics local DB
+tools/trade_analytics/trades.db
+tools/trade_analytics/*.db
+
+# Local agent scratch
+morpho_research/_tmp*
+tools/_tmp*
+*.out.txt
+

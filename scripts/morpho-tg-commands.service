@@ -1,0 +1,17 @@
+[Unit]
+Description=Morpho Telegram commands (/jiv, /status, /restart)
+After=network-online.target morpho-scanner.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/aave-liquidation-monitor-v4
+EnvironmentFile=/root/aave-liquidation-monitor-v4/.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/root/aave-liquidation-monitor-v4/.venv/bin/python -u tools/morpho_tg_commands.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

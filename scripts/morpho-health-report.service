@@ -1,0 +1,12 @@
+[Unit]
+Description=Morpho health report (every 6h, quiet 00-08 UTC+5) → Telegram
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/aave-liquidation-monitor-v4
+EnvironmentFile=/root/aave-liquidation-monitor-v4/.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/root/aave-liquidation-monitor-v4/.venv/bin/python -u tools/morpho_health_report.py
