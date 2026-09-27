@@ -94,6 +94,7 @@ def replay_one(
     hold: int = HOLD,
     risk: float = RISK,
     simple: bool = True,
+    max_stake: float | None = None,
 ) -> tuple[float, list[Shot]]:
     risk = min(max(risk, 0.0), 1.0)
     jobs: list[dict] = []
@@ -124,6 +125,8 @@ def replay_one(
         if kind == 1:
             base = start if simple else eq
             stake = base * risk
+            if max_stake is not None:
+                stake = min(stake, max_stake)
             shares = int(stake * lev / max(job["fill"], 1e-9))
             if shares < 1:
                 continue

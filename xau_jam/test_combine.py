@@ -74,6 +74,22 @@ class CombineTests(unittest.TestCase):
         self.assertEqual(simple[0].shares, simple[1].shares)
         self.assertGreater(compound[1].shares, compound[0].shares)
 
+    def test_max_stake_caps_compound_lot(self) -> None:
+        start = datetime(2026, 1, 5, 14, 30, tzinfo=timezone.utc)
+
+        def boom(day: int, end: float) -> list[Bar]:
+            t0 = start + timedelta(days=day)
+            out = [Bar(t0, 100.0, 120.0, 99.8, 119.0, 1.0)]
+            for i in range(1, 8):
+                out.append(Bar(t0 + timedelta(hours=i), end, end + 0.2, end - 0.1, end, 1.0))
+            return out
+
+        h1 = boom(0, 119.0) + boom(3, 119.0)
+        shots = collect_signals({"MSTR": (h1, 0.006)}, datetime(2026, 1, 1).date(), None)
+        _, capped = replay_one(shots, 500.0, 10, simple=False, max_stake=50.0)
+        self.assertEqual(capped[0].stake, 50.0)
+        self.assertEqual(capped[1].stake, 50.0)
+
     def test_350_at_20pct_covers_amd_price(self) -> None:
         h1 = _day(14, 630.0, 640.0, 629.0, 630.63)
         need, last = min_start_bank({"AMD": (h1, 0.006)}, risk=0.20, lev=10)
