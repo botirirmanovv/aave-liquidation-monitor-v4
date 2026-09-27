@@ -1,0 +1,33 @@
+Jam grid-search — максимальный плюс на последнем месяце
+окно: 2026-08-27T04:00:00+00:00 → 2026-09-25T20:59:59+00:00  баров=474
+вариантов: 62208
+
+топ-10 любых (можно 1-7 сделок, переобучение):
+  01 pnl= +249.10  n=14 wr= 28.6%  avgR=+0.32 dd=67.5  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=0.0-999.0 be_after_1r buf=1.5
+  02 pnl= +249.10  n=14 wr= 28.6%  avgR=+0.32 dd=67.5  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=5.0-999.0 be_after_1r buf=1.5
+  03 pnl= +249.10  n=14 wr= 28.6%  avgR=+0.32 dd=67.5  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=10.0-999.0 be_after_1r buf=1.5
+  04 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.40 dd=67.5  sell RR=3.0 hold=16 sess=all trend=sma20 body=0.0 risk=0.0-999.0 be_after_1r buf=1.5
+  05 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.40 dd=67.5  sell RR=3.0 hold=16 sess=all trend=sma20 body=0.0 risk=5.0-999.0 be_after_1r buf=1.5
+  06 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.40 dd=67.5  sell RR=3.0 hold=16 sess=all trend=sma20 body=0.0 risk=10.0-999.0 be_after_1r buf=1.5
+  07 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.32 dd=65.4  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=0.0-999.0 be_after_1r buf=0.8
+  08 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.32 dd=65.4  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=5.0-999.0 be_after_1r buf=0.8
+  09 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.32 dd=65.4  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=10.0-999.0 be_after_1r buf=0.8
+  10 pnl= +244.30  n=14 wr= 28.6%  avgR=+0.32 dd=63.9  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=0.0-999.0 be_after_1r buf=0.3
+
+топ-10 при сделках >= 8:
+  01 pnl= +249.10  n=14 wr= 28.6%  avgR=+0.32 dd=67.5  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=0.0-999.0 be_after_1r buf=1.5
+  02 pnl= +249.10  n=14 wr= 28.6%  avgR=+0.32 dd=67.5  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=5.0-999.0 be_after_1r buf=1.5
+  03 pnl= +249.10  n=14 wr= 28.6%  avgR=+0.32 dd=67.5  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=10.0-999.0 be_after_1r buf=1.5
+  04 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.40 dd=67.5  sell RR=3.0 hold=16 sess=all trend=sma20 body=0.0 risk=0.0-999.0 be_after_1r buf=1.5
+  05 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.40 dd=67.5  sell RR=3.0 hold=16 sess=all trend=sma20 body=0.0 risk=5.0-999.0 be_after_1r buf=1.5
+  06 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.40 dd=67.5  sell RR=3.0 hold=16 sess=all trend=sma20 body=0.0 risk=10.0-999.0 be_after_1r buf=1.5
+  07 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.32 dd=65.4  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=0.0-999.0 be_after_1r buf=0.8
+  08 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.32 dd=65.4  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=5.0-999.0 be_after_1r buf=0.8
+  09 pnl= +246.30  n=14 wr= 28.6%  avgR=+0.32 dd=65.4  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=10.0-999.0 be_after_1r buf=0.8
+  10 pnl= +244.30  n=14 wr= 28.6%  avgR=+0.32 dd=63.9  sell RR=3.0 hold=24 sess=all trend=sma20 body=0.0 risk=0.0-999.0 be_after_1r buf=0.3
+
+выбранный рабочий вариант (max PnL, min trades):
+{"side": "sell", "rr": 3.0, "spread": 0.3, "sl_buffer": 1.5, "max_hold": 24, "min_risk": 0.0, "max_risk": 999.0, "session": "all", "trend": "sma20", "min_body": 0.0, "exit_mode": "be_after_1r", "symbol": "GC=F"}
+net=+249.10 trades=14 wr=28.57% dd=67.4505
+
+это подгонка под один месяц — вне выборки цифры будут хуже. Паттерн Jam не менялся, крутились сторона/RR/фильтры/выход.

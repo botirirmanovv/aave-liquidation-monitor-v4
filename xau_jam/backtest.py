@@ -48,17 +48,18 @@ class Trade:
 
 @dataclass(slots=True)
 class Params:
+    # Defaults = 1-month grid winner (2026-08-27..2026-09-25, 62208 variants).
     side: Side = "sell"
-    rr: float = 2.0
+    rr: float = 3.0
     spread: float = 0.30
-    sl_buffer: float = 0.50
+    sl_buffer: float = 1.50
     max_hold: int = 24
     min_risk: float = 0.0
     max_risk: float = 999.0
     session: Session = "all"
-    trend: Trend = "none"
+    trend: Trend = "sma20"
     min_body: float = 0.0
-    exit_mode: ExitMode = "fixed"
+    exit_mode: ExitMode = "be_after_1r"
     symbol: str = "GC=F"
 
 
@@ -538,16 +539,16 @@ def main() -> int:
     ap.add_argument("--symbol", default="GC=F")
     ap.add_argument("--range", dest="range_spec", default="1mo")
     ap.add_argument("--side", default="sell", choices=("sell", "buy", "both"))
-    ap.add_argument("--rr", type=float, default=1.0)
+    ap.add_argument("--rr", type=float, default=3.0)
     ap.add_argument("--spread", type=float, default=0.30)
-    ap.add_argument("--sl-buffer", type=float, default=0.50)
+    ap.add_argument("--sl-buffer", type=float, default=1.50)
     ap.add_argument("--max-hold", type=int, default=24)
     ap.add_argument("--min-risk", type=float, default=0.0)
     ap.add_argument("--max-risk", type=float, default=999.0)
     ap.add_argument("--session", default="all", choices=("all", "asia", "london", "ny"))
-    ap.add_argument("--trend", default="none", choices=("none", "sma20", "sma50"))
+    ap.add_argument("--trend", default="sma20", choices=("none", "sma20", "sma50"))
     ap.add_argument("--min-body", type=float, default=0.0)
-    ap.add_argument("--exit-mode", default="fixed", choices=("fixed", "be_after_1r"))
+    ap.add_argument("--exit-mode", default="be_after_1r", choices=("fixed", "be_after_1r"))
     ap.add_argument("--out-dir", default=str(REPORTS))
     args = ap.parse_args()
 
