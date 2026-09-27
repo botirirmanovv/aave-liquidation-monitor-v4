@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from xau_jam.combine import collect_signals, replay_one
+from xau_jam.combine import collect_signals, replay_one, watch_book
 from xau_jam.pattern import Bar
 
 
@@ -44,3 +44,17 @@ class CombineTests(unittest.TestCase):
         shots = collect_signals(books, datetime(2026, 1, 1).date(), None)
         _, fills = replay_one(shots, 500.0, 10)
         self.assertEqual([f.symbol for f in fills], ["MSTR", "TSLA"])
+
+    def test_watch_book_one_shared_bank(self) -> None:
+        mstr = _day(14, 100.0, 101.0, 99.8, 100.5)
+        tsla = _day(14, 200.0, 201.0, 199.8, 200.4)
+        books = {"MSTR": (mstr, 0.006), "TSLA": (tsla, 0.003)}
+        state = {"start": 500.0, "equity": 500.0, "simple": True, "pos": None, "fills": []}
+        state = watch_book(books, state, 10)
+        self.assertIsNotNone(state["pos"])
+        self.assertEqual(state["pos"]["symbol"], "MSTR")
+        self.assertIn("общий банк", state["note"])
+        state = watch_book(books, state, 10)
+        self.assertIsNone(state["pos"])
+        self.assertEqual(len(state["fills"]), 1)
+        self.assertEqual(state["fills"][0]["symbol"], "MSTR")

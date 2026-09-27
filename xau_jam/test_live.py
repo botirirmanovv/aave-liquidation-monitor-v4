@@ -12,7 +12,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from xau_jam.broker import DemoBroker
-from xau_jam.live import replay_through_broker, session_open, tick
+from xau_jam.live import replay_book_through_broker, replay_through_broker, session_open, tick, tick_book
 from xau_jam.pattern import Bar
 
 
@@ -78,3 +78,24 @@ class DemoLiveTests(unittest.TestCase):
         note = tick([], br, now=sunday)
         self.assertIn("закрыта", note)
         self.assertEqual(br.orders, [])
+
+    def test_tick_book_one_bank_picks_mstr(self) -> None:
+        start = datetime(2026, 9, 21, 14, 30, tzinfo=timezone.utc)
+        mstr = [
+            Bar(start + timedelta(hours=i), 100, 101.0 if i == 0 else 100.4, 99.8, 100.4, 1)
+            for i in range(8)
+        ]
+        tsla = [
+            Bar(start + timedelta(hours=i), 200, 201.0 if i == 0 else 200.4, 199.8, 200.4, 1)
+            for i in range(8)
+        ]
+        books = {"MSTR": (mstr, 0.006), "TSLA": (tsla, 0.003)}
+        br = self._broker()
+        monday = datetime(2026, 9, 21, 16, 0, tzinfo=timezone.utc)
+        note = tick_book(books, br, now=monday)
+        self.assertIn("MSTR", note)
+        self.assertEqual(br.pos.symbol, "MSTR")
+        br2 = self._broker()
+        replay_book_through_broker(books, br2, start.date())
+        self.assertEqual(br2.orders[0].symbol, "MSTR")
+        self.assertEqual(len([o for o in br2.orders if o.reason == "open"]), 1)

@@ -380,16 +380,20 @@ def main() -> int:
     REPORTS.mkdir(parents=True, exist_ok=True)
 
     if args.watch or args.loop or args.auto:
-        cron = install_cron(args.bank)
+        from xau_jam.combine import BOOK, run_loop as book_loop, run_watch_once as book_once
+        from xau_jam.auto import cron_line as book_cron, install_cron as book_cron_install
+
+        cron = book_cron_install(args.bank)
+        names = ",".join(s for s, _ in BOOK)
         if args.loop or args.auto:
             print(
-                "автомат честный: TSLA 0.3% одна сторона, 6 H1, 1:10, "
-                f"банк ${args.bank:.0f}, тик раз в {args.interval}с"
+                f"один банк ${args.bank:.0f} 1:{args.leverage}  {names}  "
+                f"простой %, одна позиция, тик раз в {args.interval}с"
             )
-            print("cron:" if cron else "cron нет, кручу loop:", cron_line(args.bank))
-            run_loop(args.bank, args.leverage, args.interval)
+            print("cron:" if cron else "cron нет, кручу loop:", book_cron(args.bank))
+            book_loop(args.bank, args.leverage, args.interval)
             return 0
-        state = run_watch_once(args.bank, args.leverage)
+        state = book_once(args.bank, args.leverage)
         print(state.get("note", ""), f"eq=${state['equity']:.2f}")
         return 0
 

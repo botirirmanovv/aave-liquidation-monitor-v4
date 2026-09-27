@@ -3,18 +3,24 @@
 Same costs as paper.py. Simple % (lot always from start). Not live.
 
   python3 -m xau_jam.combine --from 01/01/26 --bank 500
+  python3 -m xau_jam.combine --once --bank 500
+  python3 -m xau_jam.auto --once --bank 500
 """
 from __future__ import annotations
 
 import argparse
 import json
+import time
 from dataclasses import asdict, dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
 
 from xau_jam.burst_open import REPORTS
 from xau_jam.data import fetch_yahoo
 from xau_jam.paper import HOLD, costed_cash, day_groups, parse_day, replay, signal_for_day
 from xau_jam.pattern import Bar
+
+WATCH_LOG = REPORTS / "combine_watch.log"
 
 BOOK = (
     ("MSTR", 0.006),
@@ -107,14 +113,175 @@ def replay_one(
     return round(eq, 2), path
 
 
+def state_path(bank: float) -> Path:
+    return REPORTS / f"combine_state_{bank:.0f}.json"
+
+
+def fresh_state(bank: float, lev: int) -> dict:
+    return {
+        "venue": "combine-paper",
+        "start": bank,
+        "equity": bank,
+        "leverage": lev,
+        "simple": True,
+        "pos": None,
+        "fills": [],
+        "note": "",
+    }
+
+
+def load_state(bank: float, lev: int) -> dict:
+    path = state_path(bank)
+    if path.exists() and path.stat().st_size > 0:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        raw.setdefault("leverage", lev)
+        raw.setdefault("start", bank)
+        raw.setdefault("simple", True)
+        return raw
+    return fresh_state(bank, lev)
+
+
+def save_state(bank: float, state: dict) -> Path:
+    state["updated"] = datetime.now(timezone.utc).isoformat()
+    REPORTS.mkdir(parents=True, exist_ok=True)
+    path = state_path(bank)
+    path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def fetch_books(range_spec: str = "5d") -> dict[str, tuple[list[Bar], float]]:
+    books: dict[str, tuple[list[Bar], float]] = {}
+    for i, (sym, trig) in enumerate(BOOK):
+        try:
+            books[sym] = (fetch_yahoo(sym, range_spec, "60m"), trig)
+        except Exception as exc:
+            print(f"  skip {sym}: {exc}", flush=True)
+            continue
+        if i + 1 < len(BOOK):
+            time.sleep(0.05)
+    return books
+
+
+def _index_at(h1: list[Bar], iso: str) -> int | None:
+    for i, b in enumerate(h1):
+        if b.time.isoformat() == iso:
+            return i
+    return None
+
+
+def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int) -> dict:
+    """One shared bank. Open or flatten at most one name."""
+    pos = state.get("pos")
+    start = float(state.get("start") or state.get("equity") or 0)
+    if pos:
+        packed = books.get(pos["symbol"])
+        if not packed:
+            state["note"] = f"вход {pos['symbol']} нет баров, жду"
+            return state
+        h1, _trig = packed
+        fi = _index_at(h1, pos["entry_time"])
+        if fi is None:
+            state["note"] = f"вход {pos['symbol']} не в барах, жду"
+            return state
+        due = fi + HOLD
+        if len(h1) - 1 < due:
+            left = due - (len(h1) - 1)
+            state["note"] = f"открыт {pos['side']} {pos['symbol']} {pos['shares']}шт, выход через {left} H1"
+            return state
+        exit_px = h1[due].close
+        cash = costed_cash(pos["side"], pos["entry"], exit_px, pos["shares"])
+        state["equity"] = round(float(state["equity"]) + cash, 2)
+        state.setdefault("fills", []).append(
+            asdict(
+                Shot(
+                    pos["entry_time"],
+                    pos["symbol"],
+                    pos["side"],
+                    pos["shares"],
+                    pos["entry"],
+                    round(exit_px, 4),
+                    round(cash, 2),
+                    state["equity"],
+                    "ok",
+                )
+            )
+        )
+        state["pos"] = None
+        state["note"] = f"закрыл {pos['symbol']} {pos['side']} {cash:+.2f} eq=${state['equity']:.2f}"
+        return state
+
+    today = max((h1[-1].time.date() for h1, _t in books.values() if h1), default=None)
+    if today is None:
+        state["note"] = "нет баров"
+        return state
+    shots = collect_signals(books, today, today + timedelta(days=1))
+    if not shots:
+        state["note"] = f"{today} нет импульса ни по одной бумаге"
+        return state
+    t, sym, side, fill, fi, h1 = shots[0]
+    day_iso = t.date().isoformat()
+    if any(str(f.get("time", ""))[:10] == day_iso for f in state.get("fills", [])):
+        state["note"] = f"{day_iso} выстрел уже был, общий банк ждёт следующий день"
+        return state
+    stake = start if state.get("simple", True) else float(state["equity"])
+    shares = int(stake * lev / max(fill, 1e-9))
+    if shares < 1:
+        state["note"] = f"{sym} не хватает на 1 акцию"
+        return state
+    state["pos"] = {
+        "symbol": sym,
+        "side": side,
+        "shares": shares,
+        "entry": round(fill, 4),
+        "entry_time": t.isoformat(),
+    }
+    state["note"] = f"открыл {side} {sym} {shares}шт @ {fill:.2f} (общий банк)"
+    return state
+
+
+def run_watch_once(bank: float, lev: int) -> dict:
+    books = fetch_books("5d")
+    state = load_state(bank, lev)
+    state["leverage"] = lev
+    state = watch_book(books, state, lev)
+    save_state(bank, state)
+    return state
+
+
+def run_loop(bank: float, lev: int, interval: int) -> None:
+    while True:
+        ts = datetime.now(timezone.utc).isoformat()
+        try:
+            state = run_watch_once(bank, lev)
+            row = f"{ts} {state.get('note', '')} eq=${state['equity']:.2f}\n"
+        except Exception as exc:  # noqa: BLE001
+            row = f"{ts} ошибка: {exc}\n"
+        print(row, end="", flush=True)
+        REPORTS.mkdir(parents=True, exist_ok=True)
+        with WATCH_LOG.open("a", encoding="utf-8") as fh:
+            fh.write(row)
+        time.sleep(max(30, interval))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--bank", type=float, default=500.0)
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--from", dest="date_from", default="01/01/26")
+    ap.add_argument("--once", action="store_true")
+    ap.add_argument("--loop", action="store_true")
+    ap.add_argument("--interval", type=int, default=3600)
     args = ap.parse_args()
-    begin = parse_day(args.date_from)
     REPORTS.mkdir(parents=True, exist_ok=True)
+    if args.once or args.loop:
+        print(f"один банк ${args.bank:.0f}, бумаги {', '.join(s for s, _ in BOOK)}", flush=True)
+        if args.once or not args.loop:
+            state = run_watch_once(args.bank, args.leverage)
+            print(state.get("note", ""), f"eq=${state['equity']:.2f}")
+            return 0
+        run_loop(args.bank, args.leverage, args.interval)
+        return 0
+    begin = parse_day(args.date_from)
     books: dict[str, tuple[list[Bar], float]] = {}
     singles: list[tuple[str, float, float, int]] = []
     print(f"combine simple ${args.bank:.0f} 1:{args.leverage} from {begin}", flush=True)
