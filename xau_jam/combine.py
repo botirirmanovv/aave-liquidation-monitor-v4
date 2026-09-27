@@ -72,6 +72,19 @@ def collect_signals(
     return shots
 
 
+def min_start_bank(books: dict[str, tuple[list[Bar], float]], risk: float = RISK, lev: int = 10) -> tuple[float, dict[str, float]]:
+    """Smallest bank that still buys 1 share on 10% × leverage for each last price."""
+    last: dict[str, float] = {}
+    need = 0.0
+    for sym, (h1, _t) in books.items():
+        if not h1:
+            continue
+        px = h1[-1].close
+        last[sym] = px
+        need = max(need, px / max(risk * lev, 1e-9))
+    return need, last
+
+
 def replay_one(
     shots: list[tuple[datetime, str, str, float, int, list[Bar]]],
     start: float,
@@ -80,20 +93,45 @@ def replay_one(
     risk: float = RISK,
     simple: bool = True,
 ) -> tuple[float, list[Shot]]:
-    eq = start
-    path: list[Shot] = []
     risk = min(max(risk, 0.0), 1.0)
-    for t, sym, side, fill, fi, h1 in shots:
-        if eq <= 0:
-            break
-        base = start if simple else eq
-        stake = base * risk
-        shares = int(stake * lev / max(fill, 1e-9))
-        if shares < 1:
-            continue
+    jobs: list[dict] = []
+    for i, (t, sym, side, fill, fi, h1) in enumerate(shots):
         ex_i = min(len(h1) - 1, fi + hold)
-        exit_px = h1[ex_i].close
-        cash = costed_cash(side, fill, exit_px, shares)
+        jobs.append(
+            {
+                "i": i,
+                "open": t,
+                "close": h1[ex_i].time,
+                "sym": sym,
+                "side": side,
+                "fill": fill,
+                "exit": h1[ex_i].close,
+            }
+        )
+    events: list[tuple[datetime, int, dict]] = []
+    for job in jobs:
+        events.append((job["close"], 0, job))
+        events.append((job["open"], 1, job))
+    events.sort(key=lambda e: (e[0], e[1], e[2]["i"]))
+    eq = start
+    opened: dict[int, tuple[int, float]] = {}
+    path: list[Shot] = []
+    for _when, kind, job in events:
+        if eq <= 0 and kind == 1:
+            continue
+        if kind == 1:
+            base = start if simple else eq
+            stake = base * risk
+            shares = int(stake * lev / max(job["fill"], 1e-9))
+            if shares < 1:
+                continue
+            opened[job["i"]] = (shares, stake)
+            continue
+        got = opened.pop(job["i"], None)
+        if got is None:
+            continue
+        shares, stake = got
+        cash = costed_cash(job["side"], job["fill"], job["exit"], shares)
         event = "ok"
         if cash < -stake:
             cash = -stake
@@ -101,12 +139,12 @@ def replay_one(
         eq = max(0.0, eq + cash)
         path.append(
             Shot(
-                t.isoformat(),
-                sym,
-                side,
+                job["open"].isoformat(),
+                job["sym"],
+                job["side"],
                 shares,
-                round(fill, 4),
-                round(exit_px, 4),
+                round(job["fill"], 4),
+                round(job["exit"], 4),
                 round(cash, 2),
                 round(eq, 2),
                 event,
@@ -115,6 +153,7 @@ def replay_one(
         )
         if eq <= 0:
             break
+    path.sort(key=lambda s: s.time)
     return round(eq, 2), path
 
 
@@ -296,7 +335,7 @@ def run_loop(bank: float, lev: int, interval: int) -> None:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bank", type=float, default=500.0)
+    ap.add_argument("--bank", type=float, default=0.0, help="0 = минимальный банк, чтобы 10% хватало на 1 акцию всех бумаг")
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--from", dest="date_from", default="01/01/26")
     ap.add_argument("--once", action="store_true")
@@ -305,17 +344,17 @@ def main() -> int:
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
     if args.once or args.loop:
-        print(f"один банк ${args.bank:.0f}, бумаги {', '.join(s for s, _ in BOOK)}", flush=True)
+        bank = args.bank if args.bank > 0 else 500.0
+        print(f"один банк ${bank:.0f}, бумаги {', '.join(s for s, _ in BOOK)}", flush=True)
         if args.once or not args.loop:
-            state = run_watch_once(args.bank, args.leverage)
+            state = run_watch_once(bank, args.leverage)
             print(state.get("note", ""), f"eq=${state['equity']:.2f}")
             return 0
-        run_loop(args.bank, args.leverage, args.interval)
+        run_loop(bank, args.leverage, args.interval)
         return 0
     begin = parse_day(args.date_from)
     books: dict[str, tuple[list[Bar], float]] = {}
-    singles: list[tuple[str, float, float, int]] = []
-    print(f"combine simple ${args.bank:.0f} 1:{args.leverage} from {begin}", flush=True)
+    print(f"combine from {begin} risk {100 * RISK:.0f}%", flush=True)
     last = begin
     for sym, trig in BOOK:
         try:
@@ -325,64 +364,80 @@ def main() -> int:
             continue
         books[sym] = (h1, trig)
         last = max(last, h1[-1].time.date())
-        eq, path = replay(
-            h1,
-            args.bank,
-            args.leverage,
-            compound=False,
-            begin=begin,
-            trigger=trig,
-            hold=HOLD,
-        )
-        taken = [p for p in path if p.event == "ok"]
-        pct = 100.0 * (eq - args.bank) / args.bank
-        singles.append((sym, eq, pct, len(taken)))
-        print(f"  solo {sym} {trig:.1%} ${eq:.0f} ({pct:+.0f}%) n={len(taken)}", flush=True)
+        print(f"  {sym} {h1[0].time.date()}→{h1[-1].time.date()} last={h1[-1].close:.2f}", flush=True)
 
+    need, last_px = min_start_bank(books, RISK, args.leverage)
+    min_bank = float(max(10, int(need + 9) // 10 * 10))
+    bank = args.bank if args.bank > 0 else min_bank
+    stake0 = bank * RISK
+    comm_rt = 2.0
+    comm_pct = 100.0 * comm_rt / stake0 if stake0 else 0.0
     shots = collect_signals(books, begin, None)
-    end, fills = replay_one(shots, args.bank, args.leverage, risk=RISK, simple=True)
-    pct = 100.0 * (end - args.bank) / args.bank
-    by_sym: dict[str, int] = {}
-    for f in fills:
-        by_sym[f.symbol] = by_sym.get(f.symbol, 0) + 1
     months = max((last - begin).days / 30.0, 1.0)
-    n_clip = sum(1 for f in fills if f.event == "clip")
-    lines = [
-        f"Один бот, один банк ${args.bank:.0f}, 1:{args.leverage}, простой %, ставка {100 * RISK:.0f}%, с {begin} → {last}.",
-        "Семья импульса: MSTR/COIN/SMCI/AMD/UVXY/PLTR 0.6%, TSLA 0.3%, hold 6 H1.",
-        "Берём все сделки, никого не ждём. Минус клипом не больше ставки. Те же спред/комиссия.",
-        f"вместе ${args.bank:.0f} → ${end:.2f}  ({pct:+.1f}%, {pct / months:+.1f}%/мес)  сделок={len(fills)}  clip={n_clip}",
-        "по бумагам: " + " ".join(f"{k}={v}" for k, v in sorted(by_sym.items(), key=lambda kv: -kv[1])),
+    simple_end, simple_fills = replay_one(shots, bank, args.leverage, risk=RISK, simple=True)
+    comp_end, comp_fills = replay_one(shots, bank, args.leverage, risk=RISK, simple=False)
+
+    def _pack(end: float, fills: list[Shot], title: str) -> list[str]:
+        pct = 100.0 * (end - bank) / bank if bank else 0.0
+        by: dict[str, int] = {}
+        for f in fills:
+            by[f.symbol] = by.get(f.symbol, 0) + 1
+        won = sum(1 for f in fills if f.cash > 0)
+        lines = [
+            title,
+            f"${bank:.0f} → ${end:.2f}  ({pct:+.1f}%, {pct / months:+.1f}%/мес)  "
+            f"сделок={len(fills)}  плюс={won}  clip={sum(1 for f in fills if f.event == 'clip')}",
+            "по бумагам: " + " ".join(f"{k}={v}" for k, v in sorted(by.items(), key=lambda kv: -kv[1])),
+            "",
+        ]
+        for i, f in enumerate(fills, 1):
+            lines.append(
+                f"  {i:03d} {f.time} {f.symbol:5} {f.side:4} {f.shares}шт  "
+                f"{f.entry:.2f}→{f.exit:.2f}  stake=${f.stake:.2f}  {f.cash:+.2f}  eq=${f.equity:.2f}  {f.event}"
+            )
+        return lines
+
+    fat = max(last_px.items(), key=lambda kv: kv[1]) if last_px else ("?", 0.0)
+    head = [
+        f"Минимальный банк сейчас: ${min_bank:.0f} (10%×{args.leverage} должно купить 1 акцию самой дорогой).",
+        f"Дороже всех {fat[0]} ${fat[1]:.2f}. На 1шт нужно банк ≥ цена / (10%×10) = цена.",
+        "По бумагам (последняя цена → банк на 1шт): "
+        + ", ".join(f"{s} ${p:.0f}" for s, p in sorted(last_px.items(), key=lambda kv: -kv[1])),
+        f"Комиссия min $1×2 = $2. При банке ${bank:.0f} ставка ${stake0:.0f}, комиссия {comm_pct:.1f}% ставки.",
+        "Меньше этого AMD/TSLA часто не откроются (0 акций). $100 можно, но только дешёвые и комиссия съест.",
+        f"Отчёт с {begin} → {last}, один банк ${bank:.0f}, ставка 10%, все сделки, 1:{args.leverage}.",
         "",
-        "соло 100% банка (для сравнения, не наш размер):",
     ]
-    for sym, eq, sp, n in sorted(singles, key=lambda r: -r[2]):
-        lines.append(f"  {sym:6} ${eq:8.0f}  {sp:+7.1f}%  n={n}")
+    s_pct = 100.0 * (simple_end - bank) / bank
+    c_pct = 100.0 * (comp_end - bank) / bank
+    head += [
+        f"простой %:  ${bank:.0f} → ${simple_end:.2f}  ({s_pct:+.1f}%)  n={len(simple_fills)}",
+        f"сложный %:  ${bank:.0f} → ${comp_end:.2f}  ({c_pct:+.1f}%)  n={len(comp_fills)}",
+        "",
+    ]
+    lines = head + _pack(simple_end, simple_fills, "── простой % (лот всегда 10% от старта) ──")
     lines.append("")
-    for i, f in enumerate(fills, 1):
-        lines.append(
-            f"  {i:02d} {f.time} {f.symbol:5} {f.side:4} {f.shares}шт  "
-            f"{f.entry:.2f}→{f.exit:.2f}  {f.cash:+.2f}  eq=${f.equity:.2f}"
-        )
+    lines += _pack(comp_end, comp_fills, "── сложный % (лот 10% от текущего банка) ──")
     text = "\n".join(lines) + "\n"
     (REPORTS / "combine.txt").write_text(text, encoding="utf-8")
+    (REPORTS / "combine_jan_simple_compound.txt").write_text(text, encoding="utf-8")
     (REPORTS / "combine.json").write_text(
         json.dumps(
             {
-                "end": end,
-                "pct": round(pct, 1),
-                "risk": RISK,
-                "n": len(fills),
-                "by_sym": by_sym,
-                "singles": [{"symbol": s, "end": e, "pct": p, "n": n} for s, e, p, n in singles],
-                "fills": [asdict(f) for f in fills],
+                "min_bank": min_bank,
+                "need": need,
+                "last": last_px,
+                "bank": bank,
+                "from": begin.isoformat(),
+                "simple": {"end": simple_end, "pct": round(s_pct, 1), "n": len(simple_fills), "fills": [asdict(f) for f in simple_fills]},
+                "compound": {"end": comp_end, "pct": round(c_pct, 1), "n": len(comp_fills), "fills": [asdict(f) for f in comp_fills]},
             },
             indent=2,
         )
         + "\n",
         encoding="utf-8",
     )
-    print(text, end="")
+    print("\n".join(head), end="")
     return 0
 
 

@@ -57,6 +57,23 @@ class CombineTests(unittest.TestCase):
         self.assertGreaterEqual(eq, 450.0)
         self.assertEqual(fills[0].cash, -50.0)
 
+    def test_compound_grows_lot_after_win(self) -> None:
+        start = datetime(2026, 1, 5, 14, 30, tzinfo=timezone.utc)
+
+        def boom(day: int, end: float) -> list[Bar]:
+            t0 = start + timedelta(days=day)
+            out = [Bar(t0, 100.0, 120.0, 99.8, 119.0, 1.0)]
+            for i in range(1, 8):
+                out.append(Bar(t0 + timedelta(hours=i), end, end + 0.2, end - 0.1, end, 1.0))
+            return out
+
+        h1 = boom(0, 119.0) + boom(3, 119.0)
+        shots = collect_signals({"MSTR": (h1, 0.006)}, datetime(2026, 1, 1).date(), None)
+        _s_eq, simple = replay_one(shots, 500.0, 10, simple=True)
+        _c_eq, compound = replay_one(shots, 500.0, 10, simple=False)
+        self.assertEqual(simple[0].shares, simple[1].shares)
+        self.assertGreater(compound[1].shares, compound[0].shares)
+
     def test_watch_book_opens_every_name(self) -> None:
         mstr = _day(14, 100.0, 101.0, 99.8, 100.5)
         tsla = _day(14, 200.0, 201.0, 199.8, 200.4)
