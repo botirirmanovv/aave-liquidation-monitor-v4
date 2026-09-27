@@ -254,12 +254,13 @@ def main() -> int:
         results[f"{w}w"] = {"end": end, "pct": round(100.0 * (end - args.bank) / args.bank, 1), "n": len(path), "path": [asdict(p) for p in path]}
     text = "\n".join(lines) + "\n"
     text += (
-        "Автомат: cron каждый час в сессию\n"
-        "  python3 -m xau_jam.paper --watch --bank 100\n"
+        f"Автомат: cron каждый час в сессию\n"
+        f"  python3 -m xau_jam.paper --watch --bank {args.bank:.0f}\n"
         "Состояние: xau_jam/reports/paper_state.json  Это бумага, не брокер.\n"
     )
-    (REPORTS / "paper_100.txt").write_text(text, encoding="utf-8")
-    (REPORTS / "paper_100.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
+    tag = f"{args.bank:.0f}"
+    (REPORTS / f"paper_{tag}.txt").write_text(text, encoding="utf-8")
+    (REPORTS / f"paper_{tag}.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
     print(text, end="")
     return 0
 
