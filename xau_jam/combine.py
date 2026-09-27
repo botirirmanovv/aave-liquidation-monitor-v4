@@ -23,6 +23,8 @@ from xau_jam.pattern import Bar
 
 WATCH_LOG = REPORTS / "combine_watch.log"
 RISK = 0.10
+START_BANK = 350.0
+START_RISK = 0.20
 
 BOOK = (
     ("MSTR", 0.006),
@@ -335,7 +337,7 @@ def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int)
             continue
         shares = int(stake * lev / max(fill, 1e-9))
         if shares < 1:
-            notes.append(f"{sym} 10% не хватает на 1шт")
+            notes.append(f"{sym} {100 * risk:.0f}% не хватает на 1шт")
             continue
         kept.append(
             {
@@ -353,27 +355,29 @@ def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int)
     state["positions"] = kept
     state["pos"] = kept[0] if kept else None
     if opened:
-        notes.append(f"ставка 10% ×{opened}, общий банк eq=${float(state['equity']):.2f}")
+        notes.append(f"ставка {100 * risk:.0f}% ×{opened}, общий банк eq=${float(state['equity']):.2f}")
     elif not notes:
         notes.append(f"{today} нет импульса ни по одной бумаге")
     state["note"] = "; ".join(notes)
     return state
 
 
-def run_watch_once(bank: float, lev: int) -> dict:
+def run_watch_once(bank: float, lev: int, risk: float | None = None) -> dict:
     books = fetch_books("5d")
     state = load_state(bank, lev)
     state["leverage"] = lev
+    if risk is not None:
+        state["risk"] = risk
     state = watch_book(books, state, lev)
     save_state(bank, state)
     return state
 
 
-def run_loop(bank: float, lev: int, interval: int) -> None:
+def run_loop(bank: float, lev: int, interval: int, risk: float | None = None) -> None:
     while True:
         ts = datetime.now(timezone.utc).isoformat()
         try:
-            state = run_watch_once(bank, lev)
+            state = run_watch_once(bank, lev, risk)
             row = f"{ts} {state.get('note', '')} eq=${state['equity']:.2f}\n"
         except Exception as exc:  # noqa: BLE001
             row = f"{ts} ошибка: {exc}\n"
@@ -386,7 +390,8 @@ def run_loop(bank: float, lev: int, interval: int) -> None:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bank", type=float, default=0.0, help="0 = минимальный банк, чтобы 10% хватало на 1 акцию всех бумаг")
+    ap.add_argument("--bank", type=float, default=0.0, help="0 = минимальный банк под выбранную ставку")
+    ap.add_argument("--risk", type=float, default=START_RISK, help="доля банка на выстрел, 0.2 = 20%")
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--from", dest="date_from", default="01/01/26")
     ap.add_argument("--once", action="store_true")
@@ -394,18 +399,19 @@ def main() -> int:
     ap.add_argument("--interval", type=int, default=3600)
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
+    risk = min(max(args.risk, 0.0), 1.0)
     if args.once or args.loop:
-        bank = args.bank if args.bank > 0 else 500.0
-        print(f"один банк ${bank:.0f}, бумаги {', '.join(s for s, _ in BOOK)}", flush=True)
+        bank = args.bank if args.bank > 0 else START_BANK
+        print(f"один банк ${bank:.0f}, ставка {100 * risk:.0f}%, бумаги {', '.join(s for s, _ in BOOK)}", flush=True)
         if args.once or not args.loop:
-            state = run_watch_once(bank, args.leverage)
+            state = run_watch_once(bank, args.leverage, risk)
             print(state.get("note", ""), f"eq=${state['equity']:.2f}")
             return 0
-        run_loop(bank, args.leverage, args.interval)
+        run_loop(bank, args.leverage, args.interval, risk)
         return 0
     begin = parse_day(args.date_from)
     books: dict[str, tuple[list[Bar], float]] = {}
-    print(f"combine from {begin} risk {100 * RISK:.0f}%", flush=True)
+    print(f"combine from {begin} risk {100 * risk:.0f}%", flush=True)
     last = begin
     for sym, trig in BOOK:
         try:
@@ -417,16 +423,16 @@ def main() -> int:
         last = max(last, h1[-1].time.date())
         print(f"  {sym} {h1[0].time.date()}→{h1[-1].time.date()} last={h1[-1].close:.2f}", flush=True)
 
-    need, last_px = min_start_bank(books, RISK, args.leverage)
+    need, last_px = min_start_bank(books, risk, args.leverage)
     min_bank = float(max(10, int(need + 9) // 10 * 10))
     bank = args.bank if args.bank > 0 else min_bank
-    stake0 = bank * RISK
+    stake0 = bank * risk
     comm_rt = 2.0
     comm_pct = 100.0 * comm_rt / stake0 if stake0 else 0.0
     shots = collect_signals(books, begin, None)
     months = max((last - begin).days / 30.0, 1.0)
-    simple_end, simple_fills = replay_one(shots, bank, args.leverage, risk=RISK, simple=True)
-    comp_end, comp_fills = replay_one(shots, bank, args.leverage, risk=RISK, simple=False)
+    simple_end, simple_fills = replay_one(shots, bank, args.leverage, risk=risk, simple=True)
+    comp_end, comp_fills = replay_one(shots, bank, args.leverage, risk=risk, simple=False)
 
     def _pack(end: float, fills: list[Shot], title: str) -> list[str]:
         pct = 100.0 * (end - bank) / bank if bank else 0.0
@@ -450,13 +456,12 @@ def main() -> int:
 
     fat = max(last_px.items(), key=lambda kv: kv[1]) if last_px else ("?", 0.0)
     head = [
-        f"Минимальный банк сейчас: ${min_bank:.0f} (10%×{args.leverage} должно купить 1 акцию самой дорогой).",
-        f"Дороже всех {fat[0]} ${fat[1]:.2f}. На 1шт нужно банк ≥ цена / (10%×10) = цена.",
+        f"Минимальный банк сейчас: ${min_bank:.0f} ({100 * risk:.0f}%×{args.leverage} должно купить 1 акцию самой дорогой).",
+        f"Дороже всех {fat[0]} ${fat[1]:.2f}. На 1шт нужно банк ≥ цена / ({100 * risk:.0f}%×{args.leverage}).",
         "По бумагам (последняя цена → банк на 1шт): "
         + ", ".join(f"{s} ${p:.0f}" for s, p in sorted(last_px.items(), key=lambda kv: -kv[1])),
         f"Комиссия min $1×2 = $2. При банке ${bank:.0f} ставка ${stake0:.0f}, комиссия {comm_pct:.1f}% ставки.",
-        "Меньше этого AMD/TSLA часто не откроются (0 акций). $100 можно, но только дешёвые и комиссия съест.",
-        f"Отчёт с {begin} → {last}, один банк ${bank:.0f}, ставка 10%, все сделки, 1:{args.leverage}.",
+        f"Отчёт с {begin} → {last}, один банк ${bank:.0f}, ставка {100 * risk:.0f}%, все сделки, 1:{args.leverage}.",
         "",
     ]
     s_pct = 100.0 * (simple_end - bank) / bank
@@ -487,6 +492,7 @@ def main() -> int:
                 "need": need,
                 "last": last_px,
                 "bank": bank,
+                "risk": risk,
                 "from": begin.isoformat(),
                 "simple": {
                     "end": simple_end,

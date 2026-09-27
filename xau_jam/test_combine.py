@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from xau_jam.combine import Shot, collect_signals, monthly_rows, replay_one, watch_book
+from xau_jam.combine import Shot, collect_signals, min_start_bank, monthly_rows, replay_one, watch_book
 from xau_jam.pattern import Bar
 
 
@@ -73,6 +73,12 @@ class CombineTests(unittest.TestCase):
         _c_eq, compound = replay_one(shots, 500.0, 10, simple=False)
         self.assertEqual(simple[0].shares, simple[1].shares)
         self.assertGreater(compound[1].shares, compound[0].shares)
+
+    def test_350_at_20pct_covers_amd_price(self) -> None:
+        h1 = _day(14, 630.0, 640.0, 629.0, 630.63)
+        need, last = min_start_bank({"AMD": (h1, 0.006)}, risk=0.20, lev=10)
+        self.assertLessEqual(need, 350.0)
+        self.assertGreater(last["AMD"], 630.0)
 
     def test_monthly_splits_jan_feb(self) -> None:
         fills = [

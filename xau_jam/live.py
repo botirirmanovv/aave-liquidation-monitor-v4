@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, timezone
 
 from xau_jam.broker import DEMO_PATH, DemoBroker
 from xau_jam.burst_open import REPORTS
-from xau_jam.combine import BOOK, RISK, collect_signals, fetch_books
+from xau_jam.combine import BOOK, START_RISK, collect_signals, fetch_books
 from xau_jam.paper import HOLD, SYMBOL, day_groups, signal_for_day
 from xau_jam.pattern import Bar
 
@@ -113,14 +113,14 @@ def tick_book(books: dict, broker: DemoBroker, now: datetime | None = None) -> s
     today = now.date()
     shots = collect_signals(books, today, today + timedelta(days=1))
     open_syms = {p.symbol for p in broker.positions}
-    stake = broker.start * RISK
+    stake = broker.start * START_RISK
     opened = 0
     for t, sym, side, fill, fi, h1 in shots:
         if sym in open_syms:
             continue
         shares = int(stake * broker.leverage / max(fill, 1e-9))
         if shares < 1:
-            notes.append(f"{sym} 10% не хватает на 1шт")
+            notes.append(f"{sym} {100 * START_RISK:.0f}% не хватает на 1шт")
             continue
         order = broker.submit_market(sym, side, shares, fill, t.isoformat(), "open")
         open_syms.add(sym)
@@ -133,7 +133,7 @@ def tick_book(books: dict, broker: DemoBroker, now: datetime | None = None) -> s
 
 def replay_book_through_broker(books: dict, broker: DemoBroker, begin) -> DemoBroker:
     shots = collect_signals(books, begin, None)
-    stake = broker.start * RISK
+    stake = broker.start * START_RISK
     for t, sym, side, fill, fi, h1 in shots:
         shares = int(stake * broker.leverage / max(fill, 1e-9))
         if shares < 1:
@@ -152,7 +152,7 @@ def _report(broker: DemoBroker, title: str) -> str:
     lines = [
         title,
         f"${broker.start:.0f} → ${broker.equity:.2f}  ({pct:+.1f}%)  ордеров={len(broker.orders)}  сделок={len(closes)}",
-        "демо-счёт, не биржа. Один банк, ставка 10%, все сделки, 6 H1, 1:10, простой %.",
+        "демо-счёт, не биржа. Один банк $350, ставка 20%, все сделки, 6 H1, 1:10, простой %.",
         "",
     ]
     for o in broker.orders:
