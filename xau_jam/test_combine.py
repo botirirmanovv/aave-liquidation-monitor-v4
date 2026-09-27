@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from xau_jam.auto import ibkr_paper_ready
+from xau_jam.auto import ibkr_paper_ready, looks_like_live
 from xau_jam.combine import (
     Shot,
     collect_signals,

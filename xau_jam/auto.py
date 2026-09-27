@@ -10,10 +10,20 @@ import argparse
 import os
 
 from xau_jam.burst_open import REPORTS
-from xau_jam.combine import BOOK, MAX_STAKE, PLAN, START_BANK, START_RISK, VENUES, run_loop, run_watch_once
+from xau_jam.combine import BOOK, LIVE_MONEY, MAX_STAKE, PLAN, START_BANK, START_RISK, VENUES, run_loop, run_watch_once
+
+LIVE_PORT = "7496"
+
+
+def looks_like_live() -> bool:
+    port = (os.environ.get("IBKR_PAPER_PORT") or os.environ.get("IBKR_PORT") or "").strip()
+    live_host = (os.environ.get("IBKR_LIVE_HOST") or "").strip()
+    return port == LIVE_PORT or bool(live_host) or LIVE_MONEY
 
 
 def ibkr_paper_ready() -> bool:
+    if looks_like_live():
+        return False
     host = (os.environ.get("IBKR_PAPER_HOST") or "").strip()
     client = (os.environ.get("IBKR_PAPER_CLIENT_ID") or "").strip()
     return bool(host and client)

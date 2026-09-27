@@ -30,6 +30,7 @@ MAX_STAKE = 2500.0
 TARGET_BANK = 25_000.0
 RUN_RISK = 0.10
 PLAN = "20% до $25k, потолок $2500, потом 10% и снимаем месяц"
+LIVE_MONEY = False  # money stays out until Botir ends the test
 
 BOOK = (
     ("MSTR", 0.006),
