@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from dataclasses import asdict
 from datetime import date, timedelta
 
 from xau_jam.any_shot import SYMBOLS
@@ -54,8 +55,8 @@ def main() -> int:
             print(f"  skip {sym}: {exc}", flush=True)
             continue
         last = h1[-1].time.date()
-        finish = last
-        months = max((finish - begin).days / 30.0, 1.0)
+        finish = last + timedelta(days=1)
+        months = max((last - begin).days / 30.0, 1.0)
         print(f"  {sym} {h1[0].time.date()}→{last}", flush=True)
         for trig, hold in ((0.003, 6), (0.006, 6)):
             got = replay(h1, args.bank, args.leverage, compound=False, begin=begin, end=finish, trigger=trig, hold=hold)
@@ -98,7 +99,7 @@ def main() -> int:
     text = "\n".join(lines) + "\n"
     (REPORTS / "hunt_styles.txt").write_text(text, encoding="utf-8")
     (REPORTS / "hunt_styles.json").write_text(
-        json.dumps([r.__dict__ for r in rows[:40]], indent=2) + "\n", encoding="utf-8"
+        json.dumps([asdict(r) for r in rows[:40]], indent=2) + "\n", encoding="utf-8"
     )
     print(text, end="")
     return 0
