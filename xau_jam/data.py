@@ -12,8 +12,12 @@ YAHOO_CHART = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
 DEFAULT_SYMBOL = "GC=F"
 
 
-def fetch_yahoo_h1(symbol: str = DEFAULT_SYMBOL, range_spec: str = "1mo") -> list[Bar]:
-    url = f"{YAHOO_CHART.format(symbol=symbol)}?interval=60m&range={range_spec}"
+def fetch_yahoo(
+    symbol: str = DEFAULT_SYMBOL,
+    range_spec: str = "1mo",
+    interval: str = "60m",
+) -> list[Bar]:
+    url = f"{YAHOO_CHART.format(symbol=symbol)}?interval={interval}&range={range_spec}"
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 xau-jam-backtest"})
     with urllib.request.urlopen(req, timeout=45) as resp:
         payload = json.loads(resp.read().decode())
@@ -42,8 +46,12 @@ def fetch_yahoo_h1(symbol: str = DEFAULT_SYMBOL, range_spec: str = "1mo") -> lis
             )
         )
     if len(bars) < 10:
-        raise RuntimeError(f"too few H1 bars for {symbol}: {len(bars)}")
+        raise RuntimeError(f"too few {interval} bars for {symbol}: {len(bars)}")
     return bars
+
+
+def fetch_yahoo_h1(symbol: str = DEFAULT_SYMBOL, range_spec: str = "1mo") -> list[Bar]:
+    return fetch_yahoo(symbol, range_spec, interval="60m")
 
 
 def write_csv(bars: list[Bar], path: Path) -> None:
