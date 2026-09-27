@@ -13,7 +13,17 @@ from datetime import datetime, timedelta, timezone
 
 from xau_jam.broker import DEMO_PATH, DemoBroker
 from xau_jam.burst_open import REPORTS
-from xau_jam.combine import BOOK, MAX_STAKE, START_RISK, collect_signals, fetch_books
+from xau_jam.combine import (
+    BOOK,
+    MAX_STAKE,
+    PLAN,
+    START_BANK,
+    START_RISK,
+    TARGET_BANK,
+    collect_signals,
+    fetch_books,
+    plan_stake,
+)
 from xau_jam.paper import HOLD, SYMBOL, day_groups, signal_for_day
 from xau_jam.pattern import Bar
 
@@ -113,7 +123,8 @@ def tick_book(books: dict, broker: DemoBroker, now: datetime | None = None) -> s
     today = now.date()
     shots = collect_signals(books, today, today + timedelta(days=1))
     open_syms = {p.symbol for p in broker.positions}
-    stake = min(broker.start * START_RISK, MAX_STAKE)
+    reached = broker.equity + 1e-9 >= TARGET_BANK
+    stake = plan_stake(broker.equity, start=broker.start, reached=reached)
     opened = 0
     for t, sym, side, fill, fi, h1 in shots:
         if sym in open_syms:
@@ -133,8 +144,9 @@ def tick_book(books: dict, broker: DemoBroker, now: datetime | None = None) -> s
 
 def replay_book_through_broker(books: dict, broker: DemoBroker, begin) -> DemoBroker:
     shots = collect_signals(books, begin, None)
-    stake = min(broker.start * START_RISK, MAX_STAKE)
     for t, sym, side, fill, fi, h1 in shots:
+        reached = broker.equity + 1e-9 >= TARGET_BANK
+        stake = plan_stake(broker.equity, start=broker.start, reached=reached)
         shares = int(stake * broker.leverage / max(fill, 1e-9))
         if shares < 1:
             continue
@@ -152,7 +164,7 @@ def _report(broker: DemoBroker, title: str) -> str:
     lines = [
         title,
         f"${broker.start:.0f} → ${broker.equity:.2f}  ({pct:+.1f}%)  ордеров={len(broker.orders)}  сделок={len(closes)}",
-        "демо-счёт, не биржа. Один банк $350, ставка 20%, все сделки, 6 H1, 1:10, простой %.",
+        f"демо, не биржа. {PLAN}. 1:10, все сделки, 6 H1.",
         "",
     ]
     for o in broker.orders:
@@ -166,7 +178,7 @@ def _report(broker: DemoBroker, title: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--demo", action="store_true", default=True)
-    ap.add_argument("--bank", type=float, default=500.0)
+    ap.add_argument("--bank", type=float, default=START_BANK)
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--weeks", type=int, default=3)
     ap.add_argument("--replay", action="store_true")

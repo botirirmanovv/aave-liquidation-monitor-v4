@@ -28,6 +28,7 @@ START_RISK = 0.20
 MAX_STAKE = 2500.0
 TARGET_BANK = 25_000.0
 RUN_RISK = 0.10
+PLAN = "20% до $25k, потолок $2500, потом 10% и снимаем месяц"
 
 BOOK = (
     ("MSTR", 0.006),
@@ -75,6 +76,27 @@ def collect_signals(
     rank = {sym: i for i, (sym, _) in enumerate(BOOK)}
     shots.sort(key=lambda s: (s[0], rank.get(s[1], 99)))
     return shots
+
+
+def plan_stake(
+    equity: float,
+    *,
+    start: float,
+    risk: float = START_RISK,
+    cap: float = MAX_STAKE,
+    target: float = TARGET_BANK,
+    run_risk: float = RUN_RISK,
+    reached: bool = False,
+    simple: bool = False,
+) -> float:
+    """Locked plan: 20% of bank until $25k, then 10% of $25k ($2500)."""
+    if target > 0 and (reached or equity + 1e-9 >= target):
+        stake = target * run_risk
+    else:
+        stake = (start if simple else equity) * min(max(risk, 0.0), 1.0)
+    if cap:
+        stake = min(stake, cap)
+    return max(0.0, stake)
 
 
 def min_start_bank(books: dict[str, tuple[list[Bar], float]], risk: float = RISK, lev: int = 10) -> tuple[float, dict[str, float]]:
@@ -140,16 +162,16 @@ def run_replay(
     last_month: str | None = None
 
     def _stake() -> float:
-        if target_bank and reached:
-            base = target_bank if withdraw else eq
-            rate = run_risk
-        else:
-            base = start if simple else eq
-            rate = risk
-        stake = base * rate
-        if max_stake:
-            stake = min(stake, max_stake)
-        return stake
+        return plan_stake(
+            eq,
+            start=start,
+            risk=risk,
+            cap=max_stake or 0.0,
+            target=target_bank or 0.0,
+            run_risk=run_risk,
+            reached=reached,
+            simple=simple,
+        )
 
     def _withdraw(month: str) -> None:
         nonlocal eq
@@ -328,8 +350,8 @@ def fresh_state(bank: float, lev: int) -> dict:
         "start": bank,
         "equity": bank,
         "leverage": lev,
-        "simple": True,
-        "risk": RISK,
+        "simple": False,
+        "risk": START_RISK,
         "max_stake": MAX_STAKE,
         "target_bank": TARGET_BANK,
         "reached": False,
@@ -346,8 +368,8 @@ def load_state(bank: float, lev: int) -> dict:
         raw = json.loads(path.read_text(encoding="utf-8"))
         raw.setdefault("leverage", lev)
         raw.setdefault("start", bank)
-        raw.setdefault("simple", True)
-        raw.setdefault("risk", RISK)
+        raw.setdefault("simple", False)
+        raw.setdefault("risk", START_RISK)
         raw.setdefault("max_stake", MAX_STAKE)
         raw.setdefault("target_bank", TARGET_BANK)
         raw.setdefault("reached", False)
@@ -387,7 +409,7 @@ def _index_at(h1: list[Bar], iso: str) -> int | None:
 def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int) -> dict:
     """One shared bank. Take every name that fires. 10% each, do not wait."""
     start = float(state.get("start") or state.get("equity") or 0)
-    risk = float(state.get("risk") or RISK)
+    risk = float(state.get("risk") or START_RISK)
     cap = float(state.get("max_stake") or MAX_STAKE)
     target = float(state.get("target_bank") or TARGET_BANK)
     if float(state.get("equity") or 0) + 1e-9 >= target:
@@ -397,8 +419,17 @@ def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int)
         start = target
         state["simple"] = True
         state["start"] = target
-    base = start if state.get("simple", True) else float(state["equity"])
-    stake = min(base * min(max(risk, 0.0), 1.0), cap)
+    elif not state.get("reached"):
+        state["simple"] = False
+    stake = plan_stake(
+        float(state["equity"]),
+        start=start,
+        risk=risk,
+        cap=cap,
+        target=target,
+        reached=bool(state.get("reached")),
+        simple=bool(state.get("simple")),
+    )
     positions = list(state.get("positions") or [])
     if state.get("pos") and not positions:
         positions = [state["pos"]]
@@ -451,8 +482,15 @@ def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int)
         state["simple"] = True
         state["start"] = target
         notes.append(f"банк ≥ ${target:.0f}, ставка {100 * risk:.0f}%, прибыль сверх банка можно снимать")
-    base = start if state.get("simple", True) else float(state["equity"])
-    stake = min(base * min(max(risk, 0.0), 1.0), cap)
+    stake = plan_stake(
+        float(state["equity"]),
+        start=start,
+        risk=risk,
+        cap=cap,
+        target=target,
+        reached=bool(state.get("reached")),
+        simple=bool(state.get("simple")),
+    )
     today = max((h1[-1].time.date() for h1, _t in books.values() if h1), default=None)
     if today is None:
         state["positions"] = kept
@@ -541,6 +579,7 @@ def main() -> int:
     ap.add_argument("--max-stake", type=float, default=MAX_STAKE, help="потолок ставки $, 0 = без потолка")
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--from", dest="date_from", default="01/01/26")
+    ap.add_argument("--to", dest="date_to", default="")
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--loop", action="store_true")
     ap.add_argument("--interval", type=int, default=3600)
@@ -562,6 +601,7 @@ def main() -> int:
         run_loop(bank, args.leverage, args.interval, risk, cap)
         return 0
     begin = parse_day(args.date_from)
+    until = (parse_day(args.date_to) + timedelta(days=1)) if args.date_to else None
     books: dict[str, tuple[list[Bar], float]] = {}
     print(f"combine from {begin} risk {100 * risk:.0f}%", flush=True)
     last = begin
@@ -574,6 +614,8 @@ def main() -> int:
         books[sym] = (h1, trig)
         last = max(last, h1[-1].time.date())
         print(f"  {sym} {h1[0].time.date()}→{h1[-1].time.date()} last={h1[-1].close:.2f}", flush=True)
+    if args.date_to:
+        last = min(last, parse_day(args.date_to))
 
     need, last_px = min_start_bank(books, risk, args.leverage)
     min_bank = float(max(10, int(need + 9) // 10 * 10))
@@ -581,7 +623,7 @@ def main() -> int:
     stake0 = bank * risk
     comm_rt = 2.0
     comm_pct = 100.0 * comm_rt / stake0 if stake0 else 0.0
-    shots = collect_signals(books, begin, None)
+    shots = collect_signals(books, begin, until)
     months = max((last - begin).days / 30.0, 1.0)
     cap_arg = cap if cap > 0 else None
     simple_end, simple_fills = replay_one(shots, bank, args.leverage, risk=risk, simple=True, max_stake=cap_arg)
@@ -666,65 +708,70 @@ def main() -> int:
     head += format_monthly(p_months, "── помесячно план: 20% → $25k, потом 10% и забираем ──")
     head.append("")
     month_text = "\n".join(head) + "\n"
-    (REPORTS / "combine_monthly.txt").write_text(month_text, encoding="utf-8")
-    if abs(bank - START_BANK) < 1e-9 and abs(risk - START_RISK) < 1e-9:
-        (REPORTS / "combine_350_r20.txt").write_text(month_text, encoding="utf-8")
+    tag = f"{begin.isoformat()}_{last.isoformat()}_b{bank:.0f}"
+    (REPORTS / f"combine_{tag}.txt").write_text(month_text, encoding="utf-8")
+    default_window = begin.isoformat() == "2026-01-01" and until is None
+    if default_window:
+        (REPORTS / "combine_monthly.txt").write_text(month_text, encoding="utf-8")
+        if abs(bank - START_BANK) < 1e-9 and abs(risk - START_RISK) < 1e-9:
+            (REPORTS / "combine_350_r20.txt").write_text(month_text, encoding="utf-8")
     lines = head + _pack(simple_end, simple_fills, "── простой % (лот всегда 10% от старта) ──")
     lines.append("")
     lines += _pack(comp_end, comp_fills, "── план: 20% до $25k, потом 10% и снятие ──")
     text = "\n".join(lines) + "\n"
-    (REPORTS / "combine.txt").write_text(text, encoding="utf-8")
-    (REPORTS / "combine_jan_simple_compound.txt").write_text(text, encoding="utf-8")
-    (REPORTS / "combine.json").write_text(
-        json.dumps(
-            {
-                "min_bank": min_bank,
-                "need": need,
-                "last": last_px,
-                "bank": bank,
-                "risk": risk,
-                "max_stake": cap,
-                "target_bank": TARGET_BANK,
-                "run_risk": RUN_RISK,
-                "cap_hit": None
-                if hit is None
-                else {
-                    "time": hit.time,
-                    "symbol": hit.symbol,
-                    "stake": hit.stake,
-                    "equity": hit.equity,
-                },
-                "target_hit": None
-                if target_hit is None
-                else {
-                    "time": target_hit.time,
-                    "symbol": target_hit.symbol,
-                    "stake": target_hit.stake,
-                    "equity": target_hit.equity,
-                },
-                "from": begin.isoformat(),
-                "simple": {
-                    "end": simple_end,
-                    "pct": round(s_pct, 1),
-                    "n": len(simple_fills),
-                    "months": s_months,
-                    "fills": [asdict(f) for f in simple_fills],
-                },
-                "plan": {
-                    "end": comp_end,
-                    "took": took_all,
-                    "total": round(comp_end + took_all, 2),
-                    "n": len(comp_fills),
-                    "months": p_months,
-                    "withdrawals": plan.withdrawals,
-                    "fills": [asdict(f) for f in comp_fills],
-                },
-            },
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
+    payload = {
+        "min_bank": min_bank,
+        "need": need,
+        "last": last_px,
+        "bank": bank,
+        "risk": risk,
+        "max_stake": cap,
+        "target_bank": TARGET_BANK,
+        "run_risk": RUN_RISK,
+        "plan": PLAN,
+        "cap_hit": None
+        if hit is None
+        else {
+            "time": hit.time,
+            "symbol": hit.symbol,
+            "stake": hit.stake,
+            "equity": hit.equity,
+        },
+        "target_hit": None
+        if target_hit is None
+        else {
+            "time": target_hit.time,
+            "symbol": target_hit.symbol,
+            "stake": target_hit.stake,
+            "equity": target_hit.equity,
+        },
+        "from": begin.isoformat(),
+        "to": last.isoformat(),
+        "simple": {
+            "end": simple_end,
+            "pct": round(s_pct, 1),
+            "n": len(simple_fills),
+            "months": s_months,
+            "fills": [asdict(f) for f in simple_fills],
+        },
+        "pay": {
+            "end": comp_end,
+            "took": took_all,
+            "total": round(comp_end + took_all, 2),
+            "n": len(comp_fills),
+            "months": p_months,
+            "withdrawals": plan.withdrawals,
+            "fills": [asdict(f) for f in comp_fills],
+        },
+    }
+    (REPORTS / f"combine_{tag}.txt").write_text(text, encoding="utf-8")
+    (REPORTS / f"combine_{tag}.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    if default_window:
+        (REPORTS / "combine.txt").write_text(text, encoding="utf-8")
+        (REPORTS / "combine_jan_simple_compound.txt").write_text(text, encoding="utf-8")
+        (REPORTS / "combine.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    if begin.isoformat() == "2025-10-01" and last.isoformat() == "2025-12-31":
+        (REPORTS / "plan_oct_dec.txt").write_text(month_text, encoding="utf-8")
     print("\n".join(head), end="")
     return 0
 

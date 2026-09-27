@@ -16,6 +16,7 @@ from xau_jam.combine import (
     first_cap_hit,
     min_start_bank,
     monthly_rows,
+    plan_stake,
     replay_one,
     run_replay,
     watch_book,
@@ -36,6 +37,12 @@ def _day(sym_hour: int, o: float, hi: float, lo: float, c: float, day: int = 0) 
 
 
 class CombineTests(unittest.TestCase):
+    def test_locked_plan_stake(self) -> None:
+        self.assertEqual(plan_stake(350.0, start=350.0), 70.0)
+        self.assertEqual(plan_stake(20_000.0, start=350.0), 2500.0)
+        self.assertEqual(plan_stake(25_000.0, start=350.0), 2500.0)
+        self.assertEqual(plan_stake(80_000.0, start=350.0, reached=True), 2500.0)
+
     def test_same_open_takes_both(self) -> None:
         mstr = _day(14, 100.0, 101.0, 99.8, 100.5)
         tsla = _day(14, 200.0, 201.0, 199.8, 200.4)
@@ -174,6 +181,7 @@ class CombineTests(unittest.TestCase):
         }
         state = watch_book(books, state, 10)
         self.assertEqual({p["symbol"] for p in state["positions"]}, {"MSTR", "TSLA"})
+        self.assertFalse(state.get("simple"))
         state = watch_book(books, state, 10)
         self.assertEqual(state["positions"], [])
         self.assertEqual({f["symbol"] for f in state["fills"]}, {"MSTR", "TSLA"})

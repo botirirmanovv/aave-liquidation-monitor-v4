@@ -9,7 +9,7 @@ from __future__ import annotations
 import argparse
 
 from xau_jam.burst_open import REPORTS
-from xau_jam.combine import BOOK, MAX_STAKE, START_BANK, START_RISK, run_loop, run_watch_once
+from xau_jam.combine import BOOK, MAX_STAKE, PLAN, START_BANK, START_RISK, run_loop, run_watch_once
 
 
 def cron_line(bank: float) -> str:
@@ -57,8 +57,8 @@ def main() -> int:
     cron = install_cron(args.bank)
     names = ",".join(s for s, _ in BOOK)
     print(
-        f"один банк ${args.bank:.0f} 1:{args.leverage}  ставка {100 * args.risk:.0f}%  "
-        f"потолок ${args.max_stake:.0f}  все сделки  {names}"
+        f"DEMO {PLAN}  банк ${args.bank:.0f} 1:{args.leverage}  "
+        f"ставка {100 * args.risk:.0f}%  потолок ${args.max_stake:.0f}  {names}"
     )
     print("cron:" if cron else "cron нет, loop:", cron_line(args.bank))
     if args.once:
