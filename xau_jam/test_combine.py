@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from xau_jam.combine import collect_signals, replay_one, watch_book
+from xau_jam.combine import Shot, collect_signals, monthly_rows, replay_one, watch_book
 from xau_jam.pattern import Bar
 
 
@@ -73,6 +73,17 @@ class CombineTests(unittest.TestCase):
         _c_eq, compound = replay_one(shots, 500.0, 10, simple=False)
         self.assertEqual(simple[0].shares, simple[1].shares)
         self.assertGreater(compound[1].shares, compound[0].shares)
+
+    def test_monthly_splits_jan_feb(self) -> None:
+        fills = [
+            Shot("2026-01-10T14:30:00+00:00", "MSTR", "buy", 1, 1, 2, 10.0, 640.0, "ok", 63.0),
+            Shot("2026-02-03T14:30:00+00:00", "COIN", "sell", 1, 1, 2, -5.0, 635.0, "ok", 63.0),
+        ]
+        rows = monthly_rows(fills, 630.0)
+        self.assertEqual([r["month"] for r in rows], ["2026-01", "2026-02"])
+        self.assertEqual(rows[0]["n"], 1)
+        self.assertEqual(rows[0]["pnl"], 10.0)
+        self.assertEqual(rows[1]["pnl"], -5.0)
 
     def test_watch_book_opens_every_name(self) -> None:
         mstr = _day(14, 100.0, 101.0, 99.8, 100.5)

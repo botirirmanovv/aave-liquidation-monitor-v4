@@ -157,6 +157,57 @@ def replay_one(
     return round(eq, 2), path
 
 
+def _shot_get(f, name: str):
+    return getattr(f, name) if hasattr(f, name) else f[name]
+
+
+def monthly_rows(fills: list, start: float) -> list[dict]:
+    """Equity path by calendar month of the entry."""
+    ordered = sorted(fills, key=lambda f: _shot_get(f, "time"))
+    by: dict[str, list] = {}
+    for f in ordered:
+        by.setdefault(str(_shot_get(f, "time"))[:7], []).append(f)
+    rows: list[dict] = []
+    eq = start
+    for month in sorted(by):
+        chunk = by[month]
+        begin_eq = eq
+        pnl = 0.0
+        wins = 0
+        for f in chunk:
+            cash = float(_shot_get(f, "cash"))
+            pnl += cash
+            if cash > 0:
+                wins += 1
+            eq = float(_shot_get(f, "equity"))
+        rows.append(
+            {
+                "month": month,
+                "n": len(chunk),
+                "wins": wins,
+                "pnl": round(pnl, 2),
+                "start": round(begin_eq, 2),
+                "end": round(eq, 2),
+                "pct_start": round(100.0 * pnl / start, 1) if start else 0.0,
+                "pct_month": round(100.0 * pnl / begin_eq, 1) if begin_eq else 0.0,
+            }
+        )
+    return rows
+
+
+def format_monthly(rows: list[dict], title: str) -> list[str]:
+    lines = [
+        title,
+        f"{'мес':8} {'сд':>4} {'+':>3} {'pnl':>10} {'с':>10} {'по':>10} {'%старт':>8} {'%мес':>8}",
+    ]
+    for r in rows:
+        lines.append(
+            f"{r['month']:8} {r['n']:4d} {r['wins']:3d} {r['pnl']:+10.2f} "
+            f"{r['start']:10.2f} {r['end']:10.2f} {r['pct_start']:+7.1f}% {r['pct_month']:+7.1f}%"
+        )
+    return lines
+
+
 def state_path(bank: float) -> Path:
     return REPORTS / f"combine_state_{bank:.0f}.json"
 
@@ -410,11 +461,19 @@ def main() -> int:
     ]
     s_pct = 100.0 * (simple_end - bank) / bank
     c_pct = 100.0 * (comp_end - bank) / bank
+    s_months = monthly_rows(simple_fills, bank)
+    c_months = monthly_rows(comp_fills, bank)
     head += [
         f"простой %:  ${bank:.0f} → ${simple_end:.2f}  ({s_pct:+.1f}%)  n={len(simple_fills)}",
         f"сложный %:  ${bank:.0f} → ${comp_end:.2f}  ({c_pct:+.1f}%)  n={len(comp_fills)}",
         "",
     ]
+    head += format_monthly(s_months, "── помесячно простой % ──")
+    head.append("")
+    head += format_monthly(c_months, "── помесячно сложный % ──")
+    head.append("")
+    month_text = "\n".join(head) + "\n"
+    (REPORTS / "combine_monthly.txt").write_text(month_text, encoding="utf-8")
     lines = head + _pack(simple_end, simple_fills, "── простой % (лот всегда 10% от старта) ──")
     lines.append("")
     lines += _pack(comp_end, comp_fills, "── сложный % (лот 10% от текущего банка) ──")
@@ -429,8 +488,20 @@ def main() -> int:
                 "last": last_px,
                 "bank": bank,
                 "from": begin.isoformat(),
-                "simple": {"end": simple_end, "pct": round(s_pct, 1), "n": len(simple_fills), "fills": [asdict(f) for f in simple_fills]},
-                "compound": {"end": comp_end, "pct": round(c_pct, 1), "n": len(comp_fills), "fills": [asdict(f) for f in comp_fills]},
+                "simple": {
+                    "end": simple_end,
+                    "pct": round(s_pct, 1),
+                    "n": len(simple_fills),
+                    "months": s_months,
+                    "fills": [asdict(f) for f in simple_fills],
+                },
+                "compound": {
+                    "end": comp_end,
+                    "pct": round(c_pct, 1),
+                    "n": len(comp_fills),
+                    "months": c_months,
+                    "fills": [asdict(f) for f in comp_fills],
+                },
             },
             indent=2,
         )
