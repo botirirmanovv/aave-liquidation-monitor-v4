@@ -7,9 +7,16 @@
 from __future__ import annotations
 
 import argparse
+import os
 
 from xau_jam.burst_open import REPORTS
-from xau_jam.combine import BOOK, MAX_STAKE, PLAN, START_BANK, START_RISK, run_loop, run_watch_once
+from xau_jam.combine import BOOK, MAX_STAKE, PLAN, START_BANK, START_RISK, VENUES, run_loop, run_watch_once
+
+
+def ibkr_paper_ready() -> bool:
+    host = (os.environ.get("IBKR_PAPER_HOST") or "").strip()
+    client = (os.environ.get("IBKR_PAPER_CLIENT_ID") or "").strip()
+    return bool(host and client)
 
 
 def cron_line(bank: float) -> str:
@@ -52,20 +59,28 @@ def main() -> int:
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--interval", type=int, default=3600)
     ap.add_argument("--once", action="store_true")
+    ap.add_argument("--venue", choices=VENUES, default="yahoo")
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
+    if args.venue == "ibkr" and not ibkr_paper_ready():
+        print(
+            "IBKR Paper не запущен: нет ключей. "
+            "Нужны IBKR_PAPER_HOST и IBKR_PAPER_CLIENT_ID. "
+            "Yahoo demo уже можно крутить параллельно без ключей."
+        )
+        return 2
     cron = install_cron(args.bank)
     names = ",".join(s for s, _ in BOOK)
     print(
-        f"DEMO {PLAN}  банк ${args.bank:.0f} 1:{args.leverage}  "
+        f"{args.venue.upper()} {PLAN}  банк ${args.bank:.0f} 1:{args.leverage}  "
         f"ставка {100 * args.risk:.0f}%  потолок ${args.max_stake:.0f}  {names}"
     )
     print("cron:" if cron else "cron нет, loop:", cron_line(args.bank))
     if args.once:
-        state = run_watch_once(args.bank, args.leverage, args.risk, args.max_stake)
+        state = run_watch_once(args.bank, args.leverage, args.risk, args.max_stake, args.venue)
         print(state.get("note", ""), f"eq=${state['equity']:.2f}")
         return 0
-    run_loop(args.bank, args.leverage, args.interval, args.risk, args.max_stake)
+    run_loop(args.bank, args.leverage, args.interval, args.risk, args.max_stake, args.venue)
     return 0
 
 

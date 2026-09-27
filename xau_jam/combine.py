@@ -22,6 +22,7 @@ from xau_jam.paper import HOLD, costed_cash, day_groups, parse_day, replay, sign
 from xau_jam.pattern import Bar
 
 WATCH_LOG = REPORTS / "combine_watch.log"
+VENUES = ("yahoo", "ibkr")
 RISK = 0.10
 START_BANK = 350.0
 START_RISK = 0.20
@@ -340,13 +341,20 @@ def format_monthly(rows: list[dict], title: str) -> list[str]:
     return lines
 
 
-def state_path(bank: float) -> Path:
-    return REPORTS / f"combine_state_{bank:.0f}.json"
+def state_path(bank: float, venue: str = "yahoo") -> Path:
+    v = venue if venue in VENUES else "yahoo"
+    return REPORTS / f"combine_state_{v}_{bank:.0f}.json"
 
 
-def fresh_state(bank: float, lev: int) -> dict:
+def watch_log_path(venue: str = "yahoo") -> Path:
+    v = venue if venue in VENUES else "yahoo"
+    return REPORTS / f"combine_watch_{v}.log"
+
+
+def fresh_state(bank: float, lev: int, venue: str = "yahoo") -> dict:
+    v = venue if venue in VENUES else "yahoo"
     return {
-        "venue": "combine-paper",
+        "venue": f"{v}-paper",
         "start": bank,
         "equity": bank,
         "leverage": lev,
@@ -362,8 +370,11 @@ def fresh_state(bank: float, lev: int) -> dict:
     }
 
 
-def load_state(bank: float, lev: int) -> dict:
-    path = state_path(bank)
+def load_state(bank: float, lev: int, venue: str = "yahoo") -> dict:
+    path = state_path(bank, venue)
+    legacy = REPORTS / f"combine_state_{bank:.0f}.json"
+    if (not path.exists() or path.stat().st_size == 0) and venue == "yahoo" and legacy.exists():
+        path = legacy
     if path.exists() and path.stat().st_size > 0:
         raw = json.loads(path.read_text(encoding="utf-8"))
         raw.setdefault("leverage", lev)
@@ -374,14 +385,16 @@ def load_state(bank: float, lev: int) -> dict:
         raw.setdefault("target_bank", TARGET_BANK)
         raw.setdefault("reached", False)
         raw.setdefault("positions", [])
+        raw["venue"] = f"{venue}-paper"
         return raw
-    return fresh_state(bank, lev)
+    return fresh_state(bank, lev, venue)
 
 
-def save_state(bank: float, state: dict) -> Path:
+def save_state(bank: float, state: dict, venue: str = "yahoo") -> Path:
     state["updated"] = datetime.now(timezone.utc).isoformat()
+    state["venue"] = f"{venue}-paper"
     REPORTS.mkdir(parents=True, exist_ok=True)
-    path = state_path(bank)
+    path = state_path(bank, venue)
     path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
     return path
 
@@ -538,16 +551,17 @@ def run_watch_once(
     lev: int,
     risk: float | None = None,
     max_stake: float | None = None,
+    venue: str = "yahoo",
 ) -> dict:
     books = fetch_books("5d")
-    state = load_state(bank, lev)
+    state = load_state(bank, lev, venue)
     state["leverage"] = lev
     if risk is not None:
         state["risk"] = risk
     if max_stake is not None:
         state["max_stake"] = max_stake
     state = watch_book(books, state, lev)
-    save_state(bank, state)
+    save_state(bank, state, venue)
     return state
 
 
@@ -557,17 +571,19 @@ def run_loop(
     interval: int,
     risk: float | None = None,
     max_stake: float | None = None,
+    venue: str = "yahoo",
 ) -> None:
+    log = watch_log_path(venue)
     while True:
         ts = datetime.now(timezone.utc).isoformat()
         try:
-            state = run_watch_once(bank, lev, risk, max_stake)
+            state = run_watch_once(bank, lev, risk, max_stake, venue)
             row = f"{ts} {state.get('note', '')} eq=${state['equity']:.2f}\n"
         except Exception as exc:  # noqa: BLE001
             row = f"{ts} ошибка: {exc}\n"
         print(row, end="", flush=True)
         REPORTS.mkdir(parents=True, exist_ok=True)
-        with WATCH_LOG.open("a", encoding="utf-8") as fh:
+        with log.open("a", encoding="utf-8") as fh:
             fh.write(row)
         time.sleep(max(30, interval))
 
@@ -583,6 +599,7 @@ def main() -> int:
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--loop", action="store_true")
     ap.add_argument("--interval", type=int, default=3600)
+    ap.add_argument("--venue", choices=VENUES, default="yahoo")
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
     risk = min(max(args.risk, 0.0), 1.0)
@@ -590,15 +607,15 @@ def main() -> int:
     if args.once or args.loop:
         bank = args.bank if args.bank > 0 else START_BANK
         print(
-            f"один банк ${bank:.0f}, ставка {100 * risk:.0f}%, потолок ${cap:.0f}, "
+            f"{args.venue}-paper банк ${bank:.0f}, ставка {100 * risk:.0f}%, потолок ${cap:.0f}, "
             f"бумаги {', '.join(s for s, _ in BOOK)}",
             flush=True,
         )
         if args.once or not args.loop:
-            state = run_watch_once(bank, args.leverage, risk, cap)
+            state = run_watch_once(bank, args.leverage, risk, cap, args.venue)
             print(state.get("note", ""), f"eq=${state['equity']:.2f}")
             return 0
-        run_loop(bank, args.leverage, args.interval, risk, cap)
+        run_loop(bank, args.leverage, args.interval, risk, cap, args.venue)
         return 0
     begin = parse_day(args.date_from)
     until = (parse_day(args.date_to) + timedelta(days=1)) if args.date_to else None

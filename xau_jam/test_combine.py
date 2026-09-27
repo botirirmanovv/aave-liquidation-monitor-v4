@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from xau_jam.auto import ibkr_paper_ready
 from xau_jam.combine import (
     Shot,
     collect_signals,
@@ -19,6 +20,7 @@ from xau_jam.combine import (
     plan_stake,
     replay_one,
     run_replay,
+    state_path,
     watch_book,
 )
 from xau_jam.pattern import Bar
@@ -37,6 +39,14 @@ def _day(sym_hour: int, o: float, hi: float, lo: float, c: float, day: int = 0) 
 
 
 class CombineTests(unittest.TestCase):
+    def test_ibkr_stays_off_without_keys(self) -> None:
+        self.assertFalse(ibkr_paper_ready())
+
+    def test_venues_keep_separate_state(self) -> None:
+        self.assertIn("combine_state_yahoo_350.json", str(state_path(350, "yahoo")))
+        self.assertIn("combine_state_ibkr_350.json", str(state_path(350, "ibkr")))
+        self.assertNotEqual(state_path(350, "yahoo"), state_path(350, "ibkr"))
+
     def test_locked_plan_stake(self) -> None:
         self.assertEqual(plan_stake(350.0, start=350.0), 70.0)
         self.assertEqual(plan_stake(20_000.0, start=350.0), 2500.0)
