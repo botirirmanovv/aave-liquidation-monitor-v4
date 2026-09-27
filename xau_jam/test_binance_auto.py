@@ -74,6 +74,29 @@ class BinanceAutoTests(unittest.TestCase):
         self.assertEqual(fills[0].event, "liq")
         self.assertEqual(eq, 0.0)
 
+    def test_risk10_liq_keeps_reserve(self) -> None:
+        start = datetime(2026, 8, 1, tzinfo=timezone.utc)
+
+        def hour(d: int, h: int):
+            if d == 0 and h == 0:
+                return 100.0, 101.2, 99.9, 101.0
+            if d == 1 and h == 3:
+                return 100.0, 100.1, 90.0, 91.0
+            if d == 3 and h == 0:
+                return 100.0, 101.2, 99.9, 101.0
+            if d >= 3:
+                px = 110.0 + (d - 3) * 2 + h * 0.1
+                return px, px + 0.2, px - 0.05, px + 0.1
+            return 101.0, 101.2, 100.8, 101.0
+
+        book = {"ENAUSDT": _bars(start, 6, hour)}
+        eq, fills = replay(book, 100.0, simple=False, risk=0.1)
+        self.assertGreaterEqual(len(fills), 1)
+        self.assertEqual(fills[0].event, "liq")
+        self.assertAlmostEqual(fills[0].equity, 90.0)
+        self.assertGreater(eq, 80.0)
+        self.assertNotEqual(eq, 0.0)
+
     def test_tick_opens_from_state(self) -> None:
         start = datetime(2026, 8, 1, tzinfo=timezone.utc)
 

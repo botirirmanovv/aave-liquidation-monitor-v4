@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import time
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -19,12 +20,7 @@ def _http_json(url: str, timeout: int = 45):
         return json.loads(resp.read().decode())
 
 
-def fetch_binance_klines(symbol: str, interval: str = "1d", limit: int = 1000) -> list[Bar]:
-    """USDT-M perpetual klines via Binance fapi (www.binance.com; fapi.binance.com is 451 here)."""
-    url = f"{BINANCE_FAPI}/klines?symbol={symbol}&interval={interval}&limit={int(limit)}"
-    raw = _http_json(url)
-    if not isinstance(raw, list) or not raw:
-        raise RuntimeError(f"Binance returned no klines for {symbol} {interval}")
+def _parse_binance_klines(raw) -> list[Bar]:
     bars: list[Bar] = []
     for row in raw:
         o, h, l, c = float(row[1]), float(row[2]), float(row[3]), float(row[4])
@@ -40,9 +36,66 @@ def fetch_binance_klines(symbol: str, interval: str = "1d", limit: int = 1000) -
                 volume=float(row[5] or 0.0),
             )
         )
+    return bars
+
+
+def fetch_binance_klines(
+    symbol: str,
+    interval: str = "1d",
+    limit: int = 1000,
+    start_ms: int | None = None,
+    end_ms: int | None = None,
+) -> list[Bar]:
+    """USDT-M perpetual klines via Binance fapi (www.binance.com; fapi.binance.com is 451 here)."""
+    url = f"{BINANCE_FAPI}/klines?symbol={symbol}&interval={interval}&limit={int(limit)}"
+    if start_ms is not None:
+        url += f"&startTime={int(start_ms)}"
+    if end_ms is not None:
+        url += f"&endTime={int(end_ms)}"
+    raw = _http_json(url)
+    if not isinstance(raw, list) or not raw:
+        raise RuntimeError(f"Binance returned no klines for {symbol} {interval}")
+    bars = _parse_binance_klines(raw)
     if len(bars) < 10:
         raise RuntimeError(f"too few Binance {interval} bars for {symbol}: {len(bars)}")
     return bars
+
+
+def fetch_binance_span(symbol: str, interval: str, days: int) -> list[Bar]:
+    """Paginated klines covering the last `days` (Binance limit 1500/request)."""
+    end_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+    start_ms = end_ms - int(days * 24 * 3600 * 1000)
+    out: list[Bar] = []
+    cursor = start_ms
+    while cursor < end_ms:
+        url = (
+            f"{BINANCE_FAPI}/klines?symbol={symbol}&interval={interval}"
+            f"&limit=1500&startTime={cursor}&endTime={end_ms}"
+        )
+        raw = _http_json(url)
+        if not isinstance(raw, list) or not raw:
+            break
+        batch = _parse_binance_klines(raw)
+        if not batch:
+            break
+        out.extend(batch)
+        nxt = int(batch[-1].time.timestamp() * 1000) + 1
+        if nxt <= cursor:
+            break
+        cursor = nxt
+        if len(batch) < 1500:
+            break
+        time.sleep(0.05)
+    seen: set[datetime] = set()
+    uniq: list[Bar] = []
+    for b in out:
+        if b.time in seen:
+            continue
+        seen.add(b.time)
+        uniq.append(b)
+    if len(uniq) < 10:
+        raise RuntimeError(f"too few Binance {interval} bars for {symbol}: {len(uniq)}")
+    return uniq
 
 
 def binance_usdt_perps() -> list[dict]:

@@ -20,7 +20,7 @@ from pathlib import Path
 
 from xau_jam.binance_spike import futures_cash, hit_liq
 from xau_jam.burst_open import REPORTS
-from xau_jam.data import fetch_binance_klines
+from xau_jam.data import fetch_binance_klines, fetch_binance_span
 from xau_jam.paper import day_groups, signal_for_day
 from xau_jam.pattern import Bar
 
@@ -54,6 +54,7 @@ class Fill:
     cash: float
     equity: float
     event: str
+    stake: float = 0.0
 
 
 def state_path(bank: float) -> Path:
@@ -85,11 +86,13 @@ def replay(
     lev: int = LEV,
     trigger: float = TRIGGER,
     simple: bool = True,
+    risk: float = 1.0,
 ) -> tuple[float, list[Fill]]:
     days = sorted({b.time.date() for h1 in book.values() for b in h1})
     eq = start
     fills: list[Fill] = []
     busy_until: date | None = None
+    risk = min(max(risk, 0.0), 1.0)
     for day in days:
         if eq <= 0:
             break
@@ -99,7 +102,10 @@ def replay(
         if got is None:
             continue
         sym, h1, side, fi, fill = got
-        stake = start if simple else eq
+        base = start if simple else eq
+        stake = base * risk
+        if stake <= 0:
+            break
         ex_i = hold_exit(h1, fi, day)
         path = h1[fi : ex_i + 1]
         if hit_liq(side, fill, path, lev):
@@ -119,10 +125,11 @@ def replay(
                 round(cash, 2),
                 round(eq, 2),
                 event,
+                round(stake, 2),
             )
         )
         busy_until = h1[ex_i].time.date()
-        if event == "liq":
+        if event == "liq" and risk >= 1.0:
             break
     return round(eq, 2), fills
 
@@ -212,7 +219,8 @@ def tick(book: dict[str, list[Bar]], state: dict, trigger: float = TRIGGER) -> d
         state["note"] = f"{today} нет импульса 1% в одну сторону"
         return state
     sym, h1, side, fi, fill = got
-    stake = float(state["equity"])
+    risk = float(state.get("risk") or 1.0)
+    stake = float(state["equity"]) * min(max(risk, 0.0), 1.0)
     if stake <= 0:
         state["note"] = "банк 0"
         return state
@@ -223,15 +231,19 @@ def tick(book: dict[str, list[Bar]], state: dict, trigger: float = TRIGGER) -> d
         "entry_time": h1[fi].time.isoformat(),
         "stake": stake,
     }
-    state["note"] = f"открыл {side} {sym} @ {fill:.6g} x{lev}"
+    state["note"] = f"открыл {side} {sym} @ {fill:.6g} x{lev} stake=${stake:.2f}"
     return state
 
 
-def fetch_book(symbols: tuple[str, ...] | list[str], limit: int = 80) -> dict[str, list[Bar]]:
+def fetch_book(
+    symbols: tuple[str, ...] | list[str],
+    limit: int = 80,
+    days: int | None = None,
+) -> dict[str, list[Bar]]:
     book: dict[str, list[Bar]] = {}
     for i, sym in enumerate(symbols):
         try:
-            book[sym] = fetch_binance_klines(sym, "1h", limit)
+            book[sym] = fetch_binance_span(sym, "1h", days) if days else fetch_binance_klines(sym, "1h", limit)
         except Exception as exc:
             print(f"  skip {sym}: {exc}", flush=True)
             continue
@@ -240,18 +252,22 @@ def fetch_book(symbols: tuple[str, ...] | list[str], limit: int = 80) -> dict[st
     return book
 
 
-def _report(start: float, end: float, fills: list[Fill], title: str) -> str:
+def _report(start: float, end: float, fills: list[Fill], title: str, risk: float = 1.0) -> str:
     pct = 100.0 * (end - start) / start if start else 0.0
+    n_liq = sum(1 for f in fills if f.event == "liq")
+    n_ok = sum(1 for f in fills if f.event == "ok")
+    won = sum(1 for f in fills if f.cash > 0)
     lines = [
         title,
-        f"${start:.0f} → ${end:.2f}  ({pct:+.1f}%)  сделок={len(fills)}  liq={sum(1 for f in fills if f.event == 'liq')}",
-        f"правила: Binance USDT-M бумага, импульс {TRIGGER:.0%} одна сторона, hold {HOLD_DAYS}д, x{LEV}, all-in, не live.",
+        f"${start:.0f} → ${end:.2f}  ({pct:+.1f}%)  сделок={len(fills)}  плюс={won}  ok={n_ok}  liq={n_liq}",
+        f"правила: Binance USDT-M бумага, импульс {TRIGGER:.0%} одна сторона, hold {HOLD_DAYS}д, x{LEV}, "
+        f"ставка {100.0 * risk:.0f}% банка (остальное не трогаем), не live.",
         "",
     ]
     for i, f in enumerate(fills, 1):
         lines.append(
             f"  {i:02d} {f.time} {f.symbol:16} {f.side:4} {f.entry:.6g}→{f.exit:.6g}  "
-            f"{f.cash:+.2f}  eq=${f.equity:.2f}  {f.event}"
+            f"stake=${f.stake:.2f}  {f.cash:+.2f}  eq=${f.equity:.2f}  {f.event}"
         )
     return "\n".join(lines) + "\n"
 
@@ -266,6 +282,9 @@ def main() -> int:
     ap.add_argument("--interval", type=int, default=3600)
     ap.add_argument("--live", action="store_true", help="отказано: живые ордера не шлём")
     ap.add_argument("--symbols", default=",".join(WATCH))
+    ap.add_argument("--risk", type=float, default=1.0, help="доля банка на выстрел, 0.1 = 10%")
+    ap.add_argument("--months", type=int, default=0, help="окно replay в месяцах, 0 = все бары")
+    ap.add_argument("--simple", action="store_true", help="ставка всегда от стартового банка")
     args = ap.parse_args()
     if args.live:
         print("live Binance не включён. Сначала бумага: --replay / --once / --loop")
@@ -274,17 +293,53 @@ def main() -> int:
     symbols = tuple(s.strip().upper() for s in args.symbols.split(",") if s.strip())
 
     if args.replay:
-        print("binance paper replay", " ".join(symbols), flush=True)
-        book = fetch_book(symbols, 1500)
-        end, fills = replay(book, args.bank, args.leverage)
-        text = _report(args.bank, end, fills, f"Бумага Binance x{args.leverage}, старт ${args.bank:.0f}")
-        (REPORTS / "binance_auto.txt").write_text(text, encoding="utf-8")
+        days = 31 * args.months if args.months else None
+        print(
+            f"binance paper replay bank=${args.bank:.0f} risk={100 * args.risk:.0f}% "
+            f"x{args.leverage} months={args.months or 'all'}",
+            flush=True,
+        )
+        book = fetch_book(symbols, 1500 if not days else 80, days=days)
+        end, fills = replay(
+            book,
+            args.bank,
+            args.leverage,
+            simple=args.simple,
+            risk=args.risk,
+        )
+        text = _report(
+            args.bank,
+            end,
+            fills,
+            f"Бумага Binance x{args.leverage}, старт ${args.bank:.0f}, риск {100 * args.risk:.0f}%",
+            risk=args.risk,
+        )
+        name = "binance_auto.txt"
+        if args.months and args.risk < 1:
+            name = f"binance_risk{int(round(100 * args.risk))}_{args.months}m.txt"
+        (REPORTS / name).write_text(text, encoding="utf-8")
+        if name.endswith(".txt"):
+            (REPORTS / name.replace(".txt", ".json")).write_text(
+                json.dumps(
+                    {
+                        "start": args.bank,
+                        "end": end,
+                        "risk": args.risk,
+                        "months": args.months,
+                        "fills": [asdict(f) for f in fills],
+                    },
+                    indent=2,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
         print(text, end="")
         return 0
 
     book = fetch_book(symbols, 80)
     state = load_state(args.bank, args.leverage)
     state["leverage"] = args.leverage
+    state["risk"] = args.risk
     if args.once or not args.loop:
         state = tick(book, state)
         save_state(args.bank, state)
