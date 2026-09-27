@@ -99,6 +99,16 @@ def costed_cash(side: str, entry: float, exit_px: float, shares: int) -> float:
     return pnl - comm
 
 
+def parse_day(text: str):
+    raw = text.strip().replace(".", "/")
+    for fmt in ("%Y-%m-%d", "%d/%m/%y", "%d/%m/%Y"):
+        try:
+            return datetime.strptime(raw, fmt).date()
+        except ValueError:
+            continue
+    raise ValueError(f"bad date: {text}")
+
+
 def shift_months(day, months: int):
     y, m = day.year, day.month + months
     while m > 12:
@@ -364,6 +374,8 @@ def main() -> int:
         default=0,
         help="старт окна N месяцев назад от последнего бара, дальше --months вперёд",
     )
+    ap.add_argument("--from", dest="date_from", default=None, help="старт YYYY-MM-DD или ДД/ММ/ГГ")
+    ap.add_argument("--to", dest="date_to", default=None)
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
 
@@ -382,15 +394,22 @@ def main() -> int:
         return 0
 
     months = args.months
-    need = "730d" if args.ago or (months and max(months) >= 12) else ("1y" if months else "3mo")
+    date_from = parse_day(args.date_from) if args.date_from else None
+    date_to = parse_day(args.date_to) if args.date_to else None
+    need = "730d" if args.ago or date_from or (months and max(months) >= 12) else ("1y" if months else "3mo")
     bars = fetch_yahoo(SYMBOL, need, "60m")
-    origin = shift_months(bars[-1].time.date(), -args.ago) if args.ago else None
+    origin = date_from or (shift_months(bars[-1].time.date(), -args.ago) if args.ago else None)
     mode = "простой % (лот всегда от старта)" if args.simple else "сложный % (реинвест)"
     lines = [f"Бумажный тест TSLA, старт ${args.bank:.0f}, плечо 1:{args.leverage}, {mode}"]
-    if origin:
+    if date_from:
+        lines.append(f"старт {date_from}" + (f" → {date_to}" if date_to else " → последний бар"))
+    elif origin:
         lines.append(f"старт {origin} (−{args.ago} мес), не последний отрезок")
     results = {}
-    if months:
+    if date_from and not months:
+        finish = date_to or (bars[-1].time.date() + timedelta(days=1))
+        windows = [(f"с {date_from}", origin, finish)]
+    elif months:
         if origin:
             windows = []
             for m in months:
@@ -401,7 +420,7 @@ def main() -> int:
         windows = [(f"{w} недели", None, None, 7 * w) for w in ((2, 3) if args.replay or True else (args.weeks,))]
 
     def _run(label_win, compound: bool):
-        if origin:
+        if origin and len(label_win) == 3:
             _, begin, finish = label_win
             return replay(
                 bars, args.bank, args.leverage, compound=compound, begin=begin, end=finish
@@ -440,6 +459,8 @@ def main() -> int:
         f"Состояние: {state_path(args.bank)}  Это бумага, не брокер.\n"
     )
     tag = f"{args.bank:.0f}"
+    if date_from:
+        tag = f"{tag}_from{date_from.isoformat()}"
     if args.ago:
         tag = f"{tag}_ago{args.ago}"
     if months:

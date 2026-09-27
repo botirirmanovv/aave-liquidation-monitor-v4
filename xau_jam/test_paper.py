@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from xau_jam.paper import costed_cash, cron_line, install_cron, replay, shift_months, signal_for_day, state_path, watch
+from xau_jam.paper import costed_cash, cron_line, install_cron, parse_day, replay, shift_months, signal_for_day, state_path, watch
 from xau_jam.pattern import Bar
 
 
@@ -65,6 +65,11 @@ class PaperTests(unittest.TestCase):
     def test_state_path_is_per_bank(self) -> None:
         self.assertIn("paper_state_500.json", str(state_path(500)))
         self.assertIn("paper_state_100.json", str(state_path(100)))
+
+    def test_parse_day_slash(self) -> None:
+        from datetime import date
+
+        self.assertEqual(parse_day("01/01/26"), date(2026, 1, 1))
 
     def test_shift_months_back_21(self) -> None:
         from datetime import date
