@@ -9,7 +9,58 @@ from pathlib import Path
 from xau_jam.pattern import Bar
 
 YAHOO_CHART = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+BINANCE_FAPI = "https://www.binance.com/fapi/v1"
 DEFAULT_SYMBOL = "GC=F"
+
+
+def _http_json(url: str, timeout: int = 45):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 xau-jam-backtest"})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return json.loads(resp.read().decode())
+
+
+def fetch_binance_klines(symbol: str, interval: str = "1d", limit: int = 1000) -> list[Bar]:
+    """USDT-M perpetual klines via Binance fapi (www.binance.com; fapi.binance.com is 451 here)."""
+    url = f"{BINANCE_FAPI}/klines?symbol={symbol}&interval={interval}&limit={int(limit)}"
+    raw = _http_json(url)
+    if not isinstance(raw, list) or not raw:
+        raise RuntimeError(f"Binance returned no klines for {symbol} {interval}")
+    bars: list[Bar] = []
+    for row in raw:
+        o, h, l, c = float(row[1]), float(row[2]), float(row[3]), float(row[4])
+        hi = max(h, o, c, l)
+        lo = min(l, o, c, h)
+        bars.append(
+            Bar(
+                time=datetime.fromtimestamp(int(row[0]) / 1000.0, tz=timezone.utc),
+                open=o,
+                high=hi,
+                low=lo,
+                close=c,
+                volume=float(row[5] or 0.0),
+            )
+        )
+    if len(bars) < 10:
+        raise RuntimeError(f"too few Binance {interval} bars for {symbol}: {len(bars)}")
+    return bars
+
+
+def binance_usdt_perps() -> list[dict]:
+    info = _http_json(f"{BINANCE_FAPI}/exchangeInfo")
+    out = []
+    for s in info.get("symbols") or []:
+        if (
+            s.get("contractType") == "PERPETUAL"
+            and s.get("status") == "TRADING"
+            and s.get("quoteAsset") == "USDT"
+        ):
+            out.append(s)
+    return out
+
+
+def binance_ticker_24h() -> list[dict]:
+    raw = _http_json(f"{BINANCE_FAPI}/ticker/24hr")
+    return raw if isinstance(raw, list) else []
 
 
 def fetch_yahoo(
