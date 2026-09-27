@@ -10,7 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from xau_jam.backtest import detect_signals, run_backtest
+from xau_jam.bank import oz_fixed, oz_pct, simulate
+from xau_jam.backtest import Trade, detect_signals, run_backtest
 from xau_jam.pattern import Bar, is_jam_buy, is_jam_sell
 
 
@@ -145,6 +146,55 @@ class BacktestEngineTests(unittest.TestCase):
             bars, rr=2.0, spread=0.0, sl_buffer=0.5, side="sell", session="london"
         )
         self.assertEqual(result.trades, 0)
+
+
+class BankSizingTests(unittest.TestCase):
+    def test_one_percent_on_500(self) -> None:
+        t = Trade(
+            side="sell",
+            signal_time="t",
+            entry_time="t",
+            exit_time="t",
+            entry=100.0,
+            stop=110.0,
+            target=70.0,
+            exit=110.0,
+            bars_held=1,
+            reason="stop",
+            pnl=-10.0,
+            r_multiple=-1.0,
+            signal_high=110.0,
+            prev_high=109.0,
+            prev_low=99.0,
+            signal_close=100.0,
+        )
+        r = simulate([t], start=500.0, name="t", notes="", oz_fn=oz_pct(0.01))
+        self.assertAlmostEqual(r.path[0].oz, 0.5)
+        self.assertAlmostEqual(r.path[0].pnl, -5.0)
+        self.assertAlmostEqual(r.end, 495.0)
+
+    def test_fixed_one_oz(self) -> None:
+        t = Trade(
+            side="sell",
+            signal_time="t",
+            entry_time="t",
+            exit_time="t",
+            entry=100.0,
+            stop=110.0,
+            target=70.0,
+            exit=70.0,
+            bars_held=1,
+            reason="target",
+            pnl=30.0,
+            r_multiple=3.0,
+            signal_high=110.0,
+            prev_high=109.0,
+            prev_low=99.0,
+            signal_close=100.0,
+        )
+        r = simulate([t], start=500.0, name="t", notes="", oz_fn=oz_fixed(1.0))
+        self.assertAlmostEqual(r.net, 30.0)
+        self.assertAlmostEqual(r.end, 530.0)
 
 
 if __name__ == "__main__":
