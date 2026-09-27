@@ -1,0 +1,235 @@
+{
+  "best": {
+    "name": "jam sell H1",
+    "day": "2026-08-28",
+    "side": "sell",
+    "entry": 4629.15,
+    "exit": 4448.1,
+    "pnl_oz": 181.05,
+    "hold": "11h target",
+    "cash_10": 181.05,
+    "lots": 0.01
+  },
+  "top": [
+    {
+      "name": "jam sell H1",
+      "day": "2026-08-28",
+      "side": "sell",
+      "entry": 4629.15,
+      "exit": 4448.1,
+      "pnl_oz": 181.05,
+      "hold": "11h target",
+      "cash_10": 181.05,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 6h",
+      "day": "2026-08-28",
+      "side": "sell",
+      "entry": 4651.7,
+      "exit": 4507.7,
+      "pnl_oz": 144.0,
+      "hold": "6h",
+      "cash_10": 144.0,
+      "lots": 0.01
+    },
+    {
+      "name": "london 6h",
+      "day": "2026-09-10",
+      "side": "sell",
+      "entry": 4466.5,
+      "exit": 4392.9,
+      "pnl_oz": 73.6,
+      "hold": "6h",
+      "cash_10": 73.6,
+      "lots": 0.01
+    },
+    {
+      "name": "jam sell H1",
+      "day": "2026-09-10",
+      "side": "sell",
+      "entry": 4420.95,
+      "exit": 4350.9,
+      "pnl_oz": 70.05,
+      "hold": "16h target",
+      "cash_10": 70.05,
+      "lots": 0.01
+    },
+    {
+      "name": "london 6h",
+      "day": "2026-09-03",
+      "side": "buy",
+      "entry": 4468.5,
+      "exit": 4537.3,
+      "pnl_oz": 68.8,
+      "hold": "6h",
+      "cash_10": 68.8,
+      "lots": 0.01
+    },
+    {
+      "name": "jam sell H1",
+      "day": "2026-09-14",
+      "side": "sell",
+      "entry": 4362.25,
+      "exit": 4306.6,
+      "pnl_oz": 55.65,
+      "hold": "6h target",
+      "cash_10": 55.65,
+      "lots": 0.01
+    },
+    {
+      "name": "london 6h",
+      "day": "2026-09-17",
+      "side": "buy",
+      "entry": 4351.9,
+      "exit": 4406.5,
+      "pnl_oz": 54.6,
+      "hold": "6h",
+      "cash_10": 54.6,
+      "lots": 0.01
+    },
+    {
+      "name": "london 6h",
+      "day": "2026-09-14",
+      "side": "sell",
+      "entry": 4359.9,
+      "exit": 4307.5,
+      "pnl_oz": 52.4,
+      "hold": "6h",
+      "cash_10": 52.4,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 1h",
+      "day": "2026-09-02",
+      "side": "buy",
+      "entry": 4380.8,
+      "exit": 4431.7,
+      "pnl_oz": 50.9,
+      "hold": "1h",
+      "cash_10": 50.9,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 2h",
+      "day": "2026-09-02",
+      "side": "buy",
+      "entry": 4380.8,
+      "exit": 4424.4,
+      "pnl_oz": 43.6,
+      "hold": "2h",
+      "cash_10": 43.6,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 6h",
+      "day": "2026-09-02",
+      "side": "buy",
+      "entry": 4380.8,
+      "exit": 4421.7,
+      "pnl_oz": 40.9,
+      "hold": "6h",
+      "cash_10": 40.9,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 1h",
+      "day": "2026-09-25",
+      "side": "sell",
+      "entry": 4331.4,
+      "exit": 4293.3,
+      "pnl_oz": 38.1,
+      "hold": "1h",
+      "cash_10": 38.1,
+      "lots": 0.01
+    },
+    {
+      "name": "jam sell H1",
+      "day": "2026-09-04",
+      "side": "sell",
+      "entry": 4440.75,
+      "exit": 4404.65,
+      "pnl_oz": 36.1,
+      "hold": "24h time",
+      "cash_10": 36.1,
+      "lots": 0.01
+    },
+    {
+      "name": "london 6h",
+      "day": "2026-09-11",
+      "side": "buy",
+      "entry": 4396.7,
+      "exit": 4432.1,
+      "pnl_oz": 35.4,
+      "hold": "6h",
+      "cash_10": 35.4,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 6h",
+      "day": "2026-09-08",
+      "side": "sell",
+      "entry": 4453.8,
+      "exit": 4419.2,
+      "pnl_oz": 34.6,
+      "hold": "6h",
+      "cash_10": 34.6,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 30m",
+      "day": "2026-09-02",
+      "side": "buy",
+      "entry": 4380.8,
+      "exit": 4412.0,
+      "pnl_oz": 31.2,
+      "hold": "30m",
+      "cash_10": 31.2,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 1h",
+      "day": "2026-09-21",
+      "side": "sell",
+      "entry": 4394.7,
+      "exit": 4365.0,
+      "pnl_oz": 29.7,
+      "hold": "1h",
+      "cash_10": 29.7,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 30m",
+      "day": "2026-09-09",
+      "side": "buy",
+      "entry": 4446.7,
+      "exit": 4475.5,
+      "pnl_oz": 28.8,
+      "hold": "30m",
+      "cash_10": 28.8,
+      "lots": 0.01
+    },
+    {
+      "name": "london 2h",
+      "day": "2026-09-10",
+      "side": "sell",
+      "entry": 4466.5,
+      "exit": 4438.4,
+      "pnl_oz": 28.1,
+      "hold": "2h",
+      "cash_10": 28.1,
+      "lots": 0.01
+    },
+    {
+      "name": "ny 1h",
+      "day": "2026-09-10",
+      "side": "buy",
+      "entry": 4384.6,
+      "exit": 4412.6,
+      "pnl_oz": 28.0,
+      "hold": "1h",
+      "cash_10": 28.0,
+      "lots": 0.01
+    }
+  ]
+}
