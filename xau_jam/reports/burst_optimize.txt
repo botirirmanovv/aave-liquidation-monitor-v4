@@ -1,0 +1,21 @@
+burst open grid
+баров=5629 вариантов=216 мин.клипов=20
+
+топ-10:
+  01 pnl= +228.40 clips= 85 days=20 wr= 67.1% dd=55.6  london/straddle trig=8.0 layers=10 hold=6 fail=False
+  02 pnl= +173.40 clips= 63 days=19 wr= 63.5% dd=55.6  london/straddle trig=8.0 layers=5 hold=6 fail=False
+  03 pnl= +150.01 clips= 67 days=14 wr= 61.2% dd=36.9  london/straddle trig=12.0 layers=10 hold=6 fail=False
+  04 pnl= +144.01 clips= 67 days=14 wr= 61.2% dd=42.3  london/straddle trig=12.0 layers=10 hold=6 fail=True
+  05 pnl= +140.70 clips= 45 days=12 wr= 64.4% dd=36.9  london/straddle trig=12.0 layers=5 hold=6 fail=False
+  06 pnl= +135.30 clips= 45 days=12 wr= 64.4% dd=42.3  london/straddle trig=12.0 layers=5 hold=6 fail=True
+  07 pnl= +129.80 clips= 80 days=20 wr= 62.5% dd=64.6  london/straddle trig=8.0 layers=10 hold=6 fail=True
+  08 pnl= +112.40 clips= 56 days=13 wr= 64.3% dd=55.6  london/spray trig=8.0 layers=10 hold=6 fail=False
+  09 pnl= +106.50 clips= 44 days=13 wr= 63.6% dd=55.6  london/spray trig=8.0 layers=5 hold=6 fail=False
+  10 pnl=  +85.60 clips= 60 days=19 wr= 58.3% dd=64.6  london/straddle trig=8.0 layers=5 hold=6 fail=True
+
+лучший по сессии:
+  london: pnl=+228.40 clips=85 wr=67.1% straddle trig=8.0 layers=10 hold=6 fail=False
+  ny: pnl=+23.40 clips=90 wr=51.1% spray trig=4.0 layers=5 hold=6 fail=False
+  cme: pnl=-13.20 clips=25 wr=44.0% straddle trig=8.0 layers=10 hold=6 fail=False
+
+победитель: {"session": "london", "model": "straddle", "trigger": 8.0, "layers": 10, "step": 2.0, "hold_bars": 6, "spread": 0.2, "fail_through_open": false, "symbol": "GC=F", "interval": "5m"}

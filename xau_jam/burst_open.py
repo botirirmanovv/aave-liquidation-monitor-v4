@@ -347,6 +347,14 @@ def main() -> int:
     report = format_burst(wr, wtr)
     (out / "burst_report.txt").write_text(report, encoding="utf-8")
     (out / "burst_summary.json").write_text(json.dumps(asdict(wr), indent=2) + "\n", encoding="utf-8")
+    trade_rows = [
+        "side,entry_time,exit_time,reason,entry,exit,pnl",
+        *[
+            f"{t.side},{t.entry_time},{t.exit_time},{t.reason},{t.entry},{t.exit},{t.pnl}"
+            for t in wtr
+        ],
+    ]
+    (out / "burst_trades.csv").write_text("\n".join(trade_rows) + "\n", encoding="utf-8")
 
     lines = [
         "burst open grid",
@@ -362,6 +370,18 @@ def main() -> int:
             f"hold={p.hold_bars} fail={p.fail_through_open}"
         )
     lines.append("")
+    lines.append("лучший по сессии:")
+    for sess in ("london", "ny", "cme"):
+        pool = [x for x in (robust or scored) if x[1].session == sess]
+        if not pool:
+            lines.append(f"  {sess}: нет")
+            continue
+        r, p, _ = pool[0]
+        lines.append(
+            f"  {sess}: pnl={r.net_pnl:+.2f} clips={r.clips} wr={r.win_rate:.1f}% "
+            f"{p.model} trig={p.trigger} layers={p.layers} hold={p.hold_bars} fail={p.fail_through_open}"
+        )
+    lines.append("")
     lines.append("победитель: " + json.dumps(asdict(wp), ensure_ascii=False))
     top = "\n".join(lines) + "\n"
     (out / "burst_optimize.txt").write_text(top, encoding="utf-8")
@@ -373,13 +393,16 @@ def main() -> int:
         notes="каждый клип = 1 унция (0.01 лота)",
         oz_fn=oz_fixed(1.0),
     )
-    lev = run_fixed_lot(wtr, start=args.bank, leverage=500, lots=0.01)
+    lev_lines = []
+    for lots in (0.01, 0.02, 0.05):
+        lev = run_fixed_lot(wtr, start=args.bank, leverage=500, lots=lots)
+        lev_lines.append(
+            f"плечо 1:500, клип {lots:.2f} лота: "
+            f"${lev.start:.0f} → ${lev.end:.2f} net {lev.net:+.2f} "
+            f"blown={lev.blown} DD=${lev.max_dd:.2f}"
+        )
     bank = format_bank([b1])
-    extra = (
-        f"\nплечо 1:500, каждый клип 0.01 лота: "
-        f"${lev.start:.0f} → ${lev.end:.2f} net {lev.net:+.2f} "
-        f"blown={lev.blown} DD=${lev.max_dd:.2f}\n"
-    )
+    extra = "\n" + "\n".join(lev_lines) + "\n"
     (out / "burst_bank_500.txt").write_text(bank + extra, encoding="utf-8")
     print(top)
     print(report, end="")
