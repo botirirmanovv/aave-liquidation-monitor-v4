@@ -35,8 +35,23 @@ Yahoo H1 (сигнал): все семь отвечают. 27.09.2026 15:58 UTC,
   Каталог IBKR от этого не пустой — семёрка там есть.
 
 
-ЖДУ ОТ ТЕБЯ ТОЛЬКО ЭТО
-  TWS на компе, переключатель PAPER, порт 7497 (не 7496).
-  Тогда можно сравнить Yahoo vs IBKR. До этого книга на Yahoo.
+ПОЛНЫЙ ТЕСТ (не один скрипт сравнения)
+  Yahoo-нога уже крутится в облаке: банк $350, eq=$359.67.
+  IBKR-ногу запускает ЛОКАЛЬНЫЙ агент на Windows, TWS Paper 7497 открыт.
+
+  Сейчас в коде --venue ibkr = тот же сигнал Yahoo H1, отдельный журнал
+  combine_state_ibkr_350.json. Ордера в TWS книга пока не шлёт.
+  Сравнение last Yahoo vs IBKR hist close 27.09: все семь Δ=0.
+
+  Старт с Windows (TWS не закрывать):
+    set IBKR_PAPER_HOST=127.0.0.1
+    set IBKR_PAPER_PORT=7497
+    set IBKR_PAPER_CLIENT_ID=1
+    set IBKR_PAPER_ACCOUNT=DUR216113
+    python -m xau_jam.auto --bank 350 --risk 0.2 --max-stake 2500 --venue ibkr --interval 3600
+
+  Live 7496 / LIVE_MONEY / Aave / Morpho live — запрещено.
+  Понедельник RTH (US open 09:30 ET = 18:30 Ташкент): оставить оба цикла,
+  плюс live last/bid/ask по семёрке. Не один --once.
 
 Не делать: депозит, Live, Aave, Morpho live, слать пароль в git/TG.
