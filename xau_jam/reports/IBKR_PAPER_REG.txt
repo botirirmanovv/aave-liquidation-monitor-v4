@@ -1,0 +1,90 @@
+IBKR PAPER — РЕГИСТРАЦИЯ (не Live)
+Дата: 27.09.2026. Для Botir. Деньги НЕ вносим. Порт 7496 запрещён.
+Aave / Morpho live не трогать. Yahoo-demo уже крутится отдельно.
+
+
+1. ССЫЛКИ (официальные IBKR)
+════════════════════════════════════
+Заявка (Individual, один человек):
+  https://www.interactivebrokers.com/Universal/Application
+
+Что просят в анкете:
+  https://www.interactivebrokers.com/en/general/what-you-need-inv.php
+
+Войти / дописать заявку / Client Portal:
+  https://www.interactivebrokers.com/sso/Login
+
+Как включить Paper после апрува:
+  https://www.interactivebrokers.com/campus/trading-lessons/how-to-open-an-ibkr-paper-trading-account/
+  https://www.ibkrguides.com/clientportal/papertradingaccount.htm
+
+Скачать TWS (логин только Paper):
+  https://www.interactivebrokers.com/en/trading/tws.php
+
+API в TWS (порт Paper = 7497):
+  https://www.interactivebrokers.com/campus/trading-lessons/installing-configuring-tws-for-the-api/
+
+
+2. СЕГОДНЯ — ТОЛЬКО ЗАЯВКА
+════════════════════════════════════
+IBKR не даёт «голый» paper без обычного счёта.
+Открываем Individual. Депозит НЕ кладём.
+
+1) Открой заявку по первой ссылке.
+2) Тип: Individual (один человек), не IRA, не joint.
+3) Логин/пароль заявки — свои. Подтверди почту.
+4) Паспорт / ID, адрес, работа — как просит анкета.
+5) Trading permissions: US stocks (акции США). Маржу/фьючи не набивай лишнего.
+6) Если спрашивают про пополнение — банк можно указать, ДЕНЬГИ НЕ ШЛИ.
+7) Отправь заявку. Жди апрув (часто часы–сутки, иногда просят ещё фото).
+
+СТОП, если IBKR требует внести живые деньги, чтобы закончить.
+Не вноси. Напиши мне. Тест без депозита.
+
+
+3. ПОСЛЕ АПРУВА — PAPER
+════════════════════════════════════
+Новым часто Paper дают сами (~$1 000 000 виртуальных).
+Если нет:
+  Client Portal → иконка человека справа вверху
+  → Settings → Account Configuration → Paper Trading Account
+  → отдельный username + пароль именно для Paper.
+
+Вход в TWS / Client Portal: переключатель сверху LOGIN = PAPER.
+Не Live. Не 7496.
+
+
+4. TWS API (когда Paper уже открыт)
+════════════════════════════════════
+1) Поставь TWS. Войди PAPER-логином.
+2) Шестерёнка → API → Settings:
+   - Enable ActiveX and Socket Clients = ON
+   - Socket port = 7497   (если видишь 7496 — это Live, СТОП)
+   - Read-Only API можно пока оставить ON (ордера с бота ещё не шлём)
+3) TWS должен оставаться залогиненным. Без него API молчит.
+
+
+5. ЧТО ПРИСЛАТЬ МНЕ (только Paper)
+════════════════════════════════════
+Когда счёт Paper готов, в этот чат / Morpho:
+  - paper username (не live)
+  - номер paper-счёта (DU… обычно)
+  - подтверждение: логинился в TWS как Paper, порт 7497
+
+Потом, когда TWS будет доступен боту:
+  IBKR_PAPER_HOST
+  IBKR_PAPER_CLIENT_ID
+  IBKR_PAPER_PORT=7497
+
+НЕ присылать:
+  live пароль, live username, ключи Live, порт 7496.
+Пароль Paper лучше не в git и не в PR.
+
+
+6. ЧЕГО НЕ ДЕЛАТЬ
+════════════════════════════════════
+Не вносить деньги.
+Не жать Live в TWS.
+Не давать порт 7496.
+Не включать Aave / Morpho live.
+Yahoo-demo не выключать — вечером сравним два журнала.

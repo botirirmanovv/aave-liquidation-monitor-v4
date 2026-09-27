@@ -140,6 +140,7 @@ IBKR Paper — вторая нога, когда будут ключи:
   IBKR_PAPER_HOST
   IBKR_PAPER_CLIENT_ID
   порт Paper обычно 7497 (7496 = Live, не давать)
+Регистрация (ссылки + шаги): xau_jam/reports/IBKR_PAPER_REG.txt
 Yahoo не выключать, два журнала сравнивать.
 
 Код сигнала: xau_jam/paper.py → signal_for_day
