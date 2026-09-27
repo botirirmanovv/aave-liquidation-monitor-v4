@@ -104,12 +104,17 @@ C) Issuing country паспорта (загрузка ID)
 Это баг/дырявый список ID-шага, не отсутствие Узбекистана в IBKR.
 
 Делать:
-  1) Далее с Великобританией не жать.
-  2) Переключить язык сайта на English — список гражданства часто другой.
-  3) Если снова пусто — Help / чат IBKR в этой же заявке:
-     residence Uzbekistan, Tashkent; citizenship dropdown has no Uzbekistan.
-  4) Новую заявку с нуля не надо, пока адрес уже UZ.
-  5) Чужое гражданство (UK/KZ/UA) не ставить.
+  1) Далее с Великобританией не жать. Чужое гражданство не ставить.
+  2) В поиске гражданства набрать ровно UZB
+     (ISO 3166-1 alpha-3). Не Uzbe, не UZ.
+  3) Язык сайта English, если UZB пусто.
+  4) Если UZB нет — эта заявка сидит на IB-UK. Адрес UZ/Tashkent
+     при этом может быть. Писать в официальный Support:
+     residence Uzbekistan Tashkent; citizenship has no UZB;
+     move application to IB-LLC or enable UZB.
+     https://www.interactivebrokers.com/en/support/customer-service.php
+  5) Новую заявку только если Support скажет, что этот черновик IB-UK
+     не чинится. Снова: Application?country=UZ, не .co.uk.
 
 
 3. СЕГОДНЯ — ТОЛЬКО ЗАЯВКА
