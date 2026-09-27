@@ -248,3 +248,43 @@ Trading/Market Data (жёлтая плашка + неподтверждённа�
 
 Yahoo-demo уже крутится: банк $350, eq=$359.67, venue yahoo.
 IBKR-ногу с облака не стартую: нужен TWS Paper, порт 7497.
+
+
+10. ГОТОВ К ТЕСТУ (27.09.2026)
+════════════════════════════════════
+Почту ты подтвердил. На присланном скрине кабинет всё ещё
+показывает жёлтую плашку на botirirmanovv@gmail.com и
+«нет Trading/Market Data». Если письмо уже подтверждено —
+обнови вкладку. Поиск в вебе без ленты может крутить Loading.
+Это не дыра в книге: каталог IBKR от почты не зависит.
+
+Перепроверил сам, официальный US list IBKR, 25.09.2026 19:30 EDT
+(View Shortable Securities, United States). Все семь ЕСТЬ:
+
+  MSTR  ЕСТЬ   STRATEGY INC
+  COIN  ЕСТЬ   COINBASE GLOBAL INC -CLASS A
+  SMCI  ЕСТЬ   SUPER MICRO COMPUTER INC
+  AMD   ЕСТЬ   ADVANCED MICRO DEVICES
+  UVXY  ЕСТЬ   PROSHARES ULTRA VIX ST FUTUR
+  PLTR  ЕСТЬ   PALANTIR TECHNOLOGIES INC-A
+  TSLA  ЕСТЬ   TESLA INC
+
+Yahoo H1 (источник сигнала) тоже все семь:
+  27.09.2026 15:58 UTC, range 5d / 60m, по 36 баров.
+  Последняя свеча у всех: 2026-09-25 20:00 UTC
+  (воскресенье, рынок США закрыт).
+  MSTR 158.61  COIN 195.11  SMCI 43.26  AMD 630.63
+  UVXY 16.85   PLTR 189.67  TSLA 372.11
+
+Yahoo-demo живой: банк $350, eq=$359.67, 4 сделки 25.09
+(MSTR +10.01, COIN +6.67, SMCI +12.29, UVXY −19.30),
+позиций нет. Последняя запись: нет импульса 25.09.
+
+Paper DUR216113, Individual, $1 000 000 симулятор, позиций нет.
+Живой счёт не открывал. Пароль в git не клал. Деньги не вносим.
+
+IBKR-ногу с облака не стартую: нет TWS Paper на 127.0.0.1:7497.
+Live порт 7496 закрыт. Aave / Morpho live не трогаю.
+
+Готов. Когда на компе TWS = Paper и порт 7497 — пиши,
+сравним Yahoo и IBKR. До этого книга крутится на Yahoo.
