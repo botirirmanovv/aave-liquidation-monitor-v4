@@ -35,13 +35,16 @@ def fetch_yahoo(
     for ts, o, h, l, c, v in zip(timestamps, opens, highs, lows, closes, volumes, strict=False):
         if o is None or h is None or l is None or c is None:
             continue
+        o, h, l, c = float(o), float(h), float(l), float(c)
+        hi = max(h, o, c, l)
+        lo = min(l, o, c, h)
         bars.append(
             Bar(
                 time=datetime.fromtimestamp(int(ts), tz=timezone.utc),
-                open=float(o),
-                high=float(h),
-                low=float(l),
-                close=float(c),
+                open=o,
+                high=hi,
+                low=lo,
+                close=c,
                 volume=float(v or 0.0),
             )
         )
