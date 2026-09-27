@@ -99,7 +99,14 @@ def costed_cash(side: str, entry: float, exit_px: float, shares: int) -> float:
     return pnl - comm
 
 
-def replay(bars: list[Bar], start: float, leverage: int, weeks: int = 0, days: int | None = None) -> tuple[float, list[Fill]]:
+def replay(
+    bars: list[Bar],
+    start: float,
+    leverage: int,
+    weeks: int = 0,
+    days: int | None = None,
+    compound: bool = True,
+) -> tuple[float, list[Fill]]:
     if not bars:
         return start, []
     span = days if days is not None else 7 * weeks
@@ -116,7 +123,8 @@ def replay(bars: list[Bar], start: float, leverage: int, weeks: int = 0, days: i
         side, fi, fill = sig
         if eq <= 0:
             break
-        notional = eq * leverage
+        stake = eq if compound else start
+        notional = stake * leverage
         shares = int(notional / fill)
         if shares < 1:
             path.append(Fill(bars[fi].time.isoformat(), side, 0, fill, fill, 0.0, eq, "no_share"))
@@ -326,6 +334,11 @@ def main() -> int:
     ap.add_argument("--loop", action="store_true")
     ap.add_argument("--auto", action="store_true")
     ap.add_argument("--interval", type=int, default=3600)
+    ap.add_argument(
+        "--simple",
+        action="store_true",
+        help="простой процент: лот всегда от стартового банка, без реинвеста",
+    )
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
 
@@ -345,14 +358,25 @@ def main() -> int:
 
     months = args.months
     bars = fetch_yahoo(SYMBOL, "1y" if months else "3mo", "60m")
-    lines = [f"Бумажный тест TSLA, старт ${args.bank:.0f}, плечо 1:{args.leverage}"]
+    mode = "простой % (лот всегда от старта)" if args.simple else "сложный % (реинвест)"
+    lines = [f"Бумажный тест TSLA, старт ${args.bank:.0f}, плечо 1:{args.leverage}, {mode}"]
     results = {}
     if months:
         spans = [(f"{m} мес", 30 * m) for m in months]
     else:
         spans = [(f"{w} недели", 7 * w) for w in ((2, 3) if args.replay or True else (args.weeks,))]
+    if args.simple:
+        lines.append("сравнение сложный vs простой:")
+        for label, days in spans:
+            c_end, c_path = replay(bars, args.bank, args.leverage, days=days, compound=True)
+            s_end, s_path = replay(bars, args.bank, args.leverage, days=days, compound=False)
+            lines.append(
+                f"  {label}: сложный ${c_end:.2f} ({len(c_path)} сд.)  "
+                f"простой ${s_end:.2f} ({len(s_path)} сд.)"
+            )
+        lines.append("")
     for label, days in spans:
-        end, path = replay(bars, args.bank, args.leverage, days=days)
+        end, path = replay(bars, args.bank, args.leverage, days=days, compound=not args.simple)
         first = path[0].time[:10] if path else "?"
         last = path[-1].time[:10] if path else "?"
         block = _print_path(args.bank, end, path, f"── {label} ({first} → {last}) ──")
@@ -361,6 +385,7 @@ def main() -> int:
             "end": end,
             "pct": round(100.0 * (end - args.bank) / args.bank, 1),
             "n": len(path),
+            "compound": not args.simple,
             "path": [asdict(p) for p in path],
         }
     text = "\n".join(lines) + "\n"
@@ -372,6 +397,8 @@ def main() -> int:
     tag = f"{args.bank:.0f}"
     if months:
         tag = f"{tag}_" + "_".join(f"{m}m" for m in months)
+    if args.simple:
+        tag = f"{tag}_simple"
     (REPORTS / f"paper_{tag}.txt").write_text(text, encoding="utf-8")
     (REPORTS / f"paper_{tag}.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
     print(text, end="")

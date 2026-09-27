@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from xau_jam.paper import costed_cash, cron_line, install_cron, signal_for_day, state_path, watch
+from xau_jam.paper import costed_cash, cron_line, install_cron, replay, signal_for_day, state_path, watch
 from xau_jam.pattern import Bar
 
 
@@ -65,6 +65,30 @@ class PaperTests(unittest.TestCase):
     def test_state_path_is_per_bank(self) -> None:
         self.assertIn("paper_state_500.json", str(state_path(500)))
         self.assertIn("paper_state_100.json", str(state_path(100)))
+
+    def test_simple_keeps_share_size(self) -> None:
+        bars = []
+        t0 = datetime(2026, 9, 1, 13, 30, tzinfo=timezone.utc)
+        for d in (1, 2):
+            day = datetime(2026, 9, d, 13, 30, tzinfo=timezone.utc)
+            bars.append(
+                Bar(time=day, open=100, high=102, low=99.8, close=101)
+            )
+            for i in range(1, 7):
+                bars.append(
+                    Bar(
+                        time=day + __import__("datetime").timedelta(hours=i),
+                        open=101,
+                        high=105,
+                        low=100.5,
+                        close=104,
+                    )
+                )
+        _, simple = replay(bars, 500, 10, days=30, compound=False)
+        _, rich = replay(bars, 500, 10, days=30, compound=True)
+        self.assertEqual(len(simple), 2)
+        self.assertEqual(simple[0].shares, simple[1].shares)
+        self.assertGreater(rich[1].shares, rich[0].shares)
 
     def test_cron_line_and_file(self) -> None:
         line = cron_line(500)
