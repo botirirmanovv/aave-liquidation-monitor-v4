@@ -1,0 +1,85 @@
+XM — ПРОВЕРКА СЕМЁРКИ (я сам, не Market Watch у тебя)
+Дата: 27.09.2026. Для Botir. В TG не слал. Деньги не вносим. Live XM не открывал.
+Yahoo-demo остаётся источником сигналов. Aave / Morpho live не трогал.
+
+
+ЧТО Я РЕАЛЬНО ОТКРЫЛ
+════════════════════════════════════
+curl с этой машины на xm.com = HTTP 403 (гео/бот).
+Дальше открыл сайт в браузере сам:
+
+  https://www.xm.com/stocks     — Stock Derivatives, таблица top-10
+  https://www.xm.com/etfs       — ETF Derivatives, таблица top
+  https://www.xm.com/shares     — Shares (другие бумаги, не CFD-книга)
+  https://www.xm.com/equity-indices
+  https://www.xm.com/            — на главной Apple (AAPL.OQ)
+
+Полный Market Watch (MT5 → Show All) без логина XM не отдаёт.
+Демо с чужим паспортом не регистрировал. Это не «иди проверь сам» —
+это потолок того, что XM показывает без аккаунта.
+
+
+РЕЗУЛЬТАТ ПО СЕМЁРКЕ
+════════════════════════════════════
+Книга: MSTR COIN SMCI AMD UVXY PLTR TSLA
+
+  TSLA  ЕСТЬ     XM символ TSLA.OQ
+                 официальная таблица Stock Derivatives, позиция #2
+                 спред ~2.67–2.71, плечо на странице 1:10
+                 это CFD, не акция
+
+  AMD   НЕТ*     нет в публичном top-10 акций, Ctrl+F по /stocks = 0
+  PLTR  НЕТ*     нет в публичном top-10, Ctrl+F = 0
+  MSTR  НЕТ*     нет в публичном top-10, Ctrl+F = 0
+  COIN  НЕТ*     нет в публичном top-10, Ctrl+F = 0
+  SMCI  НЕТ*     нет в публичном top-10, Ctrl+F = 0
+  UVXY  НЕТ*     нет в Stock Derivatives и нет в ETF Derivatives
+                 Ctrl+F UVXY / VXX / VIXY / ProShares = 0
+
+*НЕТ = не видно на публичных страницах, которые я открыл.
+ Не доказательство, что тикера нет на всём сервере после логина.
+ XM пишет «Register to see More» — полный каталог за аккаунтом.
+
+
+ЧТО ВИДНО В TOP-10 АКЦИЙ (xm.com/stocks)
+════════════════════════════════════
+  SpaceX
+  Tesla      TSLA.OQ
+  Apple      AAPL.OQ
+  Nvidia     NVDA.OQ
+  Microsoft  MSFT.OQ
+  Amazon     AMZN.OQ
+  Google     GOOG.OQ
+  Alibaba    BABA.K
+  Meta       META.OQ
+  Exxon      XOM.N
+
+Формат Nasdaq = TICKER.OQ  (Reuters). Не «TSLA» без суффикса.
+
+
+ЧТО ВИДНО В ETF (xm.com/etfs)
+════════════════════════════════════
+  SPY, GLD, BND, IBIT, EWJ, EWZ, INDA
+  UVXY нет. VXX нет. VIXY нет.
+
+У партнёрских спецификаций XM бывает индексный фьючерс VIX
+(не ETF UVXY). Это другой инструмент: не 1.5x UVXY.
+
+
+ЧЕСТНО ПРО КНИГУ
+════════════════════════════════════
+1. Из семи на витрине XM подтверждён только TSLA.OQ.
+2. AMD/PLTR/MSTR/COIN/SMCI — ликвидные Nasdaq, у XM «1000+» stock CFD.
+   Они могут появиться после логина в MT5 Symbols. Публично их нет.
+3. UVXY — с высокой вероятностью нет: это leveraged vol ETF,
+   его нет даже в разделе ETF. Подмена на VIX ломает книгу.
+4. XM = CFD, не кэш-акции. Спред/своп/плечо не равны модели
+   Yahoo paper ($0.02+$0.03+$2 RT, 1:10). На витрине TSLA плечо 1:10,
+   Apple/MSFT 1:20. Это не IBKR Paper.
+5. Сигналы пока только Yahoo. XM demo не подключал.
+
+
+НЕ ДЕЛАЛ
+════════════════════════════════════
+Live XM, депозит, Morpho/Aave live, рассылка в Telegram.
+IBKR Paper по гражданству UZ по-прежнему дыра.
