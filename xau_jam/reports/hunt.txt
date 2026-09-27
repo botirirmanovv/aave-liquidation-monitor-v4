@@ -1,0 +1,51 @@
+Охота: честный импульс, простой %, спред/комиссия, 1:10, старт $500.
+Окна: 9м и 12м от −21 мес (дек 2024) + последние 9м. Both-wick пропуск.
+живых книг=118
+
+    pm9    pm12    pmL9      end9 n9  wr   symbol  style
+  216.2   219.9   132.5     10229 109  66%  UVXY       impulse 0.6% hold=6
+  214.7   191.6   111.7     10161 76  72%  UVXY       impulse 0.4% hold=6
+  185.8   147.2    38.2      8860 107  62%  TSLA       impulse 0.6% hold=12
+  180.1   149.5    57.5      8606 75  65%  TSLA       impulse 0.4% hold=12
+  179.8   149.1    74.8      8590 61  67%  TSLA       impulse 0.3% hold=12
+  175.6   159.2   187.9      8404 81  70%  COIN       impulse 0.6% hold=6
+  172.6   135.9       -      8268 81  65%  COIN       impulse 0.6% hold=12
+  171.6   178.1       -      8221 90  70%  MSTR       impulse 0.6% hold=12
+  170.7   147.0    93.0      8180 107  73%  TSLA       impulse 0.6% hold=6
+  167.4   157.5   193.5      8035 90  69%  MSTR       impulse 0.6% hold=6
+  159.8   148.6   102.7      7691 58  79%  UVXY       impulse 0.3% hold=6
+  159.6   196.9    72.8      7682 109  61%  UVXY       impulse 0.6% hold=12
+  157.4   139.0    85.1      7581 75  80%  TSLA       impulse 0.4% hold=6
+  151.1   137.5   -11.1      7299 96  64%  NVDA       impulse 0.4% hold=12
+  144.3   127.2    91.4      6992 61  84%  TSLA       impulse 0.3% hold=6
+  142.2    98.6   144.9      6898 45  73%  COIN       impulse 0.4% hold=12
+  141.8   122.4   186.2      6883 45  84%  COIN       impulse 0.4% hold=6
+  138.1   145.6    44.5      6714 76  66%  UVXY       impulse 0.4% hold=12
+  134.0   108.3   167.2      6531 32  81%  COIN       impulse 0.3% hold=12
+  133.5   140.3   160.4      6508 70  67%  SMCI       impulse 0.6% hold=6
+
+≥80%/мес и на старом 9м, и на последних 9м: 24
+  UVXY impulse 0.6% hold=6  ago21-9m 216.2%/мес  last-9m 132.5%/мес
+  UVXY impulse 0.4% hold=6  ago21-9m 214.7%/мес  last-9m 111.7%/мес
+  COIN impulse 0.6% hold=6  ago21-9m 175.6%/мес  last-9m 187.9%/мес
+  TSLA impulse 0.6% hold=6  ago21-9m 170.7%/мес  last-9m 93.0%/мес
+  MSTR impulse 0.6% hold=6  ago21-9m 167.4%/мес  last-9m 193.5%/мес
+  UVXY impulse 0.3% hold=6  ago21-9m 159.8%/мес  last-9m 102.7%/мес
+  TSLA impulse 0.4% hold=6  ago21-9m 157.4%/мес  last-9m 85.1%/мес
+  TSLA impulse 0.3% hold=6  ago21-9m 144.3%/мес  last-9m 91.4%/мес
+  COIN impulse 0.4% hold=12  ago21-9m 142.2%/мес  last-9m 144.9%/мес
+  COIN impulse 0.4% hold=6  ago21-9m 141.8%/мес  last-9m 186.2%/мес
+  COIN impulse 0.3% hold=12  ago21-9m 134.0%/мес  last-9m 167.2%/мес
+  SMCI impulse 0.6% hold=6  ago21-9m 133.5%/мес  last-9m 160.4%/мес
+  COIN impulse 0.3% hold=6  ago21-9m 127.8%/мес  last-9m 174.5%/мес
+  MSTR impulse 0.4% hold=6  ago21-9m 118.1%/мес  last-9m 140.4%/мес
+  NVDA impulse 0.4% hold=6  ago21-9m 109.0%/мес  last-9m 96.1%/мес
+  SMCI impulse 0.4% hold=6  ago21-9m 105.4%/мес  last-9m 154.4%/мес
+  PLTR impulse 0.6% hold=12  ago21-9m 98.2%/мес  last-9m 142.2%/мес
+  NVDA impulse 0.3% hold=6  ago21-9m 96.2%/мес  last-9m 90.0%/мес
+  SMCI impulse 0.3% hold=6  ago21-9m 95.5%/мес  last-9m 122.5%/мес
+  AMD impulse 0.3% hold=12  ago21-9m 87.3%/мес  last-9m 122.2%/мес
+  PLTR impulse 0.6% hold=6  ago21-9m 87.2%/мес  last-9m 119.7%/мес
+  PLTR impulse 0.3% hold=12  ago21-9m 84.6%/мес  last-9m 106.9%/мес
+  PLTR impulse 0.4% hold=6  ago21-9m 81.7%/мес  last-9m 125.4%/мес
+  MSTR impulse 0.3% hold=6  ago21-9m 81.1%/мес  last-9m 116.9%/мес
