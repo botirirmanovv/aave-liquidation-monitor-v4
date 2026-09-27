@@ -120,6 +120,8 @@ def replay(
     compound: bool = True,
     begin=None,
     end=None,
+    trigger: float = TRIGGER,
+    hold: int = HOLD,
 ) -> tuple[float, list[Fill]]:
     if not bars:
         return start, []
@@ -134,7 +136,7 @@ def replay(
             continue
         if end is not None and day >= end:
             continue
-        sig = signal_for_day(bars, by[day])
+        sig = signal_for_day(bars, by[day], trigger=trigger)
         if sig is None:
             continue
         side, fi, fill = sig
@@ -146,7 +148,7 @@ def replay(
         if shares < 1:
             path.append(Fill(bars[fi].time.isoformat(), side, 0, fill, fill, 0.0, eq, "no_share"))
             continue
-        ex_i = min(len(bars) - 1, fi + HOLD)
+        ex_i = min(len(bars) - 1, fi + hold)
         exit_px = bars[ex_i].close
         cash = costed_cash(side, fill, exit_px, shares)
         eq += cash
