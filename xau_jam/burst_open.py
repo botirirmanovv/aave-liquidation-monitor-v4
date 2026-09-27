@@ -31,6 +31,7 @@ from xau_jam.pattern import Bar
 
 REPORTS = Path(__file__).resolve().parent / "reports"
 Model = Literal["straddle", "spray"]
+Flatten = Literal["close", "wick"]
 
 
 @dataclass(slots=True)
@@ -44,6 +45,7 @@ class BurstParams:
     hold_bars: int = 0  # 0 = same bar (seconds), 1 = next minute
     spread: float = 0.20
     fail_through_open: bool = True
+    flatten: Flatten = "close"  # close = honest; wick = dump at the 1m extreme
     symbol: str = "GC=F"
     interval: str = "1m"
 
@@ -66,9 +68,12 @@ class BurstResult:
     profit_factor: float
 
 
-def _flatten_px(bar: Bar, side: str, spread: float) -> float:
+def _flatten_px(bar: Bar, side: str, spread: float, flatten: Flatten = "close") -> float:
     slip = spread / 2.0
-    return bar.close - slip if side == "buy" else bar.close + slip
+    raw = bar.close
+    if flatten == "wick":
+        raw = bar.high if side == "buy" else bar.low
+    return raw - slip if side == "buy" else raw + slip
 
 
 def _fill_layers(
@@ -145,10 +150,10 @@ def _straddle_day(
             return dumped
         hold_last = min(len(bars) - 1, first_i + max(0, p.hold_bars))
         if i >= hold_last and filled:
-            px = _flatten_px(bar, side, p.spread)
+            px = _flatten_px(bar, side, p.spread, p.flatten)
             return _clips_to_trades(filled, side, i, px, "time", session_px)
     if filled and side is not None:
-        px = _flatten_px(bars[hunt], side, p.spread)
+        px = _flatten_px(bars[hunt], side, p.spread, p.flatten)
         return _clips_to_trades(filled, side, hunt, px, "time", session_px)
     return []
 
@@ -182,7 +187,7 @@ def _spray_day(bars: list[Bar], oi: int, p: BurstParams) -> list[Trade]:
         if dumped is not None:
             return dumped
         if i >= last and filled:
-            px = _flatten_px(bar, side, p.spread)
+            px = _flatten_px(bar, side, p.spread, p.flatten)
             return _clips_to_trades(filled, side, i, px, "time", session_px)
     return []
 
@@ -284,23 +289,26 @@ def grid() -> list[BurstParams]:
     for combo in itertools.product(
         ("ny", "london", "cme"),
         ("straddle", "spray"),
-        (4.0, 8.0, 12.0),
-        (5, 10),
-        (5, 10),  # orb: hunt window after open, minutes on 1m
-        (0, 1),  # hold: 0 = same bar (seconds), 1 = next minute
+        (1.5, 2.5, 4.0),
+        (8, 16),
+        (0.5, 1.0),
+        (1, 3, 8),  # first minute / first 3m / first 8m
+        (0, 1),  # 0 = same bar (seconds), 1 = next minute
         (True, False),
+        ("close", "wick"),
     ):
-        sess, model, trig, layers, orb, hold, fail = combo
+        sess, model, trig, layers, step, orb, hold, fail, flat = combo
         out.append(
             BurstParams(
                 session=sess,
                 model=model,
                 trigger=trig,
                 layers=layers,
-                step=2.0,
+                step=step,
                 orb_bars=orb,
                 hold_bars=hold,
                 fail_through_open=fail,
+                flatten=flat,
             )
         )
     return out
@@ -316,6 +324,7 @@ def format_burst(r: BurstResult, trades: list[Trade]) -> str:
         "straddle: buy-stop и sell-stop от открытия, срабатывает сторона скачка, слои по step.",
         "spray: ждём первый вынос ≥ trigger, дальше клипы каждые step по ходу.",
         "выход: hold=0 тот же 1m бар (секунды), hold=1 следующая минута; или fail через открытие.",
+        "flatten=close — честный выход по close бара; wick — слив в хвост той же минуты (оптимизм).",
         "",
         f"сессий={r.days} торговали={r.sessions_traded} клипов={r.clips} "
         f"win={r.wins} loss={r.losses} wr={r.win_rate:.1f}%",
@@ -341,7 +350,7 @@ def main() -> int:
     ap.add_argument("--bank", type=float, default=500.0)
     ap.add_argument("--range", dest="range_spec", default="7d")
     ap.add_argument("--interval", default="1m")
-    ap.add_argument("--min-clips", type=int, default=8)
+    ap.add_argument("--min-clips", type=int, default=5)
     args = ap.parse_args()
 
     bars = fetch_yahoo("GC=F", args.range_spec, args.interval)
@@ -356,9 +365,10 @@ def main() -> int:
             print(f"  ... {i}/{len(configs)}", flush=True)
 
     scored.sort(key=lambda x: (x[0].net_pnl, -x[0].max_dd), reverse=True)
-    robust = [x for x in scored if x[0].clips >= args.min_clips]
-    robust.sort(key=lambda x: (x[0].net_pnl, -x[0].max_dd), reverse=True)
-    wr, wp, wtr = (robust[0] if robust else scored[0])
+    honest = [x for x in scored if x[1].flatten == "close"]
+    wicked = [x for x in scored if x[1].flatten == "wick"]
+    robust = [x for x in honest if x[0].clips >= args.min_clips]
+    wr, wp, wtr = (robust[0] if robust else honest[0] if honest else scored[0])
 
     out = REPORTS
     out.mkdir(parents=True, exist_ok=True)
@@ -377,29 +387,38 @@ def main() -> int:
     (out / "burst_trades.csv").write_text("\n".join(trade_rows) + "\n", encoding="utf-8")
 
     lines = [
-        "burst open grid",
-        f"баров={len(bars)} вариантов={len(configs)} мин.клипов={args.min_clips}",
+        "burst open grid — hold секунды/минута, 1m",
+        f"баров={len(bars)} {bars[0].time}→{bars[-1].time} вариантов={len(configs)} "
+        f"мин.клипов={args.min_clips}",
+        "победитель берётся только из flatten=close (без подглядывания в хвост).",
         "",
-        "топ-10:",
+        "топ-10 честных (close):",
     ]
-    for i, (r, p, _) in enumerate((robust or scored)[:10], 1):
+    for i, (r, p, _) in enumerate((robust or honest)[:10], 1):
         lines.append(
             f"  {i:02d} pnl={r.net_pnl:+8.2f} clips={r.clips:3d} days={r.sessions_traded:2d} "
             f"wr={r.win_rate:5.1f}% dd={r.max_dd:.1f}  "
-            f"{p.session}/{p.model} trig={p.trigger} layers={p.layers} "
-            f"orb={p.orb_bars} hold={p.hold_bars} fail={p.fail_through_open}"
+            f"{p.session}/{p.model} trig={p.trigger} step={p.step} layers={p.layers} "
+            f"orb={p.orb_bars} hold={p.hold_bars} fail={p.fail_through_open} {p.flatten}"
         )
     lines.append("")
-    lines.append("лучший по сессии:")
+    lines.append("топ-5 если слил в хвост минуты (wick, оптимизм):")
+    for i, (r, p, _) in enumerate(wicked[:5], 1):
+        lines.append(
+            f"  {i:02d} pnl={r.net_pnl:+8.2f} clips={r.clips:3d} wr={r.win_rate:5.1f}% "
+            f"{p.session}/{p.model} trig={p.trigger} step={p.step} hold={p.hold_bars}"
+        )
+    lines.append("")
+    lines.append("лучший по сессии (close, есть клипы):")
     for sess in ("london", "ny", "cme"):
-        pool = [x for x in (robust or scored) if x[1].session == sess]
+        pool = [x for x in (robust or honest) if x[1].session == sess and x[0].clips > 0]
         if not pool:
             lines.append(f"  {sess}: нет")
             continue
         r, p, _ = pool[0]
         lines.append(
             f"  {sess}: pnl={r.net_pnl:+.2f} clips={r.clips} wr={r.win_rate:.1f}% "
-            f"{p.model} trig={p.trigger} layers={p.layers} "
+            f"{p.model} trig={p.trigger} step={p.step} layers={p.layers} "
             f"orb={p.orb_bars} hold={p.hold_bars} fail={p.fail_through_open}"
         )
     lines.append("")
