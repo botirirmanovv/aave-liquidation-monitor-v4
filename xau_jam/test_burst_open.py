@@ -59,6 +59,50 @@ class BurstOpenTests(unittest.TestCase):
         self.assertEqual(r.clips, 0)
         self.assertEqual(trades, [])
 
+    def test_same_bar_hold_exits_on_fill_close(self) -> None:
+        bars = [
+            bar(13, 0, 2000, 2000.2, 1999.8, 2000),
+            bar(13, 1, 2000, 2014, 1999.9, 2011),  # fill + flatten same minute
+            bar(13, 2, 2011, 2020, 2010, 2018),  # later spike must not be used
+        ]
+        p = BurstParams(
+            session="ny",
+            model="straddle",
+            trigger=6,
+            layers=3,
+            step=2,
+            orb_bars=5,
+            hold_bars=0,
+            spread=0.0,
+            fail_through_open=False,
+        )
+        r, trades = run_burst(bars, p)
+        self.assertGreaterEqual(r.clips, 2)
+        self.assertTrue(all(t.exit_time == t.entry_time for t in trades))
+        self.assertTrue(all(t.exit == 2011 for t in trades))
+
+    def test_one_minute_hold_exits_next_bar(self) -> None:
+        bars = [
+            bar(13, 0, 2000, 2000.2, 1999.8, 2000),
+            bar(13, 1, 2000, 2012, 1999.9, 2010),
+            bar(13, 2, 2010, 2013, 2008, 2009),
+        ]
+        p = BurstParams(
+            session="ny",
+            model="straddle",
+            trigger=6,
+            layers=2,
+            step=2,
+            orb_bars=5,
+            hold_bars=1,
+            spread=0.0,
+            fail_through_open=False,
+        )
+        _, trades = run_burst(bars, p)
+        self.assertGreater(len(trades), 0)
+        self.assertTrue(all(t.exit == 2009 for t in trades))
+        self.assertTrue(all("13:02:00" in t.exit_time for t in trades))
+
     def test_fail_through_open_dumps_the_stack(self) -> None:
         bars = [
             bar(13, 0, 2000, 2000.2, 1999.8, 2000),

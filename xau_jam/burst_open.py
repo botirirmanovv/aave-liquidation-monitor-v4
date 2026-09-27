@@ -4,7 +4,9 @@ What it models (what you saw):
   At the cash/session open the first impulse prints.
   Trader dumps a stack of tiny market/stop clips in that direction
   (straddle: buy-stop AND sell-stop; first side that rips wins).
-  A few minutes later they flatten the whole stack at once.
+  Flatten is seconds-to-1-minute, not a 30m sit:
+    hold_bars=0 → same 1m bar close (секунды)
+    hold_bars=1 → next 1m close (~минута)
 
 Not one position. Many clips in, many clips out.
 
@@ -16,7 +18,7 @@ import argparse
 import itertools
 import json
 from dataclasses import asdict, dataclass
-from datetime import datetime, time, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal
 
@@ -38,11 +40,12 @@ class BurstParams:
     trigger: float = 6.0
     layers: int = 8
     step: float = 2.0
-    hold_bars: int = 4
+    orb_bars: int = 10  # minutes after open to hunt the spike
+    hold_bars: int = 0  # 0 = same bar (seconds), 1 = next minute
     spread: float = 0.20
     fail_through_open: bool = True
     symbol: str = "GC=F"
-    interval: str = "5m"
+    interval: str = "1m"
 
 
 @dataclass(slots=True)
@@ -68,20 +71,58 @@ def _flatten_px(bar: Bar, side: str, spread: float) -> float:
     return bar.close - slip if side == "buy" else bar.close + slip
 
 
+def _fill_layers(
+    bar: Bar,
+    side: str,
+    levels: list[float],
+    filled: list[tuple[int, float]],
+    i: int,
+    spread: float,
+) -> None:
+    have = {round(px, 5) for _, px in filled}
+    for lv in levels:
+        fill_px = lv + spread / 2.0 if side == "buy" else lv - spread / 2.0
+        if round(fill_px, 5) in have:
+            continue
+        if side == "buy" and bar.high >= lv:
+            filled.append((i, fill_px))
+            have.add(round(fill_px, 5))
+        elif side == "sell" and bar.low <= lv:
+            filled.append((i, fill_px))
+            have.add(round(fill_px, 5))
+
+
+def _maybe_dump(
+    filled: list[tuple[int, float]],
+    side: str,
+    bar: Bar,
+    i: int,
+    session_px: float,
+    p: BurstParams,
+) -> list | None:
+    if not p.fail_through_open or not filled:
+        return None
+    if side == "buy" and bar.low <= session_px:
+        return _clips_to_trades(filled, side, i, session_px, "fail_open", session_px)
+    if side == "sell" and bar.high >= session_px:
+        return _clips_to_trades(filled, side, i, session_px, "fail_open", session_px)
+    return None
+
+
 def _straddle_day(
     bars: list[Bar],
     oi: int,
     p: BurstParams,
 ) -> list[Trade]:
     session_px = bars[oi].open
-    last = min(len(bars) - 1, oi + p.hold_bars + p.layers + 4)
+    hunt = min(len(bars) - 1, oi + max(1, p.orb_bars))
     buys = [session_px + p.trigger + i * p.step for i in range(p.layers)]
     sells = [session_px - p.trigger - i * p.step for i in range(p.layers)]
     side: str | None = None
     filled: list[tuple[int, float]] = []
     first_i: int | None = None
 
-    for i in range(oi, last + 1):
+    for i in range(oi, hunt + 1):
         bar = bars[i]
         if side is None:
             hit_b = bar.high >= buys[0]
@@ -98,35 +139,23 @@ def _straddle_day(
                 continue
         assert side is not None and first_i is not None
         levels = buys if side == "buy" else sells
-        have = {round(px, 5) for _, px in filled}
-        for lv in levels:
-            fill_px = lv + p.spread / 2.0 if side == "buy" else lv - p.spread / 2.0
-            if round(fill_px, 5) in have:
-                continue
-            if side == "buy" and bar.high >= lv:
-                filled.append((i, fill_px))
-                have.add(round(fill_px, 5))
-            elif side == "sell" and bar.low <= lv:
-                filled.append((i, fill_px))
-                have.add(round(fill_px, 5))
-        hold_last = min(len(bars) - 1, first_i + p.hold_bars)
-        if p.fail_through_open:
-            if side == "buy" and bar.low <= session_px:
-                return _clips_to_trades(filled, side, i, session_px, "fail_open", session_px)
-            if side == "sell" and bar.high >= session_px:
-                return _clips_to_trades(filled, side, i, session_px, "fail_open", session_px)
+        _fill_layers(bar, side, levels, filled, i, p.spread)
+        dumped = _maybe_dump(filled, side, bar, i, session_px, p)
+        if dumped is not None:
+            return dumped
+        hold_last = min(len(bars) - 1, first_i + max(0, p.hold_bars))
         if i >= hold_last and filled:
             px = _flatten_px(bar, side, p.spread)
             return _clips_to_trades(filled, side, i, px, "time", session_px)
     if filled and side is not None:
-        px = _flatten_px(bars[last], side, p.spread)
-        return _clips_to_trades(filled, side, last, px, "time", session_px)
+        px = _flatten_px(bars[hunt], side, p.spread)
+        return _clips_to_trades(filled, side, hunt, px, "time", session_px)
     return []
 
 
 def _spray_day(bars: list[Bar], oi: int, p: BurstParams) -> list[Trade]:
     session_px = bars[oi].open
-    last_orb = min(len(bars) - 1, oi + max(2, p.hold_bars))
+    last_orb = min(len(bars) - 1, oi + max(1, p.orb_bars))
     side: str | None = None
     trig_i: int | None = None
     for i in range(oi, last_orb + 1):
@@ -139,31 +168,19 @@ def _spray_day(bars: list[Bar], oi: int, p: BurstParams) -> list[Trade]:
         break
     if side is None or trig_i is None:
         return []
+    levels = (
+        [session_px + p.trigger + i * p.step for i in range(p.layers)]
+        if side == "buy"
+        else [session_px - p.trigger - i * p.step for i in range(p.layers)]
+    )
     filled: list[tuple[int, float]] = []
-    levels = []
-    if side == "buy":
-        levels = [session_px + p.trigger + i * p.step for i in range(p.layers)]
-    else:
-        levels = [session_px - p.trigger - i * p.step for i in range(p.layers)]
-    last = min(len(bars) - 1, trig_i + p.hold_bars)
+    last = min(len(bars) - 1, trig_i + max(0, p.hold_bars))
     for i in range(trig_i, last + 1):
         bar = bars[i]
-        have = {round(px, 5) for _, px in filled}
-        for lv in levels:
-            fill_px = lv + p.spread / 2.0 if side == "buy" else lv - p.spread / 2.0
-            if round(fill_px, 5) in have:
-                continue
-            if side == "buy" and bar.high >= lv:
-                filled.append((i, fill_px))
-                have.add(round(fill_px, 5))
-            elif side == "sell" and bar.low <= lv:
-                filled.append((i, fill_px))
-                have.add(round(fill_px, 5))
-        if p.fail_through_open:
-            if side == "buy" and bar.low <= session_px:
-                return _clips_to_trades(filled, side, i, session_px, "fail_open", session_px)
-            if side == "sell" and bar.high >= session_px:
-                return _clips_to_trades(filled, side, i, session_px, "fail_open", session_px)
+        _fill_layers(bar, side, levels, filled, i, p.spread)
+        dumped = _maybe_dump(filled, side, bar, i, session_px, p)
+        if dumped is not None:
+            return dumped
         if i >= last and filled:
             px = _flatten_px(bar, side, p.spread)
             return _clips_to_trades(filled, side, i, px, "time", session_px)
@@ -269,10 +286,11 @@ def grid() -> list[BurstParams]:
         ("straddle", "spray"),
         (4.0, 8.0, 12.0),
         (5, 10),
-        (2, 4, 6),
+        (5, 10),  # orb: hunt window after open, minutes on 1m
+        (0, 1),  # hold: 0 = same bar (seconds), 1 = next minute
         (True, False),
     ):
-        sess, model, trig, layers, hold, fail = combo
+        sess, model, trig, layers, orb, hold, fail = combo
         out.append(
             BurstParams(
                 session=sess,
@@ -280,6 +298,7 @@ def grid() -> list[BurstParams]:
                 trigger=trig,
                 layers=layers,
                 step=2.0,
+                orb_bars=orb,
                 hold_bars=hold,
                 fail_through_open=fail,
             )
@@ -296,7 +315,7 @@ def format_burst(r: BurstResult, trades: list[Trade]) -> str:
         "",
         "straddle: buy-stop и sell-stop от открытия, срабатывает сторона скачка, слои по step.",
         "spray: ждём первый вынос ≥ trigger, дальше клипы каждые step по ходу.",
-        "выход: все клипы сразу по времени или если цена вернулась в открытие.",
+        "выход: hold=0 тот же 1m бар (секунды), hold=1 следующая минута; или fail через открытие.",
         "",
         f"сессий={r.days} торговали={r.sessions_traded} клипов={r.clips} "
         f"win={r.wins} loss={r.losses} wr={r.win_rate:.1f}%",
@@ -320,9 +339,9 @@ def format_burst(r: BurstResult, trades: list[Trade]) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--bank", type=float, default=500.0)
-    ap.add_argument("--range", dest="range_spec", default="1mo")
-    ap.add_argument("--interval", default="5m")
-    ap.add_argument("--min-clips", type=int, default=20)
+    ap.add_argument("--range", dest="range_spec", default="7d")
+    ap.add_argument("--interval", default="1m")
+    ap.add_argument("--min-clips", type=int, default=8)
     args = ap.parse_args()
 
     bars = fetch_yahoo("GC=F", args.range_spec, args.interval)
@@ -343,7 +362,8 @@ def main() -> int:
 
     out = REPORTS
     out.mkdir(parents=True, exist_ok=True)
-    write_csv(bars, out / "burst_5m.csv")
+    bars_name = "burst_1m.csv" if args.interval == "1m" else f"burst_{args.interval}.csv"
+    write_csv(bars, out / bars_name)
     report = format_burst(wr, wtr)
     (out / "burst_report.txt").write_text(report, encoding="utf-8")
     (out / "burst_summary.json").write_text(json.dumps(asdict(wr), indent=2) + "\n", encoding="utf-8")
@@ -367,7 +387,7 @@ def main() -> int:
             f"  {i:02d} pnl={r.net_pnl:+8.2f} clips={r.clips:3d} days={r.sessions_traded:2d} "
             f"wr={r.win_rate:5.1f}% dd={r.max_dd:.1f}  "
             f"{p.session}/{p.model} trig={p.trigger} layers={p.layers} "
-            f"hold={p.hold_bars} fail={p.fail_through_open}"
+            f"orb={p.orb_bars} hold={p.hold_bars} fail={p.fail_through_open}"
         )
     lines.append("")
     lines.append("лучший по сессии:")
@@ -379,7 +399,8 @@ def main() -> int:
         r, p, _ = pool[0]
         lines.append(
             f"  {sess}: pnl={r.net_pnl:+.2f} clips={r.clips} wr={r.win_rate:.1f}% "
-            f"{p.model} trig={p.trigger} layers={p.layers} hold={p.hold_bars} fail={p.fail_through_open}"
+            f"{p.model} trig={p.trigger} layers={p.layers} "
+            f"orb={p.orb_bars} hold={p.hold_bars} fail={p.fail_through_open}"
         )
     lines.append("")
     lines.append("победитель: " + json.dumps(asdict(wp), ensure_ascii=False))
