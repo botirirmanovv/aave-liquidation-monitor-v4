@@ -209,14 +209,15 @@ def main() -> int:
     ap.add_argument("--bank", type=float, default=500.0)
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--min-trades", type=int, default=4)
+    ap.add_argument("--range", dest="range_spec", default="3mo")
     args = ap.parse_args()
 
     books: list[Book] = []
-    print(f"auto-best bank=${args.bank:.0f} 1:{args.leverage}", flush=True)
+    print(f"auto-best bank=${args.bank:.0f} 1:{args.leverage} range={args.range_spec}", flush=True)
     for sym in SYMBOLS:
         try:
-            h1 = fetch_yahoo(sym, "1mo", "60m")
-            d1 = fetch_yahoo(sym, "3mo", "1d")
+            h1 = fetch_yahoo(sym, args.range_spec, "60m")
+            d1 = fetch_yahoo(sym, args.range_spec, "1d")
         except Exception as exc:
             print(f"  skip {sym}: {exc}", flush=True)
             continue
@@ -241,12 +242,13 @@ def main() -> int:
         alive = sorted(books, key=lambda b: b.end, reverse=True)
     win = alive[0]
 
+    pct = 100.0 * win.net / win.start if win.start else 0.0
     lines = [
-        f"Автопоиск лучшей книги, ${args.bank:.0f}, плечо 1:{args.leverage}, compound all-in",
+        f"Автопоиск лучшей книги, ${args.bank:.0f}, плечо 1:{args.leverage}, compound all-in, range={args.range_spec}",
         f"вариантов={len(books)} живых с ≥{args.min_trades} сделками={sum(1 for b in books if not b.blown and b.trades >= args.min_trades)}",
         "",
         f"ПОБЕДИТЕЛЬ: {win.key}",
-        f"${win.start:.0f} → ${win.end:.2f}  net {win.net:+.2f}  DD ${win.max_dd:.2f}  "
+        f"${win.start:.0f} → ${win.end:.2f}  net {win.net:+.2f}  ({pct:+.1f}%)  DD ${win.max_dd:.2f}  "
         f"n={win.trades}  +{win.wins}/−{win.losses}",
         "",
         "топ-10 живых:",
@@ -266,7 +268,9 @@ def main() -> int:
     text = "\n".join(lines) + "\n"
     out = REPORTS
     out.mkdir(parents=True, exist_ok=True)
+    tag = args.range_spec.replace("mo", "m")
     (out / "auto_best.txt").write_text(text, encoding="utf-8")
+    (out / f"auto_best_{tag}.txt").write_text(text, encoding="utf-8")
     (out / "auto_best.json").write_text(
         json.dumps(
             {
