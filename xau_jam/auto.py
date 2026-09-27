@@ -54,7 +54,7 @@ def main() -> int:
     REPORTS.mkdir(parents=True, exist_ok=True)
     cron = install_cron(args.bank)
     names = ",".join(s for s, _ in BOOK)
-    print(f"один банк ${args.bank:.0f} 1:{args.leverage}  бумаги {names}  простой %  не 5 ботов")
+    print(f"один банк ${args.bank:.0f} 1:{args.leverage}  ставка 10%  все сделки  {names}")
     print("cron:" if cron else "cron нет, loop:", cron_line(args.bank))
     if args.once:
         state = run_watch_once(args.bank, args.leverage)

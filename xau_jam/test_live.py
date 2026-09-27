@@ -94,8 +94,10 @@ class DemoLiveTests(unittest.TestCase):
         monday = datetime(2026, 9, 21, 16, 0, tzinfo=timezone.utc)
         note = tick_book(books, br, now=monday)
         self.assertIn("MSTR", note)
-        self.assertEqual(br.pos.symbol, "MSTR")
+        self.assertIn("TSLA", note)
+        self.assertEqual({p.symbol for p in br.positions}, {"MSTR", "TSLA"})
         br2 = self._broker()
         replay_book_through_broker(books, br2, start.date())
-        self.assertEqual(br2.orders[0].symbol, "MSTR")
-        self.assertEqual(len([o for o in br2.orders if o.reason == "open"]), 1)
+        opens = [o for o in br2.orders if o.reason == "open"]
+        self.assertEqual({o.symbol for o in opens}, {"MSTR", "TSLA"})
+        self.assertEqual(len(opens), 2)

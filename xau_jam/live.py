@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, timezone
 
 from xau_jam.broker import DEMO_PATH, DemoBroker
 from xau_jam.burst_open import REPORTS
-from xau_jam.combine import BOOK, collect_signals, fetch_books
+from xau_jam.combine import BOOK, RISK, collect_signals, fetch_books
 from xau_jam.paper import HOLD, SYMBOL, day_groups, signal_for_day
 from xau_jam.pattern import Bar
 
@@ -85,53 +85,62 @@ def tick(bars: list[Bar], broker: DemoBroker, now: datetime | None = None) -> st
 
 
 def tick_book(books: dict, broker: DemoBroker, now: datetime | None = None) -> str:
-    """One shared demo bank across the impulse family."""
+    """One shared demo bank: 10% each, take every name, do not wait."""
     now = now or datetime.now(timezone.utc)
     if not session_open(now):
         return f"биржа закрыта {now.date()} eq=${broker.equity:.2f}"
-    if broker.pos:
-        packed = books.get(broker.pos.symbol)
+    notes: list[str] = []
+    for held in list(broker.positions):
+        packed = books.get(held.symbol)
         if not packed:
-            return f"вход {broker.pos.symbol} нет баров, жду"
+            notes.append(f"{held.symbol} нет баров")
+            continue
         h1, _trig = packed
         fi = None
         for i, b in enumerate(h1):
-            if b.time.isoformat() == broker.pos.entry_time:
+            if b.time.isoformat() == held.entry_time:
                 fi = i
                 break
         if fi is None:
-            return "вход не найден в барах, жду"
+            notes.append(f"{held.symbol} вход не в барах")
+            continue
         due = fi + HOLD
         if len(h1) - 1 < due:
-            return f"открыт {broker.pos.side} {broker.pos.symbol} {broker.pos.qty}шт, выход через {due - (len(h1) - 1)} бар."
-        sym = broker.pos.symbol
-        order = broker.close(h1[due].close, h1[due].time.isoformat())
-        return f"закрыл {sym} {order.side} {order.qty}шт {order.cash:+.2f} eq=${broker.equity:.2f} id={order.id}"
+            notes.append(f"держит {held.symbol}")
+            continue
+        order = broker.close(h1[due].close, h1[due].time.isoformat(), symbol=held.symbol)
+        notes.append(f"закрыл {held.symbol} {order.cash:+.2f}")
     today = now.date()
     shots = collect_signals(books, today, today + timedelta(days=1))
-    if not shots:
+    open_syms = {p.symbol for p in broker.positions}
+    stake = broker.start * RISK
+    opened = 0
+    for t, sym, side, fill, fi, h1 in shots:
+        if sym in open_syms:
+            continue
+        shares = int(stake * broker.leverage / max(fill, 1e-9))
+        if shares < 1:
+            notes.append(f"{sym} 10% не хватает на 1шт")
+            continue
+        order = broker.submit_market(sym, side, shares, fill, t.isoformat(), "open")
+        open_syms.add(sym)
+        opened += 1
+        notes.append(f"открыл {order.side} {sym} {order.qty}шт @ {order.price:.2f}")
+    if not notes:
         return f"{today} нет импульса ни по одной бумаге"
-    t, sym, side, fill, fi, h1 = shots[0]
-    shares = int(broker.start * broker.leverage / fill)
-    if shares < 1:
-        return "не хватает на 1 акцию"
-    order = broker.submit_market(sym, side, shares, fill, t.isoformat(), "open")
-    return f"открыл {order.side} {sym} {order.qty}шт @ {order.price:.2f} id={order.id}"
+    return "; ".join(notes) + f" eq=${broker.equity:.2f}"
 
 
 def replay_book_through_broker(books: dict, broker: DemoBroker, begin) -> DemoBroker:
     shots = collect_signals(books, begin, None)
-    free_at = None
+    stake = broker.start * RISK
     for t, sym, side, fill, fi, h1 in shots:
-        if free_at is not None and t < free_at:
-            continue
-        shares = int(broker.start * broker.leverage / max(fill, 1e-9))
+        shares = int(stake * broker.leverage / max(fill, 1e-9))
         if shares < 1:
             continue
         broker.submit_market(sym, side, shares, fill, t.isoformat(), "open")
         ex_i = min(len(h1) - 1, fi + HOLD)
-        broker.close(h1[ex_i].close, h1[ex_i].time.isoformat())
-        free_at = h1[ex_i].time
+        broker.close(h1[ex_i].close, h1[ex_i].time.isoformat(), symbol=sym)
         if broker.equity <= 0:
             break
     return broker
@@ -143,7 +152,7 @@ def _report(broker: DemoBroker, title: str) -> str:
     lines = [
         title,
         f"${broker.start:.0f} → ${broker.equity:.2f}  ({pct:+.1f}%)  ордеров={len(broker.orders)}  сделок={len(closes)}",
-        "демо-счёт, не биржа. Один банк на MSTR/COIN/SMCI/AMD/UVXY/PLTR/TSLA, 6 H1, 1:10, простой %.",
+        "демо-счёт, не биржа. Один банк, ставка 10%, все сделки, 6 H1, 1:10, простой %.",
         "",
     ]
     for o in broker.orders:

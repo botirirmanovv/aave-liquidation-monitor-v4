@@ -388,7 +388,7 @@ def main() -> int:
         if args.loop or args.auto:
             print(
                 f"один банк ${args.bank:.0f} 1:{args.leverage}  {names}  "
-                f"простой %, одна позиция, тик раз в {args.interval}с"
+                f"ставка 10%, все сделки, тик раз в {args.interval}с"
             )
             print("cron:" if cron else "cron нет, кручу loop:", book_cron(args.bank))
             book_loop(args.bank, args.leverage, args.interval)

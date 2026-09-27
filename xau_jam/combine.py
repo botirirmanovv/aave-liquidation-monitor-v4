@@ -1,6 +1,7 @@
-"""One paper book for the whole impulse family. One bank, one position.
+"""One paper book for the whole impulse family. One bank, take every shot.
 
-Same costs as paper.py. Simple % (lot always from start). Not live.
+10% of start bank per trade, 90% sits. Do not skip a name because another is open.
+Same costs as paper.py. Simple %. Not live.
 
   python3 -m xau_jam.combine --from 01/01/26 --bank 500
   python3 -m xau_jam.combine --once --bank 500
@@ -21,6 +22,7 @@ from xau_jam.paper import HOLD, costed_cash, day_groups, parse_day, replay, sign
 from xau_jam.pattern import Bar
 
 WATCH_LOG = REPORTS / "combine_watch.log"
+RISK = 0.10
 
 BOOK = (
     ("MSTR", 0.006),
@@ -44,6 +46,7 @@ class Shot:
     cash: float
     equity: float
     event: str
+    stake: float = 0.0
 
 
 def collect_signals(
@@ -74,26 +77,28 @@ def replay_one(
     start: float,
     lev: int,
     hold: int = HOLD,
+    risk: float = RISK,
+    simple: bool = True,
 ) -> tuple[float, list[Shot]]:
     eq = start
     path: list[Shot] = []
-    free_at: datetime | None = None
+    risk = min(max(risk, 0.0), 1.0)
     for t, sym, side, fill, fi, h1 in shots:
         if eq <= 0:
             break
-        if free_at is not None and t < free_at:
-            continue
-        shares = int(start * lev / max(fill, 1e-9))
+        base = start if simple else eq
+        stake = base * risk
+        shares = int(stake * lev / max(fill, 1e-9))
         if shares < 1:
             continue
         ex_i = min(len(h1) - 1, fi + hold)
         exit_px = h1[ex_i].close
         cash = costed_cash(side, fill, exit_px, shares)
-        eq += cash
         event = "ok"
-        if eq <= 0:
-            eq = 0.0
-            event = "blown"
+        if cash < -stake:
+            cash = -stake
+            event = "clip"
+        eq = max(0.0, eq + cash)
         path.append(
             Shot(
                 t.isoformat(),
@@ -105,10 +110,10 @@ def replay_one(
                 round(cash, 2),
                 round(eq, 2),
                 event,
+                round(stake, 2),
             )
         )
-        free_at = h1[ex_i].time
-        if event == "blown":
+        if eq <= 0:
             break
     return round(eq, 2), path
 
@@ -124,7 +129,9 @@ def fresh_state(bank: float, lev: int) -> dict:
         "equity": bank,
         "leverage": lev,
         "simple": True,
+        "risk": RISK,
         "pos": None,
+        "positions": [],
         "fills": [],
         "note": "",
     }
@@ -137,6 +144,8 @@ def load_state(bank: float, lev: int) -> dict:
         raw.setdefault("leverage", lev)
         raw.setdefault("start", bank)
         raw.setdefault("simple", True)
+        raw.setdefault("risk", RISK)
+        raw.setdefault("positions", [])
         return raw
     return fresh_state(bank, lev)
 
@@ -170,26 +179,37 @@ def _index_at(h1: list[Bar], iso: str) -> int | None:
 
 
 def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int) -> dict:
-    """One shared bank. Open or flatten at most one name."""
-    pos = state.get("pos")
+    """One shared bank. Take every name that fires. 10% each, do not wait."""
     start = float(state.get("start") or state.get("equity") or 0)
-    if pos:
+    risk = float(state.get("risk") or RISK)
+    base = start if state.get("simple", True) else float(state["equity"])
+    stake = base * min(max(risk, 0.0), 1.0)
+    positions = list(state.get("positions") or [])
+    if state.get("pos") and not positions:
+        positions = [state["pos"]]
+    notes: list[str] = []
+    kept: list[dict] = []
+    for pos in positions:
         packed = books.get(pos["symbol"])
         if not packed:
-            state["note"] = f"вход {pos['symbol']} нет баров, жду"
-            return state
+            kept.append(pos)
+            notes.append(f"{pos['symbol']} нет баров")
+            continue
         h1, _trig = packed
         fi = _index_at(h1, pos["entry_time"])
         if fi is None:
-            state["note"] = f"вход {pos['symbol']} не в барах, жду"
-            return state
+            kept.append(pos)
+            notes.append(f"{pos['symbol']} вход не в барах")
+            continue
         due = fi + HOLD
         if len(h1) - 1 < due:
-            left = due - (len(h1) - 1)
-            state["note"] = f"открыт {pos['side']} {pos['symbol']} {pos['shares']}шт, выход через {left} H1"
-            return state
+            kept.append(pos)
+            notes.append(f"держит {pos['symbol']}")
+            continue
         exit_px = h1[due].close
         cash = costed_cash(pos["side"], pos["entry"], exit_px, pos["shares"])
+        if cash < -float(pos.get("stake") or stake):
+            cash = -float(pos.get("stake") or stake)
         state["equity"] = round(float(state["equity"]) + cash, 2)
         state.setdefault("fills", []).append(
             asdict(
@@ -203,39 +223,50 @@ def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int)
                     round(cash, 2),
                     state["equity"],
                     "ok",
+                    float(pos.get("stake") or stake),
                 )
             )
         )
-        state["pos"] = None
-        state["note"] = f"закрыл {pos['symbol']} {pos['side']} {cash:+.2f} eq=${state['equity']:.2f}"
-        return state
-
+        notes.append(f"закрыл {pos['symbol']} {cash:+.2f}")
     today = max((h1[-1].time.date() for h1, _t in books.values() if h1), default=None)
     if today is None:
+        state["positions"] = kept
+        state["pos"] = kept[0] if kept else None
         state["note"] = "нет баров"
         return state
     shots = collect_signals(books, today, today + timedelta(days=1))
-    if not shots:
-        state["note"] = f"{today} нет импульса ни по одной бумаге"
-        return state
-    t, sym, side, fill, fi, h1 = shots[0]
-    day_iso = t.date().isoformat()
-    if any(str(f.get("time", ""))[:10] == day_iso for f in state.get("fills", [])):
-        state["note"] = f"{day_iso} выстрел уже был, общий банк ждёт следующий день"
-        return state
-    stake = start if state.get("simple", True) else float(state["equity"])
-    shares = int(stake * lev / max(fill, 1e-9))
-    if shares < 1:
-        state["note"] = f"{sym} не хватает на 1 акцию"
-        return state
-    state["pos"] = {
-        "symbol": sym,
-        "side": side,
-        "shares": shares,
-        "entry": round(fill, 4),
-        "entry_time": t.isoformat(),
-    }
-    state["note"] = f"открыл {side} {sym} {shares}шт @ {fill:.2f} (общий банк)"
+    open_syms = {p["symbol"] for p in kept}
+    done = {(str(f.get("time", ""))[:10], f.get("symbol")) for f in state.get("fills", [])}
+    opened = 0
+    for t, sym, side, fill, fi, h1 in shots:
+        if sym in open_syms:
+            continue
+        if (t.date().isoformat(), sym) in done:
+            continue
+        shares = int(stake * lev / max(fill, 1e-9))
+        if shares < 1:
+            notes.append(f"{sym} 10% не хватает на 1шт")
+            continue
+        kept.append(
+            {
+                "symbol": sym,
+                "side": side,
+                "shares": shares,
+                "entry": round(fill, 4),
+                "entry_time": t.isoformat(),
+                "stake": round(stake, 2),
+            }
+        )
+        open_syms.add(sym)
+        opened += 1
+        notes.append(f"открыл {side} {sym} {shares}шт @ {fill:.2f}")
+    state["positions"] = kept
+    state["pos"] = kept[0] if kept else None
+    if opened:
+        notes.append(f"ставка 10% ×{opened}, общий банк eq=${float(state['equity']):.2f}")
+    elif not notes:
+        notes.append(f"{today} нет импульса ни по одной бумаге")
+    state["note"] = "; ".join(notes)
     return state
 
 
@@ -309,32 +340,24 @@ def main() -> int:
         print(f"  solo {sym} {trig:.1%} ${eq:.0f} ({pct:+.0f}%) n={len(taken)}", flush=True)
 
     shots = collect_signals(books, begin, None)
-    end, fills = replay_one(shots, args.bank, args.leverage)
+    end, fills = replay_one(shots, args.bank, args.leverage, risk=RISK, simple=True)
     pct = 100.0 * (end - args.bank) / args.bank
     by_sym: dict[str, int] = {}
     for f in fills:
         by_sym[f.symbol] = by_sym.get(f.symbol, 0) + 1
     months = max((last - begin).days / 30.0, 1.0)
+    n_clip = sum(1 for f in fills if f.event == "clip")
     lines = [
-        f"Один бот, один банк ${args.bank:.0f}, 1:{args.leverage}, простой %, с {begin} → {last}.",
+        f"Один бот, один банк ${args.bank:.0f}, 1:{args.leverage}, простой %, ставка {100 * RISK:.0f}%, с {begin} → {last}.",
         "Семья импульса: MSTR/COIN/SMCI/AMD/UVXY/PLTR 0.6%, TSLA 0.3%, hold 6 H1.",
-        "Одна позиция. Если в один час несколько — берём по списку (жирные первые).",
-        "Пока держим 6 часов, остальные сигналы пропускаем. Те же спред/комиссия.",
-        f"вместе ${args.bank:.0f} → ${end:.2f}  ({pct:+.1f}%, {pct / months:+.1f}%/мес)  сделок={len(fills)}",
+        "Берём все сделки, никого не ждём. Минус клипом не больше ставки. Те же спред/комиссия.",
+        f"вместе ${args.bank:.0f} → ${end:.2f}  ({pct:+.1f}%, {pct / months:+.1f}%/мес)  сделок={len(fills)}  clip={n_clip}",
         "по бумагам: " + " ".join(f"{k}={v}" for k, v in sorted(by_sym.items(), key=lambda kv: -kv[1])),
         "",
-        "те же бумаги по одной (для сравнения, каждая со своим $500):",
+        "соло 100% банка (для сравнения, не наш размер):",
     ]
     for sym, eq, sp, n in sorted(singles, key=lambda r: -r[2]):
         lines.append(f"  {sym:6} ${eq:8.0f}  {sp:+7.1f}%  n={n}")
-    best = max(singles, key=lambda r: r[2]) if singles else None
-    if best:
-        lines.append("")
-        lines.append(
-            f"лучший соло: {best[0]} ${best[1]:.0f}. вместе "
-            f"{'слабее' if end < best[1] else 'сильнее или как'} соло-лидера "
-            f"(один счёт не может взять два импульса в один день)."
-        )
     lines.append("")
     for i, f in enumerate(fills, 1):
         lines.append(
@@ -348,6 +371,7 @@ def main() -> int:
             {
                 "end": end,
                 "pct": round(pct, 1),
+                "risk": RISK,
                 "n": len(fills),
                 "by_sym": by_sym,
                 "singles": [{"symbol": s, "end": e, "pct": p, "n": n} for s, e, p, n in singles],
