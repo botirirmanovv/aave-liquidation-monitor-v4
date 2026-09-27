@@ -85,10 +85,11 @@ def costed_cash(side: str, entry: float, exit_px: float, shares: int) -> float:
     return pnl - comm
 
 
-def replay(bars: list[Bar], start: float, leverage: int, weeks: int) -> tuple[float, list[Fill]]:
+def replay(bars: list[Bar], start: float, leverage: int, weeks: int = 0, days: int | None = None) -> tuple[float, list[Fill]]:
     if not bars:
         return start, []
-    cutoff = bars[-1].time.date() - timedelta(days=7 * weeks)
+    span = days if days is not None else 7 * weeks
+    cutoff = bars[-1].time.date() - timedelta(days=span)
     by = day_groups(bars)
     eq = start
     path: list[Fill] = []
@@ -220,6 +221,7 @@ def main() -> int:
     ap.add_argument("--bank", type=float, default=100.0)
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--weeks", type=int, default=3)
+    ap.add_argument("--months", type=int, nargs="*", default=None)
     ap.add_argument("--replay", action="store_true")
     ap.add_argument("--watch", action="store_true")
     args = ap.parse_args()
@@ -244,14 +246,26 @@ def main() -> int:
         print(state.get("note", ""), f"eq=${state['equity']:.2f}")
         return 0
 
-    bars = fetch_yahoo(SYMBOL, "3mo", "60m")
+    months = args.months
+    bars = fetch_yahoo(SYMBOL, "1y" if months else "3mo", "60m")
     lines = [f"Бумажный тест TSLA, старт ${args.bank:.0f}, плечо 1:{args.leverage}"]
     results = {}
-    for w in (2, 3) if args.replay or True else (args.weeks,):
-        end, path = replay(bars, args.bank, args.leverage, w)
-        block = _print_path(args.bank, end, path, f"── {w} недели ──")
+    if months:
+        spans = [(f"{m} мес", 30 * m) for m in months]
+    else:
+        spans = [(f"{w} недели", 7 * w) for w in ((2, 3) if args.replay or True else (args.weeks,))]
+    for label, days in spans:
+        end, path = replay(bars, args.bank, args.leverage, days=days)
+        first = path[0].time[:10] if path else "?"
+        last = path[-1].time[:10] if path else "?"
+        block = _print_path(args.bank, end, path, f"── {label} ({first} → {last}) ──")
         lines.append(block)
-        results[f"{w}w"] = {"end": end, "pct": round(100.0 * (end - args.bank) / args.bank, 1), "n": len(path), "path": [asdict(p) for p in path]}
+        results[label] = {
+            "end": end,
+            "pct": round(100.0 * (end - args.bank) / args.bank, 1),
+            "n": len(path),
+            "path": [asdict(p) for p in path],
+        }
     text = "\n".join(lines) + "\n"
     text += (
         f"Автомат: cron каждый час в сессию\n"
@@ -259,6 +273,8 @@ def main() -> int:
         "Состояние: xau_jam/reports/paper_state.json  Это бумага, не брокер.\n"
     )
     tag = f"{args.bank:.0f}"
+    if months:
+        tag = f"{tag}_" + "_".join(f"{m}m" for m in months)
     (REPORTS / f"paper_{tag}.txt").write_text(text, encoding="utf-8")
     (REPORTS / f"paper_{tag}.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
     print(text, end="")

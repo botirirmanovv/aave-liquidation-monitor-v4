@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 from dataclasses import asdict, dataclass
+from datetime import timedelta
 
 from xau_jam.any_shot import SYMBOLS
 from xau_jam.backtest import Params, Trade, run_backtest
@@ -210,10 +211,15 @@ def main() -> int:
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--min-trades", type=int, default=4)
     ap.add_argument("--range", dest="range_spec", default="3mo")
+    ap.add_argument("--months", type=int, default=0)
     args = ap.parse_args()
 
     books: list[Book] = []
-    print(f"auto-best bank=${args.bank:.0f} 1:{args.leverage} range={args.range_spec}", flush=True)
+    print(
+        f"auto-best bank=${args.bank:.0f} 1:{args.leverage} range={args.range_spec} "
+        f"months={args.months or 'all'}",
+        flush=True,
+    )
     for sym in SYMBOLS:
         try:
             h1 = fetch_yahoo(sym, args.range_spec, "60m")
@@ -221,6 +227,10 @@ def main() -> int:
         except Exception as exc:
             print(f"  skip {sym}: {exc}", flush=True)
             continue
+        if args.months and h1:
+            cut = h1[-1].time - timedelta(days=30 * args.months)
+            h1 = [b for b in h1 if b.time >= cut]
+            d1 = [b for b in d1 if b.time >= cut]
         print(f"  {sym} h1={len(h1)} d1={len(d1)}", flush=True)
         for trig in (0.003, 0.004, 0.006):
             for hold in (6, 12, 24):
@@ -268,7 +278,7 @@ def main() -> int:
     text = "\n".join(lines) + "\n"
     out = REPORTS
     out.mkdir(parents=True, exist_ok=True)
-    tag = args.range_spec.replace("mo", "m")
+    tag = f"{args.months}m" if args.months else args.range_spec.replace("mo", "m")
     (out / "auto_best.txt").write_text(text, encoding="utf-8")
     (out / f"auto_best_{tag}.txt").write_text(text, encoding="utf-8")
     (out / "auto_best.json").write_text(
