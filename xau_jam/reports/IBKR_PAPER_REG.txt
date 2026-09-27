@@ -8,8 +8,8 @@ Aave / Morpho live не трогать. Yahoo-demo уже крутится от�
 Сначала страна (Asia → Uzbekistan), потом заявка:
   https://www.interactivebrokers.com/en/choose-country-region.php
 
-Голая заявка (если страна уже Uzbekistan):
-  https://www.interactivebrokers.com/Universal/Application
+Заявка сразу с Uzbekistan (не .co.uk):
+  https://www.interactivebrokers.com/Universal/Application?country=UZ
 
 Что просят в анкете:
   https://www.interactivebrokers.com/en/general/what-you-need-inv.php
@@ -41,8 +41,35 @@ API в TWS (порт Paper = 7497):
   2) Asia → Uzbekistan
   3) Open Account / Start Application
 
-Не ставь Казахстан / РФ / ОАЭ вместо Узбекистана.
+Не ставь Казахстан / РФ / ОАЭ / Великобританию вместо Узбекистана.
 Если после этого поля Country всё равно без UZ — скинь скрин этого поля.
+
+
+2b. УЗБЕКИСТАН БЫЛ, ПОТОМ ВЫЛЕЗЛА ВЕЛИКОБРИТАНИЯ
+════════════════════════════════════
+Так IBKR часто делает. Сначала список стран (там UZ есть), потом кидает
+на английский сайт .com / .co.uk и поле Country само ставит United Kingdom.
+
+Это витрина/сервер, не твой адрес. Жить в UK не надо.
+
+На шаге Create Account (почта + username + пароль) поле называется
+Country / Country of Legal Residence — это ГЛАВНОЕ.
+Поставь снова Uzbekistan. Потом Create Account.
+Гражданство (Citizenship) тоже Uzbekistan.
+
+Можно игнорировать:
+  - шапка сайта «United Kingdom»
+  - адрес страницы interactivebrokers.co.uk
+  - телефонный код +44, если сам не ставил
+
+Нельзя жать Continue, пока Residence = United Kingdom.
+Иначе анкета станет британской (адрес UK, налог UK) и паспорт UZ не сойдётся.
+
+Прямая ссылка, чтобы UZ не сбрасывался:
+  https://www.interactivebrokers.com/Universal/Application?country=UZ
+
+Инкогнито. Не начинай с .co.uk.
+Если поле Residence снова прыгает на UK — скрин заголовка этого поля.
 
 
 3. СЕГОДНЯ — ТОЛЬКО ЗАЯВКА
