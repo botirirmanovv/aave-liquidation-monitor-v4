@@ -15,6 +15,7 @@ from xau_jam.any_shot import SYMBOLS
 from xau_jam.backtest import Params, Trade, run_backtest
 from xau_jam.burst_open import REPORTS
 from xau_jam.data import fetch_yahoo
+from xau_jam.paper import signal_for_day
 from xau_jam.pattern import Bar
 
 
@@ -34,7 +35,9 @@ class Book:
     path: list[dict]
 
 
-def _impulse_trades(bars: list[Bar], trigger_pct: float, hold: int) -> list[Trade]:
+def _impulse_trades(
+    bars: list[Bar], trigger_pct: float, hold: int, skip_both: bool = True
+) -> list[Trade]:
     by_day: dict = {}
     for i, b in enumerate(bars):
         by_day.setdefault(b.time.date(), []).append(i)
@@ -45,24 +48,32 @@ def _impulse_trades(bars: list[Bar], trigger_pct: float, hold: int) -> list[Trad
         session_px = bars[oi].open
         trig = session_px * trigger_pct
         side = fill_i = fill_px = None
-        last_hunt = idxs[min(8, len(idxs) - 1)]
-        for i in range(oi, last_hunt + 1):
-            if i <= busy:
+        if skip_both:
+            sig = signal_for_day(bars, idxs, trigger=trigger_pct)
+            if sig is None:
                 continue
-            up = bars[i].high - session_px
-            dn = session_px - bars[i].low
-            if up < trig and dn < trig:
+            side, fill_i, fill_px = sig
+            if fill_i <= busy:
                 continue
-            if up >= dn:
-                side, fill_px = "buy", session_px + trig
-                if bars[i].high < fill_px:
+        else:
+            last_hunt = idxs[min(8, len(idxs) - 1)]
+            for i in range(oi, last_hunt + 1):
+                if i <= busy:
                     continue
-            else:
-                side, fill_px = "sell", session_px - trig
-                if bars[i].low > fill_px:
+                up = bars[i].high - session_px
+                dn = session_px - bars[i].low
+                if up < trig and dn < trig:
                     continue
-            fill_i = i
-            break
+                if up >= dn:
+                    side, fill_px = "buy", session_px + trig
+                    if bars[i].high < fill_px:
+                        continue
+                else:
+                    side, fill_px = "sell", session_px - trig
+                    if bars[i].low > fill_px:
+                        continue
+                fill_i = i
+                break
         if side is None or fill_i is None or fill_px is None:
             continue
         ex_i = min(len(bars) - 1, fill_i + hold)
@@ -212,6 +223,11 @@ def main() -> int:
     ap.add_argument("--min-trades", type=int, default=4)
     ap.add_argument("--range", dest="range_spec", default="3mo")
     ap.add_argument("--months", type=int, default=0)
+    ap.add_argument(
+        "--wick",
+        action="store_true",
+        help="старая книга: брать больший фитиль, даже если оба по 0.3%",
+    )
     args = ap.parse_args()
 
     books: list[Book] = []
@@ -234,7 +250,7 @@ def main() -> int:
         print(f"  {sym} h1={len(h1)} d1={len(d1)}", flush=True)
         for trig in (0.003, 0.004, 0.006):
             for hold in (6, 12, 24):
-                tr = _impulse_trades(h1, trig, hold)
+                tr = _impulse_trades(h1, trig, hold, skip_both=not args.wick)
                 key = f"{sym} impulse {trig:.1%} hold={hold}"
                 books.append(run_book(tr, args.bank, args.leverage, key, sym, key))
         for rr in (2.0, 3.0):

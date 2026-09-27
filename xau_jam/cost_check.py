@@ -4,8 +4,6 @@
 """
 from __future__ import annotations
 
-from collections import defaultdict
-
 from xau_jam.auto_best import _impulse_trades, run_book
 from xau_jam.backtest import Trade
 from xau_jam.burst_open import REPORTS
@@ -14,66 +12,7 @@ from xau_jam.pattern import Bar
 
 
 def _impulse(bars: list[Bar], trigger_pct: float, hold: int, skip_both: bool) -> list[Trade]:
-    if not skip_both:
-        return _impulse_trades(bars, trigger_pct, hold)
-    by: dict = defaultdict(list)
-    for i, b in enumerate(bars):
-        by[b.time.date()].append(i)
-    out: list[Trade] = []
-    busy = -1
-    for idxs in by.values():
-        oi = idxs[0]
-        session_px = bars[oi].open
-        trig = session_px * trigger_pct
-        side = fill_i = fill_px = None
-        last_hunt = idxs[min(8, len(idxs) - 1)]
-        for i in range(oi, last_hunt + 1):
-            if i <= busy:
-                continue
-            up = bars[i].high - session_px
-            dn = session_px - bars[i].low
-            if up < trig and dn < trig:
-                continue
-            if up >= trig and dn >= trig:
-                side = None
-                break
-            if up >= dn:
-                side, fill_px = "buy", session_px + trig
-                if bars[i].high < fill_px:
-                    continue
-            else:
-                side, fill_px = "sell", session_px - trig
-                if bars[i].low > fill_px:
-                    continue
-            fill_i = i
-            break
-        if side is None or fill_i is None or fill_px is None:
-            continue
-        ex_i = min(len(bars) - 1, fill_i + hold)
-        exit_px = bars[ex_i].close
-        pnl = (exit_px - fill_px) if side == "buy" else (fill_px - exit_px)
-        busy = ex_i
-        out.append(
-            Trade(
-                side=side,
-                signal_time=bars[fill_i].time.isoformat(),
-                entry_time=bars[fill_i].time.isoformat(),
-                exit_time=bars[ex_i].time.isoformat(),
-                entry=fill_px,
-                stop=session_px,
-                target=exit_px,
-                exit=exit_px,
-                bars_held=ex_i - fill_i + 1,
-                reason="time",
-                pnl=pnl,
-                r_multiple=0.0,
-                signal_high=bars[fill_i].high,
-                prev_high=session_px,
-                prev_low=1.0,
-                signal_close=bars[fill_i].close,
-            )
-        )
-    return out
+    return _impulse_trades(bars, trigger_pct, hold, skip_both=skip_both)
 
 
 def run_costed(

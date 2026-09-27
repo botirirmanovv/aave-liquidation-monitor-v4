@@ -24,6 +24,9 @@ artifacts/
 
 # Runtime state & logs (local observation)
 *.log
+xau_jam/reports/paper_state*.json
+xau_jam/reports/paper_watch.log
+xau_jam/reports/paper_cron.txt
 monitor_state*.json
 would_have_*.json
 live_*.log

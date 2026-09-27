@@ -1,0 +1,14 @@
+Честный автомат TSLA, старт $500, плечо 1:10
+правила: импульс 0.3% в одну сторону, оба фитиля — пропуск,
+6 H1, спред $0.02+слип $0.03, комиссия $0.005/шт min $1, целые акции.
+
+  python3 -m xau_jam.auto --bank 500
+  python3 -m xau_jam.auto --once --bank 500
+  python3 -m xau_jam.paper --loop --bank 500
+
+cron в этой среде нет — крутится loop раз в час.
+стейт: xau_jam/reports/paper_state_500.json
+лог:   xau_jam/reports/paper_watch.log
+автопоиск теперь тоже без both-wick (старая сказка: --wick).
+
+Это бумага, не брокер, не Aave.

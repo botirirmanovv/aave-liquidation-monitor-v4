@@ -1,15 +1,21 @@
-"""Paper-trade the locked impulse: TSLA, $100 test, 2–3 weeks.
+"""Paper-trade the locked impulse: TSLA, skip both-wick, costs on.
 
 Honest rules: skip if first bar hits both sides, spread/slip/commission on.
 Whole shares. One position. Not a live broker.
 
-  python3 -m xau_jam.paper --replay --bank 100 --weeks 3
-  python3 -m xau_jam.paper --watch --bank 100
+  python3 -m xau_jam.paper --replay --bank 500 --months 3 6 9
+  python3 -m xau_jam.paper --watch --bank 500
+  python3 -m xau_jam.paper --loop --bank 500
+  python3 -m xau_jam.auto --bank 500
 """
 from __future__ import annotations
 
 import argparse
 import json
+import shutil
+import subprocess
+import sys
+import time
 from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
@@ -20,6 +26,8 @@ from xau_jam.data import fetch_yahoo
 from xau_jam.pattern import Bar
 
 STATE_PATH = REPORTS / "paper_state.json"
+WATCH_LOG = REPORTS / "paper_watch.log"
+CRON_MARK = "xau_jam.paper --watch"
 SYMBOL = "TSLA"
 TRIGGER = 0.003
 HOLD = 6
@@ -48,11 +56,17 @@ def day_groups(bars: list[Bar]) -> dict:
     return by
 
 
-def signal_for_day(bars: list[Bar], idxs: list[int]) -> tuple[str, int, float] | None:
+def state_path(bank: float) -> Path:
+    return REPORTS / f"paper_state_{bank:.0f}.json"
+
+
+def signal_for_day(
+    bars: list[Bar], idxs: list[int], trigger: float = TRIGGER
+) -> tuple[str, int, float] | None:
     """One-sided impulse only. None if quiet or both wicks."""
     oi = idxs[0]
     session_px = bars[oi].open
-    trig = session_px * TRIGGER
+    trig = session_px * trigger
     last_hunt = idxs[min(8, len(idxs) - 1)]
     for i in range(oi, last_hunt + 1):
         up = bars[i].high - session_px
@@ -199,6 +213,91 @@ def watch(bars: list[Bar], state: dict, leverage: int) -> dict:
     return state
 
 
+def fresh_state(bank: float, leverage: int) -> dict:
+    return {
+        "equity": bank,
+        "start": bank,
+        "leverage": leverage,
+        "pos": None,
+        "fills": [],
+        "note": "",
+    }
+
+
+def load_state(bank: float, leverage: int) -> dict:
+    path = state_path(bank)
+    if path.exists():
+        state = json.loads(path.read_text(encoding="utf-8"))
+        state.setdefault("leverage", leverage)
+        return state
+    if bank == 100 and STATE_PATH.exists():
+        state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        state.setdefault("leverage", leverage)
+        return state
+    return fresh_state(bank, leverage)
+
+
+def save_state(bank: float, state: dict) -> Path:
+    state["updated"] = datetime.now(timezone.utc).isoformat()
+    REPORTS.mkdir(parents=True, exist_ok=True)
+    path = state_path(bank)
+    path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def run_watch_once(bank: float, leverage: int) -> dict:
+    bars = fetch_yahoo(SYMBOL, "5d", "60m")
+    state = load_state(bank, leverage)
+    state = watch(bars, state, state.get("leverage", leverage))
+    save_state(bank, state)
+    return state
+
+
+def cron_line(bank: float) -> str:
+    repo = Path(__file__).resolve().parents[1]
+    return (
+        f"7 * * * * cd {repo} && {sys.executable} -m xau_jam.paper "
+        f"--watch --bank {bank:.0f} >> {WATCH_LOG} 2>&1"
+    )
+
+
+def install_cron(bank: float) -> str | None:
+    """Write the hourly line. Returns it if crontab accepted, else None."""
+    REPORTS.mkdir(parents=True, exist_ok=True)
+    line = cron_line(bank)
+    (REPORTS / "paper_cron.txt").write_text(line + "\n", encoding="utf-8")
+    crontab = shutil.which("crontab")
+    if not crontab:
+        return None
+    try:
+        prev = subprocess.check_output([crontab, "-l"], text=True, stderr=subprocess.DEVNULL)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        prev = ""
+    kept = [row for row in prev.splitlines() if CRON_MARK not in row]
+    kept.append(line)
+    subprocess.run([crontab, "-"], input="\n".join(kept) + "\n", check=True, text=True)
+    return line
+
+
+def append_watch_log(line: str) -> None:
+    REPORTS.mkdir(parents=True, exist_ok=True)
+    with WATCH_LOG.open("a", encoding="utf-8") as fh:
+        fh.write(line)
+
+
+def run_loop(bank: float, leverage: int, interval: int) -> None:
+    while True:
+        ts = datetime.now(timezone.utc).isoformat()
+        try:
+            state = run_watch_once(bank, leverage)
+            row = f"{ts} {state.get('note', '')} eq=${state['equity']:.2f}\n"
+        except Exception as exc:  # noqa: BLE001 — keep the loop alive
+            row = f"{ts} ошибка: {exc}\n"
+        print(row, end="", flush=True)
+        append_watch_log(row)
+        time.sleep(max(30, interval))
+
+
 def _print_path(start: float, end: float, path: list[Fill], title: str) -> str:
     pct = 100.0 * (end - start) / start if start else 0.0
     lines = [
@@ -224,25 +323,23 @@ def main() -> int:
     ap.add_argument("--months", type=int, nargs="*", default=None)
     ap.add_argument("--replay", action="store_true")
     ap.add_argument("--watch", action="store_true")
+    ap.add_argument("--loop", action="store_true")
+    ap.add_argument("--auto", action="store_true")
+    ap.add_argument("--interval", type=int, default=3600)
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
 
-    if args.watch:
-        bars = fetch_yahoo(SYMBOL, "5d", "60m")
-        state = {
-            "equity": args.bank,
-            "start": args.bank,
-            "leverage": args.leverage,
-            "pos": None,
-            "fills": [],
-            "note": "",
-        }
-        if STATE_PATH.exists():
-            state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
-            state.setdefault("leverage", args.leverage)
-        state = watch(bars, state, state.get("leverage", args.leverage))
-        state["updated"] = datetime.now(timezone.utc).isoformat()
-        STATE_PATH.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
+    if args.watch or args.loop or args.auto:
+        cron = install_cron(args.bank)
+        if args.loop or args.auto:
+            print(
+                "автомат честный: TSLA 0.3% одна сторона, 6 H1, 1:10, "
+                f"банк ${args.bank:.0f}, тик раз в {args.interval}с"
+            )
+            print("cron:" if cron else "cron нет, кручу loop:", cron_line(args.bank))
+            run_loop(args.bank, args.leverage, args.interval)
+            return 0
+        state = run_watch_once(args.bank, args.leverage)
         print(state.get("note", ""), f"eq=${state['equity']:.2f}")
         return 0
 
@@ -268,9 +365,9 @@ def main() -> int:
         }
     text = "\n".join(lines) + "\n"
     text += (
-        f"Автомат: cron каждый час в сессию\n"
-        f"  python3 -m xau_jam.paper --watch --bank {args.bank:.0f}\n"
-        "Состояние: xau_jam/reports/paper_state.json  Это бумага, не брокер.\n"
+        f"Автомат: python3 -m xau_jam.auto --bank {args.bank:.0f}\n"
+        f"  или python3 -m xau_jam.paper --loop --bank {args.bank:.0f}\n"
+        f"Состояние: {state_path(args.bank)}  Это бумага, не брокер.\n"
     )
     tag = f"{args.bank:.0f}"
     if months:
