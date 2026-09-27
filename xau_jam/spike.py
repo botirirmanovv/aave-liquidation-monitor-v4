@@ -146,7 +146,7 @@ def main() -> int:
     else:
         best = uniq[0] if uniq else None
         if best:
-            need_move = 100.0 / args.leverage
+            need_move = 1000.0 / args.leverage
             lines.append(
                 f"1000% банка на 1:{args.leverage} = ход цены ~{need_move:.0f}%. "
                 f"Максимум тут {best.bank_pct:+.0f}% ({best.symbol} {best.day}, цена {best.ret_pct:+.1f}%)."
