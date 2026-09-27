@@ -99,6 +99,18 @@ def costed_cash(side: str, entry: float, exit_px: float, shares: int) -> float:
     return pnl - comm
 
 
+def shift_months(day, months: int):
+    y, m = day.year, day.month + months
+    while m > 12:
+        y += 1
+        m -= 12
+    while m < 1:
+        y -= 1
+        m += 12
+    cap = [31, 29 if y % 4 == 0 else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1]
+    return day.replace(year=y, month=m, day=min(day.day, cap))
+
+
 def replay(
     bars: list[Bar],
     start: float,
@@ -106,16 +118,21 @@ def replay(
     weeks: int = 0,
     days: int | None = None,
     compound: bool = True,
+    begin=None,
+    end=None,
 ) -> tuple[float, list[Fill]]:
     if not bars:
         return start, []
-    span = days if days is not None else 7 * weeks
-    cutoff = bars[-1].time.date() - timedelta(days=span)
+    if begin is None:
+        span = days if days is not None else 7 * weeks
+        begin = bars[-1].time.date() - timedelta(days=span)
     by = day_groups(bars)
     eq = start
     path: list[Fill] = []
     for day in sorted(by):
-        if day < cutoff:
+        if day < begin:
+            continue
+        if end is not None and day >= end:
             continue
         sig = signal_for_day(bars, by[day])
         if sig is None:
@@ -339,6 +356,12 @@ def main() -> int:
         action="store_true",
         help="простой процент: лот всегда от стартового банка, без реинвеста",
     )
+    ap.add_argument(
+        "--ago",
+        type=int,
+        default=0,
+        help="старт окна N месяцев назад от последнего бара, дальше --months вперёд",
+    )
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
 
@@ -357,35 +380,55 @@ def main() -> int:
         return 0
 
     months = args.months
-    bars = fetch_yahoo(SYMBOL, "1y" if months else "3mo", "60m")
+    need = "730d" if args.ago or (months and max(months) >= 12) else ("1y" if months else "3mo")
+    bars = fetch_yahoo(SYMBOL, need, "60m")
+    origin = shift_months(bars[-1].time.date(), -args.ago) if args.ago else None
     mode = "простой % (лот всегда от старта)" if args.simple else "сложный % (реинвест)"
     lines = [f"Бумажный тест TSLA, старт ${args.bank:.0f}, плечо 1:{args.leverage}, {mode}"]
+    if origin:
+        lines.append(f"старт {origin} (−{args.ago} мес), не последний отрезок")
     results = {}
     if months:
-        spans = [(f"{m} мес", 30 * m) for m in months]
+        if origin:
+            windows = []
+            for m in months:
+                windows.append((f"{m} мес", origin, shift_months(origin, m)))
+        else:
+            windows = [(f"{m} мес", None, None, 30 * m) for m in months]
     else:
-        spans = [(f"{w} недели", 7 * w) for w in ((2, 3) if args.replay or True else (args.weeks,))]
+        windows = [(f"{w} недели", None, None, 7 * w) for w in ((2, 3) if args.replay or True else (args.weeks,))]
+
+    def _run(label_win, compound: bool):
+        if origin:
+            _, begin, finish = label_win
+            return replay(
+                bars, args.bank, args.leverage, compound=compound, begin=begin, end=finish
+            )
+        *_, days = label_win
+        return replay(bars, args.bank, args.leverage, days=days, compound=compound)
+
     if args.simple:
         lines.append("сравнение сложный vs простой:")
-        for label, days in spans:
-            c_end, c_path = replay(bars, args.bank, args.leverage, days=days, compound=True)
-            s_end, s_path = replay(bars, args.bank, args.leverage, days=days, compound=False)
+        for win in windows:
+            c_end, c_path = _run(win, True)
+            s_end, s_path = _run(win, False)
             lines.append(
-                f"  {label}: сложный ${c_end:.2f} ({len(c_path)} сд.)  "
+                f"  {win[0]}: сложный ${c_end:.2f} ({len(c_path)} сд.)  "
                 f"простой ${s_end:.2f} ({len(s_path)} сд.)"
             )
         lines.append("")
-    for label, days in spans:
-        end, path = replay(bars, args.bank, args.leverage, days=days, compound=not args.simple)
+    for win in windows:
+        end, path = _run(win, not args.simple)
         first = path[0].time[:10] if path else "?"
         last = path[-1].time[:10] if path else "?"
-        block = _print_path(args.bank, end, path, f"── {label} ({first} → {last}) ──")
+        block = _print_path(args.bank, end, path, f"── {win[0]} ({first} → {last}) ──")
         lines.append(block)
-        results[label] = {
+        results[win[0]] = {
             "end": end,
             "pct": round(100.0 * (end - args.bank) / args.bank, 1),
             "n": len(path),
             "compound": not args.simple,
+            "begin": str(origin) if origin else None,
             "path": [asdict(p) for p in path],
         }
     text = "\n".join(lines) + "\n"
@@ -395,6 +438,8 @@ def main() -> int:
         f"Состояние: {state_path(args.bank)}  Это бумага, не брокер.\n"
     )
     tag = f"{args.bank:.0f}"
+    if args.ago:
+        tag = f"{tag}_ago{args.ago}"
     if months:
         tag = f"{tag}_" + "_".join(f"{m}m" for m in months)
     if args.simple:

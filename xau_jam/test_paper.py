@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from xau_jam.paper import costed_cash, cron_line, install_cron, replay, signal_for_day, state_path, watch
+from xau_jam.paper import costed_cash, cron_line, install_cron, replay, shift_months, signal_for_day, state_path, watch
 from xau_jam.pattern import Bar
 
 
@@ -65,6 +65,37 @@ class PaperTests(unittest.TestCase):
     def test_state_path_is_per_bank(self) -> None:
         self.assertIn("paper_state_500.json", str(state_path(500)))
         self.assertIn("paper_state_100.json", str(state_path(100)))
+
+    def test_shift_months_back_21(self) -> None:
+        from datetime import date
+
+        self.assertEqual(shift_months(date(2026, 9, 25), -21), date(2024, 12, 25))
+
+    def test_replay_begin_end_skips_outside(self) -> None:
+        bars = []
+        for d in (1, 2, 20):
+            day = datetime(2025, 1, d, 13, 30, tzinfo=timezone.utc)
+            bars.append(Bar(time=day, open=100, high=102, low=99.8, close=101))
+            for i in range(1, 7):
+                bars.append(
+                    Bar(
+                        time=day + __import__("datetime").timedelta(hours=i),
+                        open=101,
+                        high=105,
+                        low=100.5,
+                        close=104,
+                    )
+                )
+        _, path = replay(
+            bars,
+            500,
+            10,
+            compound=False,
+            begin=datetime(2025, 1, 1).date(),
+            end=datetime(2025, 1, 10).date(),
+        )
+        self.assertEqual(len(path), 2)
+        self.assertTrue(all(p.time.startswith("2025-01-0") for p in path))
 
     def test_simple_keeps_share_size(self) -> None:
         bars = []
