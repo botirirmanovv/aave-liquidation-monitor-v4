@@ -120,6 +120,32 @@ class BacktestEngineTests(unittest.TestCase):
         self.assertEqual(trades[0].reason, "time")
         self.assertEqual(trades[0].bars_held, 2)
 
+    def test_buy_jam_hits_target(self) -> None:
+        bars = [
+            bar(0, 101, 102, 99, 100),
+            bar(1, 100.5, 104, 98, 103),  # jam buy
+            bar(2, 103.2, 120.0, 103.0, 119.0),
+        ]
+        result, trades = run_backtest(
+            bars, rr=2.0, spread=0.0, sl_buffer=0.5, max_hold=24, side="buy"
+        )
+        self.assertEqual(result.trades, 1)
+        self.assertEqual(trades[0].side, "buy")
+        self.assertEqual(trades[0].reason, "target")
+        self.assertGreater(trades[0].pnl, 0)
+
+    def test_session_filter_drops_asia_signal(self) -> None:
+        bars = [
+            bar(0, 100, 102, 99, 101),
+            bar(1, 101.5, 103, 97, 98),
+            bar(2, 97.5, 98.0, 80.0, 81.0),
+        ]
+        # bar(1) is 01:00 UTC — asia, not london
+        result, _ = run_backtest(
+            bars, rr=2.0, spread=0.0, sl_buffer=0.5, side="sell", session="london"
+        )
+        self.assertEqual(result.trades, 0)
+
 
 if __name__ == "__main__":
     unittest.main()
