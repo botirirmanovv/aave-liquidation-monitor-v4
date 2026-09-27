@@ -55,6 +55,7 @@ class Shot:
     equity: float
     event: str
     stake: float = 0.0
+    exit_time: str = ""
 
 
 def collect_signals(
@@ -218,6 +219,7 @@ def run_replay(
             round(eq, 2),
             event,
             round(stake, 2),
+            job["close"].isoformat(),
         )
         path.append(fill)
         if target_bank and target_hit is None and eq + 1e-9 >= target_bank:
@@ -306,6 +308,41 @@ def monthly_rows(
             }
         )
     return rows
+
+
+def max_drawdown(fills: list, start: float) -> dict:
+    """Worst peak-to-trough on realized equity (close order)."""
+
+    def _when(f) -> str:
+        return str(_shot_get(f, "exit_time") or _shot_get(f, "time"))
+
+    peak = start
+    worst = 0.0
+    trough = start
+    peak_when = ""
+    worst_peak = start
+    worst_peak_at = ""
+    trough_at = ""
+    for f in sorted(fills, key=_when):
+        eq = float(_shot_get(f, "equity"))
+        t = _when(f)
+        if eq > peak:
+            peak = eq
+            peak_when = t
+        dd = (peak - eq) / peak if peak else 0.0
+        if dd > worst:
+            worst = dd
+            worst_peak = peak
+            worst_peak_at = peak_when
+            trough = eq
+            trough_at = t
+    return {
+        "dd": round(100.0 * worst, 1),
+        "peak": round(worst_peak, 2),
+        "trough": round(trough, 2),
+        "peak_at": worst_peak_at,
+        "trough_at": trough_at,
+    }
 
 
 def first_cap_hit(fills: list[Shot], cap: float) -> Shot | None:

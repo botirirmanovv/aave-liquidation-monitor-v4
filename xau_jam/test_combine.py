@@ -15,6 +15,7 @@ from xau_jam.combine import (
     Shot,
     collect_signals,
     first_cap_hit,
+    max_drawdown,
     min_start_bank,
     monthly_rows,
     plan_stake,
@@ -41,6 +42,7 @@ def _day(sym_hour: int, o: float, hi: float, lo: float, c: float, day: int = 0) 
 class CombineTests(unittest.TestCase):
     def test_ibkr_stays_off_without_keys(self) -> None:
         self.assertFalse(ibkr_paper_ready())
+        self.assertFalse(looks_like_live())
 
     def test_venues_keep_separate_state(self) -> None:
         self.assertIn("combine_state_yahoo_350.json", str(state_path(350, "yahoo")))
@@ -164,6 +166,17 @@ class CombineTests(unittest.TestCase):
         need, last = min_start_bank({"AMD": (h1, 0.006)}, risk=0.20, lev=10)
         self.assertLessEqual(need, 350.0)
         self.assertGreater(last["AMD"], 630.0)
+
+    def test_max_drawdown_from_peak(self) -> None:
+        fills = [
+            Shot("2026-01-10T14:30:00+00:00", "MSTR", "buy", 1, 1, 2, 50.0, 400.0, "ok", 70.0),
+            Shot("2026-01-11T14:30:00+00:00", "COIN", "sell", 1, 1, 2, -120.0, 280.0, "ok", 70.0),
+            Shot("2026-01-12T14:30:00+00:00", "AMD", "buy", 1, 1, 2, 20.0, 300.0, "ok", 70.0),
+        ]
+        dd = max_drawdown(fills, 350.0)
+        self.assertEqual(dd["dd"], 30.0)
+        self.assertEqual(dd["peak"], 400.0)
+        self.assertEqual(dd["trough"], 280.0)
 
     def test_monthly_splits_jan_feb(self) -> None:
         fills = [

@@ -116,6 +116,51 @@ def binance_ticker_24h() -> list[dict]:
     return raw if isinstance(raw, list) else []
 
 
+def fetch_yahoo_period(
+    symbol: str,
+    start: datetime,
+    end: datetime,
+    interval: str = "60m",
+) -> list[Bar]:
+    """Chart by unix period. 60m/1h still usually capped at ~730d by Yahoo."""
+    p1 = int(start.replace(tzinfo=timezone.utc).timestamp())
+    p2 = int(end.replace(tzinfo=timezone.utc).timestamp())
+    url = f"{YAHOO_CHART.format(symbol=symbol)}?interval={interval}&period1={p1}&period2={p2}"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 xau-jam-backtest"})
+    with urllib.request.urlopen(req, timeout=45) as resp:
+        payload = json.loads(resp.read().decode())
+    result = ((payload.get("chart") or {}).get("result") or [None])[0]
+    if not result:
+        raise RuntimeError(f"Yahoo returned no chart for {symbol}: {payload.get('chart', {}).get('error')}")
+    timestamps = result.get("timestamp") or []
+    quote = ((result.get("indicators") or {}).get("quote") or [{}])[0]
+    opens = quote.get("open") or []
+    highs = quote.get("high") or []
+    lows = quote.get("low") or []
+    closes = quote.get("close") or []
+    volumes = quote.get("volume") or [0.0] * len(timestamps)
+    bars: list[Bar] = []
+    for ts, o, h, l, c, v in zip(timestamps, opens, highs, lows, closes, volumes, strict=False):
+        if o is None or h is None or l is None or c is None:
+            continue
+        o, h, l, c = float(o), float(h), float(l), float(c)
+        hi = max(h, o, c, l)
+        lo = min(l, o, c, h)
+        bars.append(
+            Bar(
+                time=datetime.fromtimestamp(int(ts), tz=timezone.utc),
+                open=o,
+                high=hi,
+                low=lo,
+                close=c,
+                volume=float(v or 0.0),
+            )
+        )
+    if len(bars) < 10:
+        raise RuntimeError(f"too few {interval} bars for {symbol}: {len(bars)}")
+    return bars
+
+
 def fetch_yahoo(
     symbol: str = DEFAULT_SYMBOL,
     range_spec: str = "1mo",
