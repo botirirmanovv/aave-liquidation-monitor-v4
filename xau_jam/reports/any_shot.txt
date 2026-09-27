@@ -1,0 +1,27 @@
+Любой рынок, банк $500, плечо 1:10, all-in
+символы ок=18 нет=3 сделок=1807
+
+ПОБЕДИТЕЛЬ ЗА РАЗ:
+  MSTR  day impulse  2026-09-17  buy
+  in=130.404534 out=170.009995  24h
+  +30.37%   кэш +1518.56$
+  (на акциях 24 H1-бара ≈ 4 сессии: 17.09 → 22.09 130.4 → 170)
+
+топ-15:
+  01 2026-09-17 MSTR       day impulse  buy  24h      +30.37%     +1519$
+  02 2026-09-18 MSTR       day impulse  buy  12h      +22.66%     +1133$
+  03 2026-09-18 MSTR       day impulse  buy  24h      +18.92%      +946$
+  04 2026-09-17 MSTR       day impulse  buy  12h      +17.76%      +888$
+  05 2026-09-16 AMD        day impulse  buy  24h      +16.77%      +838$
+  06 2026-09-17 AMD        day impulse  buy  24h      +15.03%      +751$
+  07 2026-09-15 MSTR       day impulse  buy  24h      +13.82%      +691$
+  08 2026-09-21 DOGE-USD   day impulse  buy  24h      +13.43%      +671$
+  09 2026-09-03 MSTR       gap 2%       buy  EOD      +13.15%      +657$
+  10 2026-09-18 COIN       day impulse  buy  12h      +12.96%      +648$
+  11 2026-09-18 MSTR       gap 2%       buy  EOD      +12.70%      +635$
+  12 2026-09-03 MSTR       day impulse  buy  6h       +12.68%      +634$
+  13 2026-09-03 MSTR       day impulse  buy  12h      +12.28%      +614$
+  14 2026-09-18 MSTR       day impulse  buy  6h       +12.24%      +612$
+  15 2026-09-14 AMD        day impulse  buy  24h      +12.18%      +609$
+
+не скачались: ETH-USD: high must be the bar maximum; GBPJPY=X: low must be the bar minimum; EURUSD=X: low must be the bar minimum
