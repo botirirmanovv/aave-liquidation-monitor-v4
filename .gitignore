@@ -28,6 +28,7 @@ xau_jam/reports/paper_state*.json
 xau_jam/reports/paper_watch.log
 xau_jam/reports/paper_cron.txt
 xau_jam/reports/demo_account.json
+xau_jam/reports/binance_auto_state*.json
 monitor_state*.json
 would_have_*.json
 live_*.log
