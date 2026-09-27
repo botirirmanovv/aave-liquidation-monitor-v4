@@ -1,0 +1,1226 @@
+{
+  "3 \u043c\u0435\u0441": {
+    "end": 2486.29,
+    "pct": 397.3,
+    "n": 20,
+    "compound": false,
+    "path": [
+      {
+        "time": "2026-06-29T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 382.6445,
+        "exit": 411.79,
+        "cash": 375.59,
+        "equity": 875.59,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-30T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 407.218,
+        "exit": 420.32,
+        "cash": 154.02,
+        "equity": 1029.62,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-08T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 398.1769,
+        "exit": 393.87,
+        "cash": 48.48,
+        "equity": 1078.1,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-13T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 403.3962,
+        "exit": 394.75,
+        "cash": 100.55,
+        "equity": 1178.65,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-20T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 382.9577,
+        "exit": 369.59,
+        "cash": 170.48,
+        "equity": 1349.13,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 372.093,
+        "exit": 378.9199,
+        "cash": 85.45,
+        "equity": 1434.58,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-23T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 339.977,
+        "exit": 319.46,
+        "cash": 283.84,
+        "equity": 1718.42,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-03T13:30:00+00:00",
+        "side": "buy",
+        "shares": 16,
+        "entry": 311.943,
+        "exit": 322.1283,
+        "cash": 159.36,
+        "equity": 1877.78,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-10T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 327.6249,
+        "exit": 330.853,
+        "cash": 44.92,
+        "equity": 1922.71,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-12T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 333.995,
+        "exit": 327.45,
+        "cash": 88.23,
+        "equity": 2010.94,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-14T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 343.357,
+        "exit": 342.32,
+        "cash": -17.92,
+        "equity": 1993.02,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-25T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 350.6789,
+        "exit": 350.14,
+        "cash": -10.94,
+        "equity": 1982.07,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 347.3389,
+        "exit": 354.59,
+        "cash": 98.12,
+        "equity": 2080.19,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-31T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 348.1914,
+        "exit": 367.92,
+        "cash": 272.8,
+        "equity": 2352.99,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-02T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 359.5282,
+        "exit": 356.99,
+        "cash": 29.7,
+        "equity": 2382.68,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-03T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 367.0128,
+        "exit": 376.355,
+        "cash": 118.15,
+        "equity": 2500.83,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-09T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 369.4601,
+        "exit": 367.8,
+        "cash": -24.88,
+        "equity": 2475.95,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 372.7549,
+        "exit": 375.32,
+        "cash": 30.05,
+        "equity": 2506.0,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-22T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 377.9318,
+        "exit": 378.86,
+        "cash": -15.37,
+        "equity": 2490.63,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-24T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 377.9906,
+        "exit": 377.91,
+        "cash": -4.35,
+        "equity": 2486.29,
+        "event": "ok"
+      }
+    ]
+  },
+  "6 \u043c\u0435\u0441": {
+    "end": 3109.8,
+    "pct": 522.0,
+    "n": 36,
+    "compound": false,
+    "path": [
+      {
+        "time": "2026-03-31T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 362.7049,
+        "exit": 371.75,
+        "cash": 114.29,
+        "equity": 614.29,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-01T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 377.6337,
+        "exit": 381.32,
+        "cash": -51.22,
+        "equity": 563.06,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-02T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 365.1194,
+        "exit": 360.55,
+        "cash": -62.7,
+        "equity": 500.36,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-07T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 346.3728,
+        "exit": 346.56,
+        "cash": -6.02,
+        "equity": 494.34,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-08T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 362.7036,
+        "exit": 343.24,
+        "cash": 249.73,
+        "equity": 744.07,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-16T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 392.6286,
+        "exit": 388.79,
+        "cash": 42.86,
+        "equity": 786.93,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-21T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 391.8708,
+        "exit": 386.48,
+        "cash": 61.49,
+        "equity": 848.42,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-27T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 371.0535,
+        "exit": 378.7,
+        "cash": -102.7,
+        "equity": 745.72,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-07T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 408.7425,
+        "exit": 411.8,
+        "cash": 33.49,
+        "equity": 779.21,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-08T13:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 418.6823,
+        "exit": 428.32,
+        "cash": 102.91,
+        "equity": 882.12,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-14T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 445.0857,
+        "exit": 443.18,
+        "cash": 17.86,
+        "equity": 899.98,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-15T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 432.7927,
+        "exit": 422.13,
+        "cash": 114.19,
+        "equity": 1014.17,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-29T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 438.5255,
+        "exit": 435.56,
+        "cash": 29.52,
+        "equity": 1043.69,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-18T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 396.8907,
+        "exit": 400.43,
+        "cash": -45.67,
+        "equity": 998.02,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 396.0346,
+        "exit": 405.04,
+        "cash": 104.87,
+        "equity": 1102.89,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-25T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 376.9906,
+        "exit": 375.15,
+        "cash": 20.63,
+        "equity": 1123.52,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-29T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 382.6445,
+        "exit": 411.79,
+        "cash": 375.59,
+        "equity": 1499.11,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-30T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 407.218,
+        "exit": 420.32,
+        "cash": 154.02,
+        "equity": 1653.13,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-08T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 398.1769,
+        "exit": 393.87,
+        "cash": 48.48,
+        "equity": 1701.61,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-13T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 403.3962,
+        "exit": 394.75,
+        "cash": 100.55,
+        "equity": 1802.17,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-20T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 382.9577,
+        "exit": 369.59,
+        "cash": 170.48,
+        "equity": 1972.65,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 372.093,
+        "exit": 378.9199,
+        "cash": 85.45,
+        "equity": 2058.1,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-23T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 339.977,
+        "exit": 319.46,
+        "cash": 283.84,
+        "equity": 2341.94,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-03T13:30:00+00:00",
+        "side": "buy",
+        "shares": 16,
+        "entry": 311.943,
+        "exit": 322.1283,
+        "cash": 159.36,
+        "equity": 2501.3,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-10T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 327.6249,
+        "exit": 330.853,
+        "cash": 44.92,
+        "equity": 2546.22,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-12T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 333.995,
+        "exit": 327.45,
+        "cash": 88.23,
+        "equity": 2634.45,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-14T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 343.357,
+        "exit": 342.32,
+        "cash": -17.92,
+        "equity": 2616.53,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-25T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 350.6789,
+        "exit": 350.14,
+        "cash": -10.94,
+        "equity": 2605.59,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 347.3389,
+        "exit": 354.59,
+        "cash": 98.12,
+        "equity": 2703.7,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-31T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 348.1914,
+        "exit": 367.92,
+        "cash": 272.8,
+        "equity": 2976.5,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-02T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 359.5282,
+        "exit": 356.99,
+        "cash": 29.7,
+        "equity": 3006.2,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-03T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 367.0128,
+        "exit": 376.355,
+        "cash": 118.15,
+        "equity": 3124.35,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-09T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 369.4601,
+        "exit": 367.8,
+        "cash": -24.88,
+        "equity": 3099.47,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 372.7549,
+        "exit": 375.32,
+        "cash": 30.05,
+        "equity": 3129.51,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-22T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 377.9318,
+        "exit": 378.86,
+        "cash": -15.37,
+        "equity": 3114.15,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-24T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 377.9906,
+        "exit": 377.91,
+        "cash": -4.35,
+        "equity": 3109.8,
+        "event": "ok"
+      }
+    ]
+  },
+  "9 \u043c\u0435\u0441": {
+    "end": 4611.79,
+    "pct": 822.4,
+    "n": 64,
+    "compound": false,
+    "path": [
+      {
+        "time": "2025-12-29T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 467.593,
+        "exit": 459.62,
+        "cash": 76.73,
+        "equity": 576.73,
+        "event": "ok"
+      },
+      {
+        "time": "2025-12-30T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 458.62,
+        "exit": 454.43,
+        "cash": 38.9,
+        "equity": 615.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-12-31T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 454.632,
+        "exit": 449.55,
+        "cash": 47.82,
+        "equity": 663.45,
+        "event": "ok"
+      },
+      {
+        "time": "2026-01-02T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 456.3779,
+        "exit": 438.1,
+        "cash": 179.78,
+        "equity": 843.23,
+        "event": "ok"
+      },
+      {
+        "time": "2026-01-06T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 442.8175,
+        "exit": 432.4899,
+        "cash": 110.5,
+        "equity": 953.73,
+        "event": "ok"
+      },
+      {
+        "time": "2026-01-08T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 426.7765,
+        "exit": 435.84,
+        "cash": 96.6,
+        "equity": 1050.33,
+        "event": "ok"
+      },
+      {
+        "time": "2026-01-15T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 442.8773,
+        "exit": 438.33,
+        "cash": 46.92,
+        "equity": 1097.25,
+        "event": "ok"
+      },
+      {
+        "time": "2026-01-20T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 428.057,
+        "exit": 419.26,
+        "cash": 93.67,
+        "equity": 1190.92,
+        "event": "ok"
+      },
+      {
+        "time": "2026-01-26T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 443.6949,
+        "exit": 435.2,
+        "cash": 90.34,
+        "equity": 1281.26,
+        "event": "ok"
+      },
+      {
+        "time": "2026-01-27T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 436.1227,
+        "exit": 430.91,
+        "cash": 54.24,
+        "equity": 1335.5,
+        "event": "ok"
+      },
+      {
+        "time": "2026-01-28T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 433.0954,
+        "exit": 431.24,
+        "cash": -23.51,
+        "equity": 1311.99,
+        "event": "ok"
+      },
+      {
+        "time": "2026-02-02T19:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 424.8416,
+        "exit": 415.87,
+        "cash": 95.59,
+        "equity": 1407.58,
+        "event": "ok"
+      },
+      {
+        "time": "2026-02-03T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 422.9972,
+        "exit": 421.81,
+        "cash": 9.96,
+        "equity": 1417.54,
+        "event": "ok"
+      },
+      {
+        "time": "2026-02-10T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 419.3443,
+        "exit": 425.22,
+        "cash": 61.53,
+        "equity": 1479.07,
+        "event": "ok"
+      },
+      {
+        "time": "2026-02-18T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 411.902,
+        "exit": 411.2,
+        "cash": -11.62,
+        "equity": 1467.45,
+        "event": "ok"
+      },
+      {
+        "time": "2026-02-23T14:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 406.0631,
+        "exit": 399.85,
+        "cash": 71.36,
+        "equity": 1538.81,
+        "event": "ok"
+      },
+      {
+        "time": "2026-02-25T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 413.3864,
+        "exit": 417.39,
+        "cash": 44.84,
+        "equity": 1583.65,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-06T14:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 396.9904,
+        "exit": 396.56,
+        "cash": 1.97,
+        "equity": 1585.61,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-10T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 403.2612,
+        "exit": 399.235,
+        "cash": -51.51,
+        "equity": 1534.1,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-11T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 403.4267,
+        "exit": 407.84,
+        "cash": 49.76,
+        "equity": 1583.86,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-13T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 397.9675,
+        "exit": 391.17,
+        "cash": 78.37,
+        "equity": 1662.23,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-16T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 397.3134,
+        "exit": 395.49,
+        "cash": -25.08,
+        "equity": 1637.15,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-19T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 386.0434,
+        "exit": 380.24,
+        "cash": 66.44,
+        "equity": 1703.59,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-20T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 378.2518,
+        "exit": 367.97,
+        "cash": 130.36,
+        "equity": 1833.95,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-23T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 374.2042,
+        "exit": 380.85,
+        "cash": 83.09,
+        "equity": 1917.05,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-24T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 377.8251,
+        "exit": 383.11,
+        "cash": 65.4,
+        "equity": 1982.45,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-25T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 391.16,
+        "exit": 385.94,
+        "cash": -65.84,
+        "equity": 1916.61,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-27T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 368.5809,
+        "exit": 361.76,
+        "cash": 85.37,
+        "equity": 2001.99,
+        "event": "ok"
+      },
+      {
+        "time": "2026-03-31T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 362.7049,
+        "exit": 371.75,
+        "cash": 114.29,
+        "equity": 2116.27,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-01T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 377.6337,
+        "exit": 381.32,
+        "cash": -51.22,
+        "equity": 2065.05,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-02T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 365.1194,
+        "exit": 360.55,
+        "cash": -62.7,
+        "equity": 2002.35,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-07T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 346.3728,
+        "exit": 346.56,
+        "cash": -6.02,
+        "equity": 1996.33,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-08T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 362.7036,
+        "exit": 343.24,
+        "cash": 249.73,
+        "equity": 2246.05,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-16T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 392.6286,
+        "exit": 388.79,
+        "cash": 42.86,
+        "equity": 2288.92,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-21T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 391.8708,
+        "exit": 386.48,
+        "cash": 61.49,
+        "equity": 2350.41,
+        "event": "ok"
+      },
+      {
+        "time": "2026-04-27T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 371.0535,
+        "exit": 378.7,
+        "cash": -102.7,
+        "equity": 2247.7,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-07T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 408.7425,
+        "exit": 411.8,
+        "cash": 33.49,
+        "equity": 2281.19,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-08T13:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 418.6823,
+        "exit": 428.32,
+        "cash": 102.91,
+        "equity": 2384.11,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-14T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 445.0857,
+        "exit": 443.18,
+        "cash": 17.86,
+        "equity": 2401.97,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-15T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 432.7927,
+        "exit": 422.13,
+        "cash": 114.19,
+        "equity": 2516.16,
+        "event": "ok"
+      },
+      {
+        "time": "2026-05-29T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 438.5255,
+        "exit": 435.56,
+        "cash": 29.52,
+        "equity": 2545.68,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-18T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 396.8907,
+        "exit": 400.43,
+        "cash": -45.67,
+        "equity": 2500.01,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 396.0346,
+        "exit": 405.04,
+        "cash": 104.87,
+        "equity": 2604.87,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-25T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 376.9906,
+        "exit": 375.15,
+        "cash": 20.63,
+        "equity": 2625.5,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-29T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 382.6445,
+        "exit": 411.79,
+        "cash": 375.59,
+        "equity": 3001.09,
+        "event": "ok"
+      },
+      {
+        "time": "2026-06-30T13:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 407.218,
+        "exit": 420.32,
+        "cash": 154.02,
+        "equity": 3155.12,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-08T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 398.1769,
+        "exit": 393.87,
+        "cash": 48.48,
+        "equity": 3203.6,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-13T13:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 403.3962,
+        "exit": 394.75,
+        "cash": 100.55,
+        "equity": 3304.15,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-20T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 382.9577,
+        "exit": 369.59,
+        "cash": 170.48,
+        "equity": 3474.63,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 372.093,
+        "exit": 378.9199,
+        "cash": 85.45,
+        "equity": 3560.08,
+        "event": "ok"
+      },
+      {
+        "time": "2026-07-23T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 339.977,
+        "exit": 319.46,
+        "cash": 283.84,
+        "equity": 3843.92,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-03T13:30:00+00:00",
+        "side": "buy",
+        "shares": 16,
+        "entry": 311.943,
+        "exit": 322.1283,
+        "cash": 159.36,
+        "equity": 4003.29,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-10T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 327.6249,
+        "exit": 330.853,
+        "cash": 44.92,
+        "equity": 4048.21,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-12T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 333.995,
+        "exit": 327.45,
+        "cash": 88.23,
+        "equity": 4136.44,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-14T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 343.357,
+        "exit": 342.32,
+        "cash": -17.92,
+        "equity": 4118.52,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-25T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 350.6789,
+        "exit": 350.14,
+        "cash": -10.94,
+        "equity": 4107.57,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 347.3389,
+        "exit": 354.59,
+        "cash": 98.12,
+        "equity": 4205.69,
+        "event": "ok"
+      },
+      {
+        "time": "2026-08-31T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 348.1914,
+        "exit": 367.92,
+        "cash": 272.8,
+        "equity": 4478.49,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-02T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 359.5282,
+        "exit": 356.99,
+        "cash": 29.7,
+        "equity": 4508.19,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-03T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 367.0128,
+        "exit": 376.355,
+        "cash": 118.15,
+        "equity": 4626.34,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-09T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 369.4601,
+        "exit": 367.8,
+        "cash": -24.88,
+        "equity": 4601.45,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 372.7549,
+        "exit": 375.32,
+        "cash": 30.05,
+        "equity": 4631.5,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-22T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 377.9318,
+        "exit": 378.86,
+        "cash": -15.37,
+        "equity": 4616.13,
+        "event": "ok"
+      },
+      {
+        "time": "2026-09-24T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 377.9906,
+        "exit": 377.91,
+        "cash": -4.35,
+        "equity": 4611.79,
+        "event": "ok"
+      }
+    ]
+  }
+}
