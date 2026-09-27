@@ -227,3 +227,24 @@ Yahoo-demo не выключать — вечером сравним два жу
 
 Это веб-кабинет без ленты. Бот с облака всё равно не бьёт в TWS.
 Сравнение Yahoo vs IBKR — когда TWS Paper на компе, порт 7497.
+
+
+9. СЕМЁРКА НА IBKR (официальный US list, 25.09.2026)
+════════════════════════════════════
+Все семь есть как USD акции/ETF (не CFD XM).
+Источник: IBKR View Shortable Securities, United States.
+
+  MSTR  ЕСТЬ   STRATEGY INC
+  COIN  ЕСТЬ   COINBASE GLOBAL INC -CLASS A
+  SMCI  ЕСТЬ   SUPER MICRO COMPUTER INC
+  AMD   ЕСТЬ   ADVANCED MICRO DEVICES
+  UVXY  ЕСТЬ   PROSHARES ULTRA VIX ST FUTUR
+  PLTR  ЕСТЬ   PALANTIR TECHNOLOGIES INC-A
+  TSLA  ЕСТЬ   TESLA INC
+
+В кабинете Paper поиск может ещё крутить Loading, пока нет
+Trading/Market Data (жёлтая плашка + неподтверждённая почта).
+Каталог IBKR от этого не пустой. Книга на IBKR собирается.
+
+Yahoo-demo уже крутится: банк $350, eq=$359.67, venue yahoo.
+IBKR-ногу с облака не стартую: нужен TWS Paper, порт 7497.
