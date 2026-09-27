@@ -11,6 +11,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from xau_jam.bank import oz_fixed, oz_pct, simulate
+from xau_jam.leverage import run_fixed_lot, run_lev
 from xau_jam.backtest import Trade, detect_signals, run_backtest
 from xau_jam.pattern import Bar, is_jam_buy, is_jam_sell
 
@@ -195,6 +196,30 @@ class BankSizingTests(unittest.TestCase):
         r = simulate([t], start=500.0, name="t", notes="", oz_fn=oz_fixed(1.0))
         self.assertAlmostEqual(r.net, 30.0)
         self.assertAlmostEqual(r.end, 530.0)
+
+    def test_leverage_min_lot_and_blow(self) -> None:
+        t = Trade(
+            side="sell",
+            signal_time="t",
+            entry_time="t",
+            exit_time="t",
+            entry=4300.0,
+            stop=4400.0,
+            target=4000.0,
+            exit=4400.0,
+            bars_held=1,
+            reason="stop",
+            pnl=-100.0,
+            r_multiple=-1.0,
+            signal_high=4400.0,
+            prev_high=4390.0,
+            prev_low=4290.0,
+            signal_close=4300.0,
+        )
+        ok = run_lev([t], start=500.0, leverage=500, risk_pct=0.01)
+        self.assertFalse(ok.blown)
+        boom = run_fixed_lot([t], start=500.0, leverage=500, lots=0.10)
+        self.assertTrue(boom.blown or boom.end <= 0)
 
 
 if __name__ == "__main__":
