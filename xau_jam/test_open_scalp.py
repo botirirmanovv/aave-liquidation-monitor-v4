@@ -81,6 +81,8 @@ class OpenScalpTests(unittest.TestCase):
         r, trades = run_open_scalp(bars, p)
         self.assertEqual(r.trades, 1)
         self.assertEqual(trades[0].side, "sell")
+        self.assertGreater(trades[0].stop, trades[0].entry)
+        self.assertLess(trades[0].target, trades[0].entry)
 
     def test_small_wiggle_is_not_a_spike(self) -> None:
         bars = _flat_session(1, 22, 2000.0, 8)

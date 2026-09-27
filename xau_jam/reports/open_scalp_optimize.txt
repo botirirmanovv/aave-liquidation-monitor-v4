@@ -1,0 +1,16 @@
+скальп на открытии дня — перебор вариантов
+баров 5640  сетка 288  мин. сделок 8
+
+топ-10 (сделок >= min):
+  01 pnl=  +83.85 n=21 wr= 38.1% avgR=-0.08 dd=79.0  ny/momentum spike=4.0 hold=6 RR=1.5 clips=3
+  02 pnl=  +82.12 n=12 wr= 41.7% avgR=-0.23 dd=54.7  ny/momentum spike=12.0 hold=12 RR=0.8 clips=3
+  03 pnl=  +78.20 n=21 wr= 38.1% avgR=-0.05 dd=105.1  ny/momentum spike=4.0 hold=12 RR=1.5 clips=3
+  04 pnl=  +65.75 n=17 wr= 35.3% avgR=-0.29 dd=69.3  ny/momentum spike=8.0 hold=6 RR=1.5 clips=3
+  05 pnl=  +56.32 n=21 wr= 33.3% avgR=-0.31 dd=18.3  london/momentum spike=4.0 hold=6 RR=0.8 clips=3
+  06 pnl=  +43.10 n= 9 wr= 44.4% avgR=-0.11 dd=18.8  daily/momentum spike=8.0 hold=12 RR=1.5 clips=3
+  07 pnl=  +41.84 n=21 wr= 71.4% avgR=+0.30 dd=6.9  london/momentum spike=4.0 hold=12 RR=0.8 clips=1
+  08 pnl=  +38.82 n=21 wr= 47.6% avgR=-0.11 dd=79.0  ny/momentum spike=4.0 hold=6 RR=0.8 clips=3
+  09 pnl=  +34.16 n= 9 wr= 44.4% avgR=-0.14 dd=18.8  daily/momentum spike=8.0 hold=12 RR=0.8 clips=3
+  10 pnl=  +32.50 n=21 wr= 28.6% avgR=-0.37 dd=33.1  london/momentum spike=4.0 hold=6 RR=1.5 clips=3
+
+победитель: {"session": "ny", "style": "momentum", "min_spike": 4.0, "orb_bars": 6, "hold_bars": 6, "sl_buffer": 1.0, "rr": 1.5, "clips": 3, "clip_step": 2.0, "spread": 0.2, "symbol": "GC=F", "interval": "5m"}

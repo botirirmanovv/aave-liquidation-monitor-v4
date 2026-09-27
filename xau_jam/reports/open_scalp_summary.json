@@ -1,0 +1,31 @@
+{
+  "params": {
+    "session": "ny",
+    "style": "momentum",
+    "min_spike": 4.0,
+    "orb_bars": 6,
+    "hold_bars": 6,
+    "sl_buffer": 1.0,
+    "rr": 1.5,
+    "clips": 3,
+    "clip_step": 2.0,
+    "spread": 0.2,
+    "symbol": "GC=F",
+    "interval": "5m"
+  },
+  "start": "2026-08-27T04:45:00+00:00",
+  "end": "2026-09-25T20:59:59+00:00",
+  "bars": 5640,
+  "days": 21,
+  "signals": 21,
+  "trades": 21,
+  "wins": 8,
+  "losses": 13,
+  "timeouts": 4,
+  "win_rate": 38.1,
+  "net_pnl": 83.849,
+  "avg_pnl": 3.9928,
+  "avg_r": -0.0824,
+  "max_dd": 79.0007,
+  "profit_factor": 1.463
+}

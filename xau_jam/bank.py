@@ -136,8 +136,7 @@ def oz_fixed(oz: float, skip_if_risk_pct: float | None = None):
 
 def format_bank(results: list[BankResult]) -> str:
     lines = [
-        f"Jam winner на банке ${results[0].start:.0f}",
-        "окно то же: 27.08–25.09.2026, GC=F H1, 14 сигналов победителя",
+        f"Банк ${results[0].start:.0f}",
         "1.00 лот = 100 унций; 0.01 лот = 1 унция",
         "",
     ]

@@ -155,7 +155,13 @@ def run_open_scalp(bars: list[Bar], p: OpenParams) -> tuple[OpenResult, list[Tra
         entries.append(first)
         last_ext = first
 
-        stop = session_px - p.sl_buffer if side == "buy" else session_px + p.sl_buffer
+        trig = bars[trigger_i]
+        if p.style == "momentum":
+            # ride the spike; stop back through the session open
+            stop = session_px - p.sl_buffer if side == "buy" else session_px + p.sl_buffer
+        else:
+            # fade the spike; stop beyond the spike extreme, target is the open
+            stop = trig.low - p.sl_buffer if side == "buy" else trig.high + p.sl_buffer
         hold_last = min(len(bars) - 1, entry_i + p.hold_bars - 1)
 
         # extra clips while the spike keeps running, still inside the hold window
@@ -178,7 +184,13 @@ def run_open_scalp(bars: list[Bar], p: OpenParams) -> tuple[OpenResult, list[Tra
         risk = abs(avg - stop)
         if risk <= 0:
             continue
-        target = avg + p.rr * risk if side == "buy" else avg - p.rr * risk
+        if p.style == "fade":
+            target = session_px
+            if (side == "buy" and target <= avg) or (side == "sell" and target >= avg):
+                continue
+            risk = abs(avg - stop)
+        else:
+            target = avg + p.rr * risk if side == "buy" else avg - p.rr * risk
         exit_i, exit_raw, reason = _fill_window(bars, entry_i, hold_last, side, stop, target)
         if reason == "target":
             fill = target
