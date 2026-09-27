@@ -17,6 +17,7 @@ from xau_jam.combine import (
     min_start_bank,
     monthly_rows,
     replay_one,
+    run_replay,
     watch_book,
 )
 from xau_jam.pattern import Bar
@@ -109,6 +110,37 @@ class CombineTests(unittest.TestCase):
         self.assertEqual(fills[0].stake, 2500.0)
         self.assertLess(fills[0].shares, int(20_000.0 * 0.20 * 10 / 100.0))
         self.assertIsNotNone(first_cap_hit(fills, 2500.0))
+
+    def test_target_bank_then_monthly_withdraw(self) -> None:
+        start = datetime(2026, 1, 5, 14, 30, tzinfo=timezone.utc)
+
+        def boom(day: int) -> list[Bar]:
+            t0 = start + timedelta(days=day)
+            out = [Bar(t0, 100.0, 120.0, 99.8, 119.0, 1.0)]
+            for i in range(1, 8):
+                out.append(Bar(t0 + timedelta(hours=i), 119.0, 119.2, 118.9, 119.0, 1.0))
+            return out
+
+        h1 = boom(0) + boom(32)
+        shots = collect_signals({"MSTR": (h1, 0.006)}, datetime(2026, 1, 1).date(), None)
+        got = run_replay(
+            shots,
+            23_000.0,
+            10,
+            risk=0.20,
+            simple=False,
+            max_stake=2500.0,
+            target_bank=25_000.0,
+            run_risk=0.10,
+            withdraw=True,
+        )
+        self.assertIsNotNone(got.target_hit)
+        self.assertGreaterEqual(got.target_hit.equity, 25_000.0)
+        self.assertEqual(got.end, 25_000.0)
+        self.assertGreater(got.withdrawals[0]["took"], 0.0)
+        rows = monthly_rows(got.fills, 23_000.0, got.withdrawals, 25_000.0)
+        self.assertEqual(rows[-1]["end"], 25_000.0)
+        self.assertGreater(rows[-1]["took"], 0.0)
 
     def test_350_at_20pct_covers_amd_price(self) -> None:
         h1 = _day(14, 630.0, 640.0, 629.0, 630.63)
