@@ -239,7 +239,19 @@ def write_equity_chart(bars: list[Bar], trades: list[Trade], path: Path) -> None
 
     path.parent.mkdir(parents=True, exist_ok=True)
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 7), sharex=False, gridspec_kw={"height_ratios": [2, 1]})
-    ax1.plot([b.time for b in bars], [b.close for b in bars], color="#222", linewidth=0.8, label="Close")
+    times = [b.time for b in bars]
+    closes = [b.close for b in bars]
+    # Break the line over weekend / session gaps so CME holes are visible.
+    xs = [times[0]]
+    ys = [closes[0]]
+    for i in range(1, len(times)):
+        gap_h = (times[i] - times[i - 1]).total_seconds() / 3600.0
+        if gap_h > 6:
+            xs.append(times[i])
+            ys.append(float("nan"))
+        xs.append(times[i])
+        ys.append(closes[i])
+    ax1.plot(xs, ys, color="#222", linewidth=0.8, label="Close")
     sold = [t for t in trades]
     if sold:
         ax1.scatter(
@@ -251,7 +263,7 @@ def write_equity_chart(bars: list[Bar], trades: list[Trade], path: Path) -> None
             zorder=3,
             label="Jam sell",
         )
-    ax1.set_title("XAU/USD proxy (GC=F) H1 — Jam sell signals")
+    ax1.set_title("XAU/USD proxy GC=F H1 - Jam sell signals")
     ax1.set_ylabel("USD / oz")
     ax1.grid(True, alpha=0.25)
     ax1.legend(loc="upper left")
@@ -336,6 +348,39 @@ def main() -> int:
     report = format_report(result, trades)
     (out / "backtest_report.txt").write_text(report, encoding="utf-8")
     write_equity_chart(bars, trades, out / "equity.png")
+
+    sweep: list[dict] = []
+    extra = ["", "чувствительность RR (тот же месяц, те же бары):"]
+    for rr in (1.0, 1.5, 2.0, 3.0):
+        r, _ = run_backtest(
+            bars,
+            rr=rr,
+            spread=args.spread,
+            sl_buffer=args.sl_buffer,
+            max_hold=args.max_hold,
+            symbol=args.symbol,
+        )
+        row = {
+            "rr": rr,
+            "trades": r.trades,
+            "win_rate": r.win_rate,
+            "net_pnl": r.net_pnl,
+            "avg_r": r.avg_r,
+            "max_dd": r.max_dd,
+            "profit_factor": r.profit_factor,
+        }
+        sweep.append(row)
+        extra.append(
+            f"  RR={rr:.1f}  trades={r.trades}  wr={r.win_rate:.1f}%  "
+            f"pnl={r.net_pnl:+.2f}  avgR={r.avg_r:+.3f}  dd={r.max_dd:.2f}  pf={r.profit_factor}"
+        )
+    extra.append(
+        "заметка: avg R и USD-PnL могут расходиться — риск в долларах разный "
+        "(величина фитиля). На RR=2 один крупный тейк (28.08) тянет net PnL вверх."
+    )
+    report = report.rstrip() + "\n" + "\n".join(extra) + "\n"
+    (out / "backtest_report.txt").write_text(report, encoding="utf-8")
+    (out / "rr_sensitivity.json").write_text(json.dumps(sweep, indent=2) + "\n", encoding="utf-8")
     print(report, end="")
     return 0
 

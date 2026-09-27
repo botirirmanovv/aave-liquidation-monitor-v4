@@ -1,0 +1,38 @@
+[
+  {
+    "rr": 1.0,
+    "trades": 22,
+    "win_rate": 63.64,
+    "net_pnl": 135.2498,
+    "avg_r": 0.247,
+    "max_dd": 70.4006,
+    "profit_factor": 1.796
+  },
+  {
+    "rr": 1.5,
+    "trades": 20,
+    "win_rate": 30.0,
+    "net_pnl": -16.5261,
+    "avg_r": -0.2639,
+    "max_dd": 142.4509,
+    "profit_factor": 0.936
+  },
+  {
+    "rr": 2.0,
+    "trades": 20,
+    "win_rate": 30.0,
+    "net_pnl": 51.7488,
+    "avg_r": -0.1389,
+    "max_dd": 142.4509,
+    "profit_factor": 1.201
+  },
+  {
+    "rr": 3.0,
+    "trades": 19,
+    "win_rate": 26.32,
+    "net_pnl": 111.1485,
+    "avg_r": -0.0409,
+    "max_dd": 142.4509,
+    "profit_factor": 1.424
+  }
+]
