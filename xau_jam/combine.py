@@ -25,6 +25,7 @@ WATCH_LOG = REPORTS / "combine_watch.log"
 RISK = 0.10
 START_BANK = 350.0
 START_RISK = 0.20
+MAX_STAKE = 2500.0
 
 BOOK = (
     ("MSTR", 0.006),
@@ -94,7 +95,7 @@ def replay_one(
     hold: int = HOLD,
     risk: float = RISK,
     simple: bool = True,
-    max_stake: float | None = None,
+    max_stake: float | None = MAX_STAKE,
 ) -> tuple[float, list[Shot]]:
     risk = min(max(risk, 0.0), 1.0)
     jobs: list[dict] = []
@@ -125,7 +126,7 @@ def replay_one(
         if kind == 1:
             base = start if simple else eq
             stake = base * risk
-            if max_stake is not None:
+            if max_stake:
                 stake = min(stake, max_stake)
             shares = int(stake * lev / max(job["fill"], 1e-9))
             if shares < 1:
@@ -200,6 +201,14 @@ def monthly_rows(fills: list, start: float) -> list[dict]:
     return rows
 
 
+def first_cap_hit(fills: list[Shot], cap: float) -> Shot | None:
+    """First fill whose stake sits on the dollar ceiling."""
+    for f in sorted(fills, key=lambda s: s.time):
+        if float(f.stake) + 1e-9 >= cap:
+            return f
+    return None
+
+
 def format_monthly(rows: list[dict], title: str) -> list[str]:
     lines = [
         title,
@@ -225,6 +234,7 @@ def fresh_state(bank: float, lev: int) -> dict:
         "leverage": lev,
         "simple": True,
         "risk": RISK,
+        "max_stake": MAX_STAKE,
         "pos": None,
         "positions": [],
         "fills": [],
@@ -240,6 +250,7 @@ def load_state(bank: float, lev: int) -> dict:
         raw.setdefault("start", bank)
         raw.setdefault("simple", True)
         raw.setdefault("risk", RISK)
+        raw.setdefault("max_stake", MAX_STAKE)
         raw.setdefault("positions", [])
         return raw
     return fresh_state(bank, lev)
@@ -277,8 +288,9 @@ def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int)
     """One shared bank. Take every name that fires. 10% each, do not wait."""
     start = float(state.get("start") or state.get("equity") or 0)
     risk = float(state.get("risk") or RISK)
+    cap = float(state.get("max_stake") or MAX_STAKE)
     base = start if state.get("simple", True) else float(state["equity"])
-    stake = base * min(max(risk, 0.0), 1.0)
+    stake = min(base * min(max(risk, 0.0), 1.0), cap)
     positions = list(state.get("positions") or [])
     if state.get("pos") and not positions:
         positions = [state["pos"]]
@@ -365,22 +377,35 @@ def watch_book(books: dict[str, tuple[list[Bar], float]], state: dict, lev: int)
     return state
 
 
-def run_watch_once(bank: float, lev: int, risk: float | None = None) -> dict:
+def run_watch_once(
+    bank: float,
+    lev: int,
+    risk: float | None = None,
+    max_stake: float | None = None,
+) -> dict:
     books = fetch_books("5d")
     state = load_state(bank, lev)
     state["leverage"] = lev
     if risk is not None:
         state["risk"] = risk
+    if max_stake is not None:
+        state["max_stake"] = max_stake
     state = watch_book(books, state, lev)
     save_state(bank, state)
     return state
 
 
-def run_loop(bank: float, lev: int, interval: int, risk: float | None = None) -> None:
+def run_loop(
+    bank: float,
+    lev: int,
+    interval: int,
+    risk: float | None = None,
+    max_stake: float | None = None,
+) -> None:
     while True:
         ts = datetime.now(timezone.utc).isoformat()
         try:
-            state = run_watch_once(bank, lev, risk)
+            state = run_watch_once(bank, lev, risk, max_stake)
             row = f"{ts} {state.get('note', '')} eq=${state['equity']:.2f}\n"
         except Exception as exc:  # noqa: BLE001
             row = f"{ts} ошибка: {exc}\n"
@@ -395,6 +420,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--bank", type=float, default=0.0, help="0 = минимальный банк под выбранную ставку")
     ap.add_argument("--risk", type=float, default=START_RISK, help="доля банка на выстрел, 0.2 = 20%")
+    ap.add_argument("--max-stake", type=float, default=MAX_STAKE, help="потолок ставки $, 0 = без потолка")
     ap.add_argument("--leverage", type=int, default=10)
     ap.add_argument("--from", dest="date_from", default="01/01/26")
     ap.add_argument("--once", action="store_true")
@@ -403,14 +429,19 @@ def main() -> int:
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
     risk = min(max(args.risk, 0.0), 1.0)
+    cap = max(args.max_stake, 0.0)
     if args.once or args.loop:
         bank = args.bank if args.bank > 0 else START_BANK
-        print(f"один банк ${bank:.0f}, ставка {100 * risk:.0f}%, бумаги {', '.join(s for s, _ in BOOK)}", flush=True)
+        print(
+            f"один банк ${bank:.0f}, ставка {100 * risk:.0f}%, потолок ${cap:.0f}, "
+            f"бумаги {', '.join(s for s, _ in BOOK)}",
+            flush=True,
+        )
         if args.once or not args.loop:
-            state = run_watch_once(bank, args.leverage, risk)
+            state = run_watch_once(bank, args.leverage, risk, cap)
             print(state.get("note", ""), f"eq=${state['equity']:.2f}")
             return 0
-        run_loop(bank, args.leverage, args.interval, risk)
+        run_loop(bank, args.leverage, args.interval, risk, cap)
         return 0
     begin = parse_day(args.date_from)
     books: dict[str, tuple[list[Bar], float]] = {}
@@ -434,8 +465,10 @@ def main() -> int:
     comm_pct = 100.0 * comm_rt / stake0 if stake0 else 0.0
     shots = collect_signals(books, begin, None)
     months = max((last - begin).days / 30.0, 1.0)
-    simple_end, simple_fills = replay_one(shots, bank, args.leverage, risk=risk, simple=True)
-    comp_end, comp_fills = replay_one(shots, bank, args.leverage, risk=risk, simple=False)
+    cap_arg = cap if cap > 0 else None
+    simple_end, simple_fills = replay_one(shots, bank, args.leverage, risk=risk, simple=True, max_stake=cap_arg)
+    comp_end, comp_fills = replay_one(shots, bank, args.leverage, risk=risk, simple=False, max_stake=cap_arg)
+    hit = first_cap_hit(comp_fills, cap) if cap else None
 
     def _pack(end: float, fills: list[Shot], title: str) -> list[str]:
         pct = 100.0 * (end - bank) / bank if bank else 0.0
@@ -464,6 +497,8 @@ def main() -> int:
         "По бумагам (последняя цена → банк на 1шт): "
         + ", ".join(f"{s} ${p:.0f}" for s, p in sorted(last_px.items(), key=lambda kv: -kv[1])),
         f"Комиссия min $1×2 = $2. При банке ${bank:.0f} ставка ${stake0:.0f}, комиссия {comm_pct:.1f}% ставки.",
+        f"Потолок ставки ${cap:.0f} (номинал ~${cap * args.leverage:.0f} при 1:{args.leverage}). "
+        "Сложный % растёт до потолка, дальше лот не больше.",
         f"Отчёт с {begin} → {last}, один банк ${bank:.0f}, ставка {100 * risk:.0f}%, все сделки, 1:{args.leverage}.",
         "",
     ]
@@ -471,9 +506,19 @@ def main() -> int:
     c_pct = 100.0 * (comp_end - bank) / bank
     s_months = monthly_rows(simple_fills, bank)
     c_months = monthly_rows(comp_fills, bank)
+    if hit is not None:
+        hit_bank = hit.stake / risk if risk else 0.0
+        cap_line = (
+            f"потолок ${cap:.0f} впервые: {hit.time[:10]}  {hit.symbol}  "
+            f"банк≈${hit_bank:,.0f}  stake=${hit.stake:.0f}  eq после=${hit.equity:.2f}"
+        )
+    elif cap:
+        cap_line = f"потолок ${cap:.0f} на этом отрезке не достигли"
+    else:
+        cap_line = "потолка ставки нет"
     head += [
         f"простой %:  ${bank:.0f} → ${simple_end:.2f}  ({s_pct:+.1f}%)  n={len(simple_fills)}",
-        f"сложный %:  ${bank:.0f} → ${comp_end:.2f}  ({c_pct:+.1f}%)  n={len(comp_fills)}",
+        f"сложный %:  ${bank:.0f} → ${comp_end:.2f}  ({c_pct:+.1f}%)  n={len(comp_fills)}  {cap_line}",
         "",
     ]
     head += format_monthly(s_months, "── помесячно простой % ──")
@@ -482,9 +527,11 @@ def main() -> int:
     head.append("")
     month_text = "\n".join(head) + "\n"
     (REPORTS / "combine_monthly.txt").write_text(month_text, encoding="utf-8")
+    if abs(bank - START_BANK) < 1e-9 and abs(risk - START_RISK) < 1e-9:
+        (REPORTS / "combine_350_r20.txt").write_text(month_text, encoding="utf-8")
     lines = head + _pack(simple_end, simple_fills, "── простой % (лот всегда 10% от старта) ──")
     lines.append("")
-    lines += _pack(comp_end, comp_fills, "── сложный % (лот 10% от текущего банка) ──")
+    lines += _pack(comp_end, comp_fills, "── сложный % (лот 20% банка, потолок ставки) ──")
     text = "\n".join(lines) + "\n"
     (REPORTS / "combine.txt").write_text(text, encoding="utf-8")
     (REPORTS / "combine_jan_simple_compound.txt").write_text(text, encoding="utf-8")
@@ -496,6 +543,15 @@ def main() -> int:
                 "last": last_px,
                 "bank": bank,
                 "risk": risk,
+                "max_stake": cap,
+                "cap_hit": None
+                if hit is None
+                else {
+                    "time": hit.time,
+                    "symbol": hit.symbol,
+                    "stake": hit.stake,
+                    "equity": hit.equity,
+                },
                 "from": begin.isoformat(),
                 "simple": {
                     "end": simple_end,

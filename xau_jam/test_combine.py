@@ -10,7 +10,15 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from xau_jam.combine import Shot, collect_signals, min_start_bank, monthly_rows, replay_one, watch_book
+from xau_jam.combine import (
+    Shot,
+    collect_signals,
+    first_cap_hit,
+    min_start_bank,
+    monthly_rows,
+    replay_one,
+    watch_book,
+)
 from xau_jam.pattern import Bar
 
 
@@ -89,6 +97,18 @@ class CombineTests(unittest.TestCase):
         _, capped = replay_one(shots, 500.0, 10, simple=False, max_stake=50.0)
         self.assertEqual(capped[0].stake, 50.0)
         self.assertEqual(capped[1].stake, 50.0)
+
+    def test_default_cap_kicks_in_at_2500(self) -> None:
+        start = datetime(2026, 1, 5, 14, 30, tzinfo=timezone.utc)
+        t0 = start
+        out = [Bar(t0, 100.0, 120.0, 99.8, 119.0, 1.0)]
+        for i in range(1, 8):
+            out.append(Bar(t0 + timedelta(hours=i), 119.0, 119.2, 118.9, 119.0, 1.0))
+        shots = collect_signals({"MSTR": (out, 0.006)}, datetime(2026, 1, 1).date(), None)
+        _, fills = replay_one(shots, 20_000.0, 10, risk=0.20, simple=False)
+        self.assertEqual(fills[0].stake, 2500.0)
+        self.assertLess(fills[0].shares, int(20_000.0 * 0.20 * 10 / 100.0))
+        self.assertIsNotNone(first_cap_hit(fills, 2500.0))
 
     def test_350_at_20pct_covers_amd_price(self) -> None:
         h1 = _day(14, 630.0, 640.0, 629.0, 630.63)

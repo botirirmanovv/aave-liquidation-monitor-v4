@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, timezone
 
 from xau_jam.broker import DEMO_PATH, DemoBroker
 from xau_jam.burst_open import REPORTS
-from xau_jam.combine import BOOK, START_RISK, collect_signals, fetch_books
+from xau_jam.combine import BOOK, MAX_STAKE, START_RISK, collect_signals, fetch_books
 from xau_jam.paper import HOLD, SYMBOL, day_groups, signal_for_day
 from xau_jam.pattern import Bar
 
@@ -113,7 +113,7 @@ def tick_book(books: dict, broker: DemoBroker, now: datetime | None = None) -> s
     today = now.date()
     shots = collect_signals(books, today, today + timedelta(days=1))
     open_syms = {p.symbol for p in broker.positions}
-    stake = broker.start * START_RISK
+    stake = min(broker.start * START_RISK, MAX_STAKE)
     opened = 0
     for t, sym, side, fill, fi, h1 in shots:
         if sym in open_syms:
@@ -133,7 +133,7 @@ def tick_book(books: dict, broker: DemoBroker, now: datetime | None = None) -> s
 
 def replay_book_through_broker(books: dict, broker: DemoBroker, begin) -> DemoBroker:
     shots = collect_signals(books, begin, None)
-    stake = broker.start * START_RISK
+    stake = min(broker.start * START_RISK, MAX_STAKE)
     for t, sym, side, fill, fi, h1 in shots:
         shares = int(stake * broker.leverage / max(fill, 1e-9))
         if shares < 1:
