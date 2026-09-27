@@ -5,6 +5,7 @@ import sys
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -43,6 +44,12 @@ class CombineTests(unittest.TestCase):
     def test_ibkr_stays_off_without_keys(self) -> None:
         self.assertFalse(ibkr_paper_ready())
         self.assertFalse(looks_like_live())
+
+    def test_ibkr_du_account_is_paper_shaped(self) -> None:
+        with patch.dict("os.environ", {"IBKR_PAPER_ACCOUNT": "DUR999999"}, clear=False):
+            self.assertFalse(looks_like_live())
+        with patch.dict("os.environ", {"IBKR_PAPER_ACCOUNT": "U216113"}, clear=False):
+            self.assertTrue(looks_like_live())
 
     def test_venues_keep_separate_state(self) -> None:
         self.assertIn("combine_state_yahoo_350.json", str(state_path(350, "yahoo")))

@@ -15,10 +15,16 @@ from xau_jam.combine import BOOK, LIVE_MONEY, MAX_STAKE, PLAN, START_BANK, START
 LIVE_PORT = "7496"
 
 
+def _account_id() -> str:
+    return (os.environ.get("IBKR_PAPER_ACCOUNT") or os.environ.get("IBKR_ACCOUNT") or "").strip().upper()
+
+
 def looks_like_live() -> bool:
     port = (os.environ.get("IBKR_PAPER_PORT") or os.environ.get("IBKR_PORT") or "").strip()
     live_host = (os.environ.get("IBKR_LIVE_HOST") or "").strip()
-    return port == LIVE_PORT or bool(live_host) or LIVE_MONEY
+    acct = _account_id()
+    live_acct = bool(acct) and not acct.startswith("DU")
+    return port == LIVE_PORT or bool(live_host) or LIVE_MONEY or live_acct
 
 
 def ibkr_paper_ready() -> bool:
@@ -72,6 +78,9 @@ def main() -> int:
     ap.add_argument("--venue", choices=VENUES, default="yahoo")
     args = ap.parse_args()
     REPORTS.mkdir(parents=True, exist_ok=True)
+    if looks_like_live():
+        print("Live закрыт до конца теста. Деньги не вносим. Только Yahoo / IBKR Paper.")
+        return 2
     if args.venue == "ibkr" and not ibkr_paper_ready():
         print(
             "IBKR Paper не запущен: нет ключей. "
