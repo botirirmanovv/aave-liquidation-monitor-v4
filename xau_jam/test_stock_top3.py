@@ -42,6 +42,13 @@ class StockTop3Tests(unittest.TestCase):
         self.assertEqual(len(shots), 1)
         self.assertEqual(shots[0][2], "buy")
 
+    def test_collect_respects_end(self) -> None:
+        rec = Recipe("daily-0.3%-h6", "paper", "daily", "pct", 0.003, 6, 9)
+        shots = collect_shots(
+            {"NVDA": bars()}, rec, datetime(2026, 1, 1).date(), datetime(2026, 1, 5).date()
+        )
+        self.assertEqual(shots, [])
+
     def test_ny_dollar_trigger_collects(self) -> None:
         rec = Recipe("ny-$6-h12", "oneshot", "ny", "usd", 6.0, 12, 9)
         shots = collect_shots({"NVDA": bars()}, rec, datetime(2026, 1, 1).date())

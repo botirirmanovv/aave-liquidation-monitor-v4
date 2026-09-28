@@ -48,11 +48,15 @@ def collect_shots(
     books: dict[str, list[Bar]],
     recipe: Recipe,
     begin,
+    end=None,
 ) -> list[tuple]:
     shots = []
     for sym, h1 in books.items():
         for oi in session_opens(h1, recipe.session):
-            if h1[oi].time.date() < begin:
+            day = h1[oi].time.date()
+            if day < begin:
+                continue
+            if end is not None and day >= end:
                 continue
             last = min(len(h1) - 1, oi + max(recipe.hunt, 1) - 1)
             idxs = list(range(oi, last + 1))
@@ -66,11 +70,11 @@ def collect_shots(
     return shots
 
 
-def fetch_books() -> dict[str, list[Bar]]:
+def fetch_books(range_spec: str = "1y") -> dict[str, list[Bar]]:
     out: dict[str, list[Bar]] = {}
     for i, sym in enumerate(STOCKS):
         try:
-            out[sym] = fetch_yahoo(sym, "1y", "60m")
+            out[sym] = fetch_yahoo(sym, range_spec, "60m")
             print(f"  {sym} last={out[sym][-1].close:.2f}", flush=True)
         except Exception as exc:  # noqa: BLE001
             print(f"  skip {sym}: {exc}", flush=True)
