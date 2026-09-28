@@ -1,5 +1,3 @@
-GOLD B снят. Золото заменили другими акциями.
-
 B — не золото. Другие акции, тот же импульс, что у A.
 A не трогали: MSTR, COIN, SMCI, AMD, UVXY, PLTR, TSLA.
 B: NVDA, META, AMZN, NFLX, AAPL, BABA. порог 0.6% HOLD=6. банк $350, 20%→$25000.

@@ -1,4 +1,4 @@
-ЗАПАС — GOLD B, не дубль семёрки
+ЗАПАС — другие акции, не золото, не дубль семёрки
 Дата: 28.09.2026. Книгу A не менять. Live/7496/Aave/Morpho live нельзя.
 
 
@@ -7,15 +7,11 @@
   журнал combine_state_ibkr_350.json + TWS 7497
 
 
-ПЛАН B — золото «по-нашему»
-  Старый Jam sell GC=F выкинут как правило входа.
-  Вход: тот же signal_for_day. OPEN = первый H1 с hour>=13 UTC (NY/COMEX).
-  Порог 0.6%, HOLD=6, банк $350, 20%→$25k, потолок $2500, лот 0.01oz, спред $0.30/oz RT.
-  Код: xau_jam/gold.py
-  Журнал: gold_state_350.json  (не ibkr-журнал A)
+ПЛАН B — NVDA META AMZN NFLX AAPL BABA
+  Золото GC=F сняли. Тот же signal_for_day, OPEN дня Yahoo, 0.6%, HOLD=6,
+  банк $350, 20%→$25k. Журнал не ibkr A.
+  python -m xau_jam.spare --from 01/01/26 --bank 350
+  python -m xau_jam.gold  — то же (алиас)
 
-  python -m xau_jam.gold --from 01/01/26 --bank 350
-  python -m xau_jam.gold --once --bank 350
-
-Yahoo --venue на семёрке рядом с A — не B, это копия. Не включать.
-jam/gap из hunt_styles — не включены.
+Yahoo --venue на семёрке рядом с A — не B.
+HOOD/ARM/TQQQ в B не клали: это подгонка.

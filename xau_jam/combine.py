@@ -62,6 +62,7 @@ def collect_signals(
     books: dict[str, tuple[list[Bar], float]],
     begin: date,
     end: date | None,
+    book: tuple[tuple[str, float], ...] | None = None,
 ) -> list[tuple[datetime, str, str, float, int, list[Bar]]]:
     shots: list[tuple[datetime, str, str, float, int, list[Bar]]] = []
     for sym, (h1, trig) in books.items():
@@ -76,7 +77,8 @@ def collect_signals(
                 continue
             side, fi, fill = sig
             shots.append((h1[fi].time, sym, side, fill, fi, h1))
-    rank = {sym: i for i, (sym, _) in enumerate(BOOK)}
+    order = book if book is not None else BOOK
+    rank = {sym: i for i, (sym, _) in enumerate(order)}
     shots.sort(key=lambda s: (s[0], rank.get(s[1], 99)))
     return shots
 
