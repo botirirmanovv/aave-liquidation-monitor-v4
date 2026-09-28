@@ -1,0 +1,290 @@
+IBKR PAPER — РЕГИСТРАЦИЯ (не Live)
+Дата: 27.09.2026. Для Botir. Деньги НЕ вносим. Порт 7496 запрещён.
+Aave / Morpho live не трогать. Yahoo-demo уже крутится отдельно.
+
+
+1. ССЫЛКИ (официальные IBKR)
+════════════════════════════════════
+Сначала страна (Asia → Uzbekistan), потом заявка:
+  https://www.interactivebrokers.com/en/choose-country-region.php
+
+Заявка сразу с Uzbekistan (не .co.uk):
+  https://www.interactivebrokers.com/Universal/Application?country=UZ
+
+Что просят в анкете:
+  https://www.interactivebrokers.com/en/general/what-you-need-inv.php
+
+Войти / дописать заявку / Client Portal:
+  https://www.interactivebrokers.com/sso/Login
+
+Как включить Paper после апрува:
+  https://www.interactivebrokers.com/campus/trading-lessons/how-to-open-an-ibkr-paper-trading-account/
+  https://www.ibkrguides.com/clientportal/papertradingaccount.htm
+
+Скачать TWS (логин только Paper):
+  https://www.interactivebrokers.com/en/trading/tws.php
+
+API в TWS (порт Paper = 7497):
+  https://www.interactivebrokers.com/campus/trading-lessons/installing-configuring-tws-for-the-api/
+
+
+2. ЕСЛИ В СПИСКЕ НЕТ УЗБЕКИСТАНА
+════════════════════════════════════
+Официально Узбекистан ЕСТЬ:
+  https://www.interactivebrokers.com/en/accounts/open-account-country-list.php
+
+В форме имя только английское: Uzbekistan. Не «Узбекистан», не O'zbekiston.
+Ищи в Asia, не в Europe. В выпадашке напечатай Uzbek.
+
+Ты попал не в ту анкету (часто US/EU — там UZ нет). Закрой вкладку и зайди так:
+  1) https://www.interactivebrokers.com/en/choose-country-region.php
+  2) Asia → Uzbekistan
+  3) Open Account / Start Application
+
+Не ставь Казахстан / РФ / ОАЭ / Великобританию вместо Узбекистана.
+Если после этого поля Country всё равно без UZ — скинь скрин этого поля.
+
+
+2b. УЗБЕКИСТАН БЫЛ, ПОТОМ ВЫЛЕЗЛА ВЕЛИКОБРИТАНИЯ
+════════════════════════════════════
+Так IBKR часто делает. Сначала список стран (там UZ есть), потом кидает
+на английский сайт .com / .co.uk и поле Country само ставит United Kingdom.
+
+Это витрина/сервер, не твой адрес. Жить в UK не надо.
+
+На шаге Create Account (почта + username + пароль) поле называется
+Country / Country of Legal Residence — это ГЛАВНОЕ.
+Поставь снова Uzbekistan. Потом Create Account.
+Гражданство (Citizenship) тоже Uzbekistan.
+
+Можно игнорировать:
+  - шапка сайта «United Kingdom»
+  - адрес страницы interactivebrokers.co.uk
+  - телефонный код +44, если сам не ставил
+
+Нельзя жать Continue, пока Residence = United Kingdom.
+Иначе анкета станет британской (адрес UK, налог UK) и паспорт UZ не сойдётся.
+
+Прямая ссылка, чтобы UZ не сбрасывался:
+  https://www.interactivebrokers.com/Universal/Application?country=UZ
+
+Инкогнито. Не начинай с .co.uk.
+Если поле Residence снова прыгает на UK — скрин заголовка этого поля.
+
+
+2c. ГРАЖДАНСТВО UZ НЕТУ В СПИСКЕ
+════════════════════════════════════
+Сначала смотри ЗАГОЛОВОК поля. Это три разных списка.
+
+A) Citizenship / Country of Citizenship / Гражданство
+   1. Если Residence уже Uzbekistan и у тебя только паспорт UZ —
+      галка «гражданство = страна проживания» / same as residence.
+      Отдельно добавлять не надо.
+   2. Если надо добавить: сначала галка
+      «гражданство отличается от проживания», потом поле поиска.
+   3. Печатай по-английски: Uzbek   (не «Узбек», не UZB).
+      Ещё варианты: Uzbekistan   /   Republic of Uzbekistan
+   4. Язык сайта поставь English.
+
+B) W-8BEN / Tax treaty / «льгота по налоговому соглашению»
+   Это НЕ гражданство. В этом списке UZ часто нет
+   (или спрятан как USSR / Soviet Union).
+   Если Uzbekistan нет — ставь
+   «I do not qualify for US tax treaty benefits».
+   UK / Kazakhstan / Russia сюда не ставь.
+
+C) Issuing country паспорта (загрузка ID)
+   Снова печать Uzbek по-английски.
+
+Не выбирай чужое гражданство, чтобы проскочить.
+
+Факт с анкеты Botir: адрес/город Ташкент и UZ живут.
+Нет только выпадашки гражданства на «Подтвердите личность»
+(поиск Uzbe / Узбек = «результаты не найдены», стоит Великобритания).
+Это баг/дырявый список ID-шага, не отсутствие Узбекистана в IBKR.
+
+Делать:
+  1) Далее с Великобританией не жать. Чужое гражданство не ставить.
+  2) В поиске гражданства набрать ровно UZB
+     (ISO 3166-1 alpha-3). Не Uzbe, не UZ.
+  3) Язык сайта English, если UZB пусто.
+  4) Если UZB нет — эта заявка сидит на IB-UK. Адрес UZ/Tashkent
+     при этом может быть. Писать в официальный Support:
+     residence Uzbekistan Tashkent; citizenship has no UZB;
+     move application to IB-LLC or enable UZB.
+     https://www.interactivebrokers.com/en/support/customer-service.php
+  5) Новую заявку только если Support скажет, что этот черновик IB-UK
+     не чинится. Снова: Application?country=UZ, не .co.uk.
+
+
+2d. МОБИЛЬНЫЙ (если на сайте гражданство пустое)
+════════════════════════════════════
+На телефоне часто другой шаг личности: камера паспорта / IBKR Mobile,
+не та же RU-выпадашка, где не было UZ.
+
+Это ок, если все три поля свои:
+  тип счёта = Individual (не Trust)
+  проживание = Uzbekistan / Tashkent
+  гражданство = Uzbekistan   (не Великобритания)
+
+Победа = на шаге личности гражданство реально Uzbekistan.
+Адрес Ташкент на мобилке уже был и на сайте — этого мало.
+
+Нельзя:
+  жать дальше с гражданством UK
+  ставить чужое гражданство
+  вносить деньги, даже если приложение просит «priority review»
+
+После апрува Paper тот же: Client Portal → Paper Trading.
+TWS / API всё равно с компа, порт 7497. Мобилка заявку открывает,
+ордера бота с телефона не шлём.
+
+
+3. СЕГОДНЯ — ТОЛЬКО ЗАЯВКА
+════════════════════════════════════
+IBKR не даёт «голый» paper без обычного счёта.
+Открываем Individual. Депозит НЕ кладём.
+
+1) Открой заявку с шага выше (сначала страна Uzbekistan), не с голого Application.
+2) Тип: Individual (один человек). Не IRA, не Joint, не Trust.
+   Траст не нужен. Это не обход дыры гражданства UZ.
+   Trust у IBKR = уже существующий юридический траст
+   (договор, trustee, settlor, beneficiary). У нас его нет.
+   Paper после апрува Individual дают сами. Отдельный траст
+   для Paper не открывают и не требуют.
+3) Логин/пароль заявки — свои. Подтверди почту.
+4) Паспорт / ID, адрес, работа — как просит анкета.
+5) Trading permissions: US stocks (акции США). Маржу/фьючи не набивай лишнего.
+6) Если спрашивают про пополнение — банк можно указать, ДЕНЬГИ НЕ ШЛИ.
+7) Отправь заявку. Жди апрув (часто часы–сутки, иногда просят ещё фото).
+
+СТОП, если IBKR требует внести живые деньги, чтобы закончить.
+Не вноси. Напиши мне. Тест без депозита.
+
+
+4. ПОСЛЕ АПРУВА — PAPER
+════════════════════════════════════
+Новым часто Paper дают сами (~$1 000 000 виртуальных).
+Если нет:
+  Client Portal → иконка человека справа вверху
+  → Settings → Account Configuration → Paper Trading Account
+  → отдельный username + пароль именно для Paper.
+
+Вход в TWS / Client Portal: переключатель сверху LOGIN = PAPER.
+Не Live. Не 7496.
+
+
+5. TWS API (когда Paper уже открыт)
+════════════════════════════════════
+1) Поставь TWS. Войди PAPER-логином.
+2) Шестерёнка → API → Settings:
+   - Enable ActiveX and Socket Clients = ON
+   - Socket port = 7497   (если видишь 7496 — это Live, СТОП)
+   - Read-Only API можно пока оставить ON (ордера с бота ещё не шлём)
+3) TWS должен оставаться залогиненным. Без него API молчит.
+
+
+6. ЧТО ПРИСЛАТЬ МНЕ (только Paper)
+════════════════════════════════════
+Живой счёт (другой номер, без D) IBKR открывает сам, чтобы выдать Paper.
+Его не трогаем: не логинимся, не шлём ордера, деньги не кладём.
+
+Когда счёт Paper готов, в этот чат:
+  - paper username (не live)
+  - номер paper-счёта (DU… / DUR…)
+  - подтверждение: логинился в TWS как Paper, порт 7497
+
+Пароль Paper лучше вбить самому в TWS на компе. С облака до TWS
+всё равно не достучаться. Если пришлёшь — только Paper, в .env,
+не в git и не в TG.
+
+НЕ присылать:
+  live пароль, live username, ключи Live, порт 7496.
+
+
+7. ЧЕГО НЕ ДЕЛАТЬ
+════════════════════════════════════
+Не вносить деньги.
+Не жать Live в TWS.
+Не давать порт 7496.
+Не включать Aave / Morpho live.
+Yahoo-demo не выключать — вечером сравним два журнала.
+
+
+8. ЧТО УЖЕ ПРОВЕРИЛ (27.09.2026, Client Portal)
+════════════════════════════════════
+Зашёл в Paper. Живой не открывал. Пароль в git не клал.
+
+Видно:
+  счёт DUR216113
+  синяя плашка Paper Trading / Simulated Trading
+  виртуальные $1 000 000, позиций нет
+  почта botirirmanovv@gmail.com — IBKR просит подтвердить письмо
+
+Не видно в этой веб-сессии:
+  семёрку тикеров (поиск крутит Loading)
+  «нет Trading/Market Data permissions / not connected to brokerage»
+
+Это веб-кабинет без ленты. Бот с облака всё равно не бьёт в TWS.
+Сравнение Yahoo vs IBKR — когда TWS Paper на компе, порт 7497.
+
+
+9. СЕМЁРКА НА IBKR (официальный US list, 25.09.2026)
+════════════════════════════════════
+Все семь есть как USD акции/ETF (не CFD XM).
+Источник: IBKR View Shortable Securities, United States.
+
+  MSTR  ЕСТЬ   STRATEGY INC
+  COIN  ЕСТЬ   COINBASE GLOBAL INC -CLASS A
+  SMCI  ЕСТЬ   SUPER MICRO COMPUTER INC
+  AMD   ЕСТЬ   ADVANCED MICRO DEVICES
+  UVXY  ЕСТЬ   PROSHARES ULTRA VIX ST FUTUR
+  PLTR  ЕСТЬ   PALANTIR TECHNOLOGIES INC-A
+  TSLA  ЕСТЬ   TESLA INC
+
+В кабинете Paper поиск может ещё крутить Loading, пока нет
+Trading/Market Data (жёлтая плашка + неподтверждённая почта).
+Каталог IBKR от этого не пустой. Книга на IBKR собирается.
+
+Yahoo-demo уже крутится: банк $350, eq=$359.67, venue yahoo.
+IBKR-ногу с облака не стартую: нужен TWS Paper, порт 7497.
+
+
+10. ГОТОВ К ТЕСТУ (27.09.2026)
+════════════════════════════════════
+Почту ты подтвердил. На присланном скрине кабинет всё ещё
+показывает жёлтую плашку на botirirmanovv@gmail.com и
+«нет Trading/Market Data». Если письмо уже подтверждено —
+обнови вкладку. Поиск в вебе без ленты может крутить Loading.
+Это не дыра в книге: каталог IBKR от почты не зависит.
+
+Перепроверил сам, официальный US list IBKR, 25.09.2026 19:30 EDT
+(View Shortable Securities, United States). Все семь ЕСТЬ:
+
+  MSTR  ЕСТЬ   STRATEGY INC
+  COIN  ЕСТЬ   COINBASE GLOBAL INC -CLASS A
+  SMCI  ЕСТЬ   SUPER MICRO COMPUTER INC
+  AMD   ЕСТЬ   ADVANCED MICRO DEVICES
+  UVXY  ЕСТЬ   PROSHARES ULTRA VIX ST FUTUR
+  PLTR  ЕСТЬ   PALANTIR TECHNOLOGIES INC-A
+  TSLA  ЕСТЬ   TESLA INC
+
+Yahoo H1 (источник сигнала) тоже все семь:
+  27.09.2026 15:58 UTC, range 5d / 60m, по 36 баров.
+  Последняя свеча у всех: 2026-09-25 20:00 UTC
+  (воскресенье, рынок США закрыт).
+  MSTR 158.61  COIN 195.11  SMCI 43.26  AMD 630.63
+  UVXY 16.85   PLTR 189.67  TSLA 372.11
+
+Yahoo-demo живой: банк $350, eq=$359.67, 4 сделки 25.09
+(MSTR +10.01, COIN +6.67, SMCI +12.29, UVXY −19.30),
+позиций нет. Последняя запись: нет импульса 25.09.
+
+Paper DUR216113, Individual, $1 000 000 симулятор, позиций нет.
+Живой счёт не открывал. Пароль в git не клал. Деньги не вносим.
+
+IBKR-ногу с облака не стартую: нет TWS Paper на 127.0.0.1:7497.
+Live порт 7496 закрыт. Aave / Morpho live не трогаю.
+
+Готов. Когда на компе TWS = Paper и порт 7497 — пиши,
+сравним Yahoo и IBKR. До этого книга крутится на Yahoo.

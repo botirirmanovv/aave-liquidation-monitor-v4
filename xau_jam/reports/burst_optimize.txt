@@ -1,0 +1,29 @@
+burst open grid — hold секунды/минута, 1m
+баров=6879 2026-09-20 22:10:00+00:00→2026-09-25 20:59:59+00:00 вариантов=1728 мин.клипов=5
+победитель берётся только из flatten=close (без подглядывания в хвост).
+
+топ-10 честных (close):
+  01 pnl=  +17.60 clips= 23 days= 5 wr= 65.2% dd=8.5  london/straddle trig=2.5 step=0.5 layers=8 orb=8 hold=1 fail=False close
+  02 pnl=  +17.60 clips= 23 days= 5 wr= 65.2% dd=8.5  london/spray trig=2.5 step=0.5 layers=8 orb=8 hold=1 fail=False close
+  03 pnl=  +17.00 clips= 17 days= 4 wr= 70.6% dd=3.4  cme/straddle trig=1.5 step=0.5 layers=8 orb=3 hold=1 fail=False close
+  04 pnl=  +16.90 clips= 20 days= 5 wr= 65.0% dd=7.7  london/straddle trig=1.5 step=0.5 layers=8 orb=1 hold=0 fail=False close
+  05 pnl=  +16.90 clips= 20 days= 5 wr= 65.0% dd=7.7  london/straddle trig=1.5 step=0.5 layers=8 orb=3 hold=0 fail=False close
+  06 pnl=  +16.90 clips= 20 days= 5 wr= 65.0% dd=7.7  london/straddle trig=1.5 step=0.5 layers=8 orb=8 hold=0 fail=False close
+  07 pnl=  +16.90 clips= 20 days= 5 wr= 65.0% dd=7.7  london/spray trig=1.5 step=0.5 layers=8 orb=1 hold=0 fail=False close
+  08 pnl=  +16.90 clips= 20 days= 5 wr= 65.0% dd=7.7  london/spray trig=1.5 step=0.5 layers=8 orb=3 hold=0 fail=False close
+  09 pnl=  +16.90 clips= 20 days= 5 wr= 65.0% dd=7.7  london/spray trig=1.5 step=0.5 layers=8 orb=8 hold=0 fail=False close
+  10 pnl=  +16.70 clips= 14 days= 2 wr= 71.4% dd=3.4  cme/straddle trig=1.5 step=0.5 layers=8 orb=1 hold=1 fail=False close
+
+топ-5 если слил в хвост минуты (wick, оптимизм):
+  01 pnl=  +47.19 clips= 27 wr= 85.2% london/straddle trig=2.5 step=0.5 hold=1
+  02 pnl=  +47.19 clips= 27 wr= 85.2% london/spray trig=2.5 step=0.5 hold=1
+  03 pnl=  +47.10 clips= 25 wr= 84.0% london/straddle trig=1.5 step=0.5 hold=1
+  04 pnl=  +47.10 clips= 25 wr= 84.0% london/straddle trig=1.5 step=0.5 hold=1
+  05 pnl=  +47.10 clips= 25 wr= 84.0% london/straddle trig=1.5 step=0.5 hold=1
+
+лучший по сессии (close, есть клипы):
+  london: pnl=+17.60 clips=23 wr=65.2% straddle trig=2.5 step=0.5 layers=8 orb=8 hold=1 fail=False
+  ny: pnl=-5.00 clips=9 wr=33.3% straddle trig=1.5 step=1.0 layers=8 orb=1 hold=0 fail=False
+  cme: pnl=+17.00 clips=17 wr=70.6% straddle trig=1.5 step=0.5 layers=8 orb=3 hold=1 fail=False
+
+победитель: {"session": "london", "model": "straddle", "trigger": 2.5, "layers": 8, "step": 0.5, "orb_bars": 8, "hold_bars": 1, "spread": 0.2, "fail_through_open": false, "flatten": "close", "symbol": "GC=F", "interval": "1m"}

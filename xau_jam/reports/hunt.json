@@ -1,0 +1,667 @@
+{
+  "top": [
+    {
+      "symbol": "UVXY",
+      "style": "impulse 0.6% hold=6",
+      "ago21_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-9m",
+        "end": 10228.78,
+        "pct": 1945.8,
+        "per_month": 216.2,
+        "n": 109,
+        "wins": 72
+      },
+      "ago21_12m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-12m",
+        "end": 13691.43,
+        "pct": 2638.3,
+        "per_month": 219.9,
+        "n": 143,
+        "wins": 99
+      },
+      "last_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.6% hold=6",
+        "window": "last-9m",
+        "end": 6460.46,
+        "pct": 1192.1,
+        "per_month": 132.5,
+        "n": 108,
+        "wins": 70
+      }
+    },
+    {
+      "symbol": "UVXY",
+      "style": "impulse 0.4% hold=6",
+      "ago21_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.4% hold=6",
+        "window": "ago21-9m",
+        "end": 10160.68,
+        "pct": 1932.1,
+        "per_month": 214.7,
+        "n": 76,
+        "wins": 55
+      },
+      "ago21_12m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.4% hold=6",
+        "window": "ago21-12m",
+        "end": 11998.81,
+        "pct": 2299.8,
+        "per_month": 191.6,
+        "n": 100,
+        "wins": 73
+      },
+      "last_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.4% hold=6",
+        "window": "last-9m",
+        "end": 5525.43,
+        "pct": 1005.1,
+        "per_month": 111.7,
+        "n": 73,
+        "wins": 52
+      }
+    },
+    {
+      "symbol": "TSLA",
+      "style": "impulse 0.6% hold=12",
+      "ago21_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.6% hold=12",
+        "window": "ago21-9m",
+        "end": 8860.18,
+        "pct": 1672.0,
+        "per_month": 185.8,
+        "n": 107,
+        "wins": 66
+      },
+      "ago21_12m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.6% hold=12",
+        "window": "ago21-12m",
+        "end": 9332.93,
+        "pct": 1766.6,
+        "per_month": 147.2,
+        "n": 139,
+        "wins": 79
+      },
+      "last_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.6% hold=12",
+        "window": "last-9m",
+        "end": 2218.59,
+        "pct": 343.7,
+        "per_month": 38.2,
+        "n": 118,
+        "wins": 64
+      }
+    },
+    {
+      "symbol": "TSLA",
+      "style": "impulse 0.4% hold=12",
+      "ago21_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.4% hold=12",
+        "window": "ago21-9m",
+        "end": 8606.05,
+        "pct": 1621.2,
+        "per_month": 180.1,
+        "n": 75,
+        "wins": 49
+      },
+      "ago21_12m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.4% hold=12",
+        "window": "ago21-12m",
+        "end": 9471.01,
+        "pct": 1794.2,
+        "per_month": 149.5,
+        "n": 98,
+        "wins": 61
+      },
+      "last_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.4% hold=12",
+        "window": "last-9m",
+        "end": 3087.29,
+        "pct": 517.5,
+        "per_month": 57.5,
+        "n": 83,
+        "wins": 46
+      }
+    },
+    {
+      "symbol": "TSLA",
+      "style": "impulse 0.3% hold=12",
+      "ago21_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.3% hold=12",
+        "window": "ago21-9m",
+        "end": 8590.07,
+        "pct": 1618.0,
+        "per_month": 179.8,
+        "n": 61,
+        "wins": 41
+      },
+      "ago21_12m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.3% hold=12",
+        "window": "ago21-12m",
+        "end": 9444.19,
+        "pct": 1788.8,
+        "per_month": 149.1,
+        "n": 81,
+        "wins": 52
+      },
+      "last_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.3% hold=12",
+        "window": "last-9m",
+        "end": 3865.4,
+        "pct": 673.1,
+        "per_month": 74.8,
+        "n": 64,
+        "wins": 39
+      }
+    },
+    {
+      "symbol": "COIN",
+      "style": "impulse 0.6% hold=6",
+      "ago21_9m": {
+        "symbol": "COIN",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-9m",
+        "end": 8403.95,
+        "pct": 1580.8,
+        "per_month": 175.6,
+        "n": 81,
+        "wins": 57
+      },
+      "ago21_12m": {
+        "symbol": "COIN",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-12m",
+        "end": 10052.82,
+        "pct": 1910.6,
+        "per_month": 159.2,
+        "n": 104,
+        "wins": 73
+      },
+      "last_9m": {
+        "symbol": "COIN",
+        "style": "impulse 0.6% hold=6",
+        "window": "last-9m",
+        "end": 8953.8,
+        "pct": 1690.8,
+        "per_month": 187.9,
+        "n": 83,
+        "wins": 63
+      }
+    },
+    {
+      "symbol": "COIN",
+      "style": "impulse 0.6% hold=12",
+      "ago21_9m": {
+        "symbol": "COIN",
+        "style": "impulse 0.6% hold=12",
+        "window": "ago21-9m",
+        "end": 8268.2,
+        "pct": 1553.6,
+        "per_month": 172.6,
+        "n": 81,
+        "wins": 53
+      },
+      "ago21_12m": {
+        "symbol": "COIN",
+        "style": "impulse 0.6% hold=12",
+        "window": "ago21-12m",
+        "end": 8655.76,
+        "pct": 1631.2,
+        "per_month": 135.9,
+        "n": 104,
+        "wins": 65
+      },
+      "last_9m": null
+    },
+    {
+      "symbol": "MSTR",
+      "style": "impulse 0.6% hold=12",
+      "ago21_9m": {
+        "symbol": "MSTR",
+        "style": "impulse 0.6% hold=12",
+        "window": "ago21-9m",
+        "end": 8220.83,
+        "pct": 1544.2,
+        "per_month": 171.6,
+        "n": 90,
+        "wins": 63
+      },
+      "ago21_12m": {
+        "symbol": "MSTR",
+        "style": "impulse 0.6% hold=12",
+        "window": "ago21-12m",
+        "end": 11183.63,
+        "pct": 2136.7,
+        "per_month": 178.1,
+        "n": 122,
+        "wins": 85
+      },
+      "last_9m": null
+    },
+    {
+      "symbol": "TSLA",
+      "style": "impulse 0.6% hold=6",
+      "ago21_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-9m",
+        "end": 8179.66,
+        "pct": 1535.9,
+        "per_month": 170.7,
+        "n": 107,
+        "wins": 78
+      },
+      "ago21_12m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-12m",
+        "end": 9321.57,
+        "pct": 1764.3,
+        "per_month": 147.0,
+        "n": 139,
+        "wins": 100
+      },
+      "last_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.6% hold=6",
+        "window": "last-9m",
+        "end": 4684.99,
+        "pct": 837.0,
+        "per_month": 93.0,
+        "n": 118,
+        "wins": 82
+      }
+    },
+    {
+      "symbol": "MSTR",
+      "style": "impulse 0.6% hold=6",
+      "ago21_9m": {
+        "symbol": "MSTR",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-9m",
+        "end": 8034.82,
+        "pct": 1507.0,
+        "per_month": 167.4,
+        "n": 90,
+        "wins": 62
+      },
+      "ago21_12m": {
+        "symbol": "MSTR",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-12m",
+        "end": 9950.05,
+        "pct": 1890.0,
+        "per_month": 157.5,
+        "n": 122,
+        "wins": 82
+      },
+      "last_9m": {
+        "symbol": "MSTR",
+        "style": "impulse 0.6% hold=6",
+        "window": "last-9m",
+        "end": 9208.12,
+        "pct": 1741.6,
+        "per_month": 193.5,
+        "n": 79,
+        "wins": 58
+      }
+    },
+    {
+      "symbol": "UVXY",
+      "style": "impulse 0.3% hold=6",
+      "ago21_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.3% hold=6",
+        "window": "ago21-9m",
+        "end": 7690.57,
+        "pct": 1438.1,
+        "per_month": 159.8,
+        "n": 58,
+        "wins": 46
+      },
+      "ago21_12m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.3% hold=6",
+        "window": "ago21-12m",
+        "end": 9418.87,
+        "pct": 1783.8,
+        "per_month": 148.6,
+        "n": 77,
+        "wins": 60
+      },
+      "last_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.3% hold=6",
+        "window": "last-9m",
+        "end": 5121.13,
+        "pct": 924.2,
+        "per_month": 102.7,
+        "n": 57,
+        "wins": 42
+      }
+    },
+    {
+      "symbol": "UVXY",
+      "style": "impulse 0.6% hold=12",
+      "ago21_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.6% hold=12",
+        "window": "ago21-9m",
+        "end": 7682.02,
+        "pct": 1436.4,
+        "per_month": 159.6,
+        "n": 109,
+        "wins": 67
+      },
+      "ago21_12m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.6% hold=12",
+        "window": "ago21-12m",
+        "end": 12311.3,
+        "pct": 2362.3,
+        "per_month": 196.9,
+        "n": 143,
+        "wins": 92
+      },
+      "last_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.6% hold=12",
+        "window": "last-9m",
+        "end": 3774.66,
+        "pct": 654.9,
+        "per_month": 72.8,
+        "n": 108,
+        "wins": 55
+      }
+    },
+    {
+      "symbol": "TSLA",
+      "style": "impulse 0.4% hold=6",
+      "ago21_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.4% hold=6",
+        "window": "ago21-9m",
+        "end": 7581.44,
+        "pct": 1416.3,
+        "per_month": 157.4,
+        "n": 75,
+        "wins": 60
+      },
+      "ago21_12m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.4% hold=6",
+        "window": "ago21-12m",
+        "end": 8842.05,
+        "pct": 1668.4,
+        "per_month": 139.0,
+        "n": 98,
+        "wins": 76
+      },
+      "last_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.4% hold=6",
+        "window": "last-9m",
+        "end": 4327.85,
+        "pct": 765.6,
+        "per_month": 85.1,
+        "n": 83,
+        "wins": 59
+      }
+    },
+    {
+      "symbol": "NVDA",
+      "style": "impulse 0.4% hold=12",
+      "ago21_9m": {
+        "symbol": "NVDA",
+        "style": "impulse 0.4% hold=12",
+        "window": "ago21-9m",
+        "end": 7298.61,
+        "pct": 1359.7,
+        "per_month": 151.1,
+        "n": 96,
+        "wins": 61
+      },
+      "ago21_12m": {
+        "symbol": "NVDA",
+        "style": "impulse 0.4% hold=12",
+        "window": "ago21-12m",
+        "end": 8748.95,
+        "pct": 1649.8,
+        "per_month": 137.5,
+        "n": 124,
+        "wins": 80
+      },
+      "last_9m": {
+        "symbol": "NVDA",
+        "style": "impulse 0.4% hold=12",
+        "window": "last-9m",
+        "end": 0.0,
+        "pct": -100.0,
+        "per_month": -11.1,
+        "n": 12,
+        "wins": 6
+      }
+    },
+    {
+      "symbol": "TSLA",
+      "style": "impulse 0.3% hold=6",
+      "ago21_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.3% hold=6",
+        "window": "ago21-9m",
+        "end": 6991.92,
+        "pct": 1298.4,
+        "per_month": 144.3,
+        "n": 61,
+        "wins": 51
+      },
+      "ago21_12m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.3% hold=6",
+        "window": "ago21-12m",
+        "end": 8132.38,
+        "pct": 1526.5,
+        "per_month": 127.2,
+        "n": 81,
+        "wins": 67
+      },
+      "last_9m": {
+        "symbol": "TSLA",
+        "style": "impulse 0.3% hold=6",
+        "window": "last-9m",
+        "end": 4611.79,
+        "pct": 822.4,
+        "per_month": 91.4,
+        "n": 64,
+        "wins": 49
+      }
+    },
+    {
+      "symbol": "COIN",
+      "style": "impulse 0.4% hold=12",
+      "ago21_9m": {
+        "symbol": "COIN",
+        "style": "impulse 0.4% hold=12",
+        "window": "ago21-9m",
+        "end": 6898.22,
+        "pct": 1279.6,
+        "per_month": 142.2,
+        "n": 45,
+        "wins": 33
+      },
+      "ago21_12m": {
+        "symbol": "COIN",
+        "style": "impulse 0.4% hold=12",
+        "window": "ago21-12m",
+        "end": 6415.58,
+        "pct": 1183.1,
+        "per_month": 98.6,
+        "n": 62,
+        "wins": 41
+      },
+      "last_9m": {
+        "symbol": "COIN",
+        "style": "impulse 0.4% hold=12",
+        "window": "last-9m",
+        "end": 7018.26,
+        "pct": 1303.7,
+        "per_month": 144.9,
+        "n": 63,
+        "wins": 41
+      }
+    },
+    {
+      "symbol": "COIN",
+      "style": "impulse 0.4% hold=6",
+      "ago21_9m": {
+        "symbol": "COIN",
+        "style": "impulse 0.4% hold=6",
+        "window": "ago21-9m",
+        "end": 6883.12,
+        "pct": 1276.6,
+        "per_month": 141.8,
+        "n": 45,
+        "wins": 38
+      },
+      "ago21_12m": {
+        "symbol": "COIN",
+        "style": "impulse 0.4% hold=6",
+        "window": "ago21-12m",
+        "end": 7845.17,
+        "pct": 1469.0,
+        "per_month": 122.4,
+        "n": 62,
+        "wins": 48
+      },
+      "last_9m": {
+        "symbol": "COIN",
+        "style": "impulse 0.4% hold=6",
+        "window": "last-9m",
+        "end": 8879.9,
+        "pct": 1676.0,
+        "per_month": 186.2,
+        "n": 63,
+        "wins": 52
+      }
+    },
+    {
+      "symbol": "UVXY",
+      "style": "impulse 0.4% hold=12",
+      "ago21_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.4% hold=12",
+        "window": "ago21-9m",
+        "end": 6714.21,
+        "pct": 1242.8,
+        "per_month": 138.1,
+        "n": 76,
+        "wins": 50
+      },
+      "ago21_12m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.4% hold=12",
+        "window": "ago21-12m",
+        "end": 9235.97,
+        "pct": 1747.2,
+        "per_month": 145.6,
+        "n": 100,
+        "wins": 67
+      },
+      "last_9m": {
+        "symbol": "UVXY",
+        "style": "impulse 0.4% hold=12",
+        "window": "last-9m",
+        "end": 2504.59,
+        "pct": 400.9,
+        "per_month": 44.5,
+        "n": 73,
+        "wins": 35
+      }
+    },
+    {
+      "symbol": "COIN",
+      "style": "impulse 0.3% hold=12",
+      "ago21_9m": {
+        "symbol": "COIN",
+        "style": "impulse 0.3% hold=12",
+        "window": "ago21-9m",
+        "end": 6530.55,
+        "pct": 1206.1,
+        "per_month": 134.0,
+        "n": 32,
+        "wins": 26
+      },
+      "ago21_12m": {
+        "symbol": "COIN",
+        "style": "impulse 0.3% hold=12",
+        "window": "ago21-12m",
+        "end": 7000.44,
+        "pct": 1300.1,
+        "per_month": 108.3,
+        "n": 43,
+        "wins": 33
+      },
+      "last_9m": {
+        "symbol": "COIN",
+        "style": "impulse 0.3% hold=12",
+        "window": "last-9m",
+        "end": 8023.85,
+        "pct": 1504.8,
+        "per_month": 167.2,
+        "n": 51,
+        "wins": 36
+      }
+    },
+    {
+      "symbol": "SMCI",
+      "style": "impulse 0.6% hold=6",
+      "ago21_9m": {
+        "symbol": "SMCI",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-9m",
+        "end": 6507.86,
+        "pct": 1201.6,
+        "per_month": 133.5,
+        "n": 70,
+        "wins": 47
+      },
+      "ago21_12m": {
+        "symbol": "SMCI",
+        "style": "impulse 0.6% hold=6",
+        "window": "ago21-12m",
+        "end": 8915.17,
+        "pct": 1683.0,
+        "per_month": 140.3,
+        "n": 102,
+        "wins": 66
+      },
+      "last_9m": {
+        "symbol": "SMCI",
+        "style": "impulse 0.6% hold=6",
+        "window": "last-9m",
+        "end": 7716.98,
+        "pct": 1443.4,
+        "per_month": 160.4,
+        "n": 87,
+        "wins": 62
+      }
+    }
+  ],
+  "fat": 24
+}

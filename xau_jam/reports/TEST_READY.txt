@@ -1,0 +1,57 @@
+ГОТОВ К ТЕСТУ — 27.09.2026
+Для Botir. Деньги не вносим. Live 7496 закрыт. Aave/Morpho live не трогать.
+
+
+КНИГА (семь имён)
+  MSTR  0.6%   IBKR ЕСТЬ  STRATEGY INC
+  COIN  0.6%   IBKR ЕСТЬ  COINBASE GLOBAL INC -CLASS A
+  SMCI  0.6%   IBKR ЕСТЬ  SUPER MICRO COMPUTER INC
+  AMD   0.6%   IBKR ЕСТЬ  ADVANCED MICRO DEVICES
+  UVXY  0.6%   IBKR ЕСТЬ  PROSHARES ULTRA VIX ST FUTUR
+  PLTR  0.6%   IBKR ЕСТЬ  PALANTIR TECHNOLOGIES INC-A
+  TSLA  0.3%   IBKR ЕСТЬ  TESLA INC
+
+IBKR: официальный US View Shortable Securities, 25.09.2026 19:30 EDT.
+Это акции/ETF USD, не CFD XM.
+
+Yahoo H1 (сигнал): все семь отвечают. 27.09.2026 15:58 UTC, 5d/60m.
+Последняя свеча у всех 2026-09-25 20:00 UTC (воскресенье, рынок закрыт).
+  MSTR 158.61  COIN 195.11  SMCI 43.26  AMD 630.63
+  UVXY 16.85   PLTR 189.67  TSLA 372.11
+
+
+ЧТО УЖЕ КРУТИТСЯ
+  Yahoo-demo: банк $350, eq=$359.67, venue yahoo.
+  4 сделки 25.09: MSTR +10.01, COIN +6.67, SMCI +12.29, UVXY −19.30.
+  Позиций нет. Импульса 25.09 больше не было.
+
+  Paper IBKR: DUR216113, Individual, $1 000 000 симулятор.
+  Живой счёт не трогаю. Пароль не в git.
+
+
+ЧТО ЕЩЁ МЕШАЕТ ВЕБ-КАБИНЕТУ
+  На скрине ещё жёлтая почта botirirmanovv@gmail.com
+  и «нет Trading/Market Data». Поиск в портале может крутить Loading.
+  Каталог IBKR от этого не пустой — семёрка там есть.
+
+
+ПОЛНЫЙ ТЕСТ (не один скрипт сравнения)
+  Yahoo-нога уже крутится в облаке: банк $350, eq=$359.67.
+  IBKR-ногу запускает ЛОКАЛЬНЫЙ агент на Windows, TWS Paper 7497 открыт.
+
+  Сейчас в коде --venue ibkr = тот же сигнал Yahoo H1, отдельный журнал
+  combine_state_ibkr_350.json. Ордера в TWS книга пока не шлёт.
+  Сравнение last Yahoo vs IBKR hist close 27.09: все семь Δ=0.
+
+  Старт с Windows (TWS не закрывать):
+    set IBKR_PAPER_HOST=127.0.0.1
+    set IBKR_PAPER_PORT=7497
+    set IBKR_PAPER_CLIENT_ID=1
+    set IBKR_PAPER_ACCOUNT=DUR216113
+    python -m xau_jam.auto --bank 350 --risk 0.2 --max-stake 2500 --venue ibkr --interval 3600
+
+  Live 7496 / LIVE_MONEY / Aave / Morpho live — запрещено.
+  Понедельник RTH (US open 09:30 ET = 18:30 Ташкент): оставить оба цикла,
+  плюс live last/bid/ask по семёрке. Не один --once.
+
+Не делать: депозит, Live, Aave, Morpho live, слать пароль в git/TG.

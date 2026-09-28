@@ -308,6 +308,19 @@ def load_telegram_config() -> TelegramConfig:
     )
 
 
+def load_morpho_telegram_config() -> TelegramConfig:
+    """Morpho alerts: dedicated bot/chat when set, else the shared Telegram pair.
+
+    Token: MORPHO_TELEGRAM_BOT_TOKEN, then TELEGRAM_BOT_TOKEN.
+    Chat: MORPHO_TELEGRAM_CHAT_ID, then TELEGRAM_CHAT_ID.
+    Does not enable Morpho live or Aave.
+    """
+    return TelegramConfig(
+        bot_token=_text("MORPHO_TELEGRAM_BOT_TOKEN", None) or _text("TELEGRAM_BOT_TOKEN", None),
+        chat_id=_text("MORPHO_TELEGRAM_CHAT_ID", None) or _text("TELEGRAM_CHAT_ID", None),
+    )
+
+
 def configured_chains() -> list[str]:
     """Chain names from CHAINS=arbitrum,base. Empty means single-chain mode."""
     return [part.strip().lower() for part in _text("CHAINS", None).split(",") if part.strip()]

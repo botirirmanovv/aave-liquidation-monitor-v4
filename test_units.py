@@ -254,6 +254,49 @@ def test_chain_scoped_config() -> None:
                 os.environ[key] = value
 
 
+def test_morpho_telegram_config() -> None:
+    """Morpho TG falls back to the shared bot; dedicated keys win.
+
+    Tools import load_morpho_telegram_config. Missing it used to crash send.
+    """
+    print("\n[config: morpho telegram fallback]")
+    import os
+
+    from aave_bot import config as cfg
+
+    keys = (
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "MORPHO_TELEGRAM_BOT_TOKEN",
+        "MORPHO_TELEGRAM_CHAT_ID",
+    )
+    saved = {key: os.environ.get(key) for key in keys}
+    for key in keys:
+        os.environ.pop(key, None)
+    try:
+        empty = cfg.load_morpho_telegram_config()
+        check("empty morpho telegram is disabled", not empty.enabled)
+
+        os.environ["TELEGRAM_BOT_TOKEN"] = "shared-token"
+        os.environ["TELEGRAM_CHAT_ID"] = "111"
+        shared = cfg.load_morpho_telegram_config()
+        check("falls back to TELEGRAM_BOT_TOKEN", shared.bot_token == "shared-token")
+        check("falls back to TELEGRAM_CHAT_ID", shared.chat_id == "111")
+        check("shared pair enables morpho telegram", shared.enabled)
+
+        os.environ["MORPHO_TELEGRAM_BOT_TOKEN"] = "morpho-token"
+        os.environ["MORPHO_TELEGRAM_CHAT_ID"] = "222"
+        dedicated = cfg.load_morpho_telegram_config()
+        check("dedicated morpho token wins", dedicated.bot_token == "morpho-token")
+        check("dedicated morpho chat wins", dedicated.chat_id == "222")
+    finally:
+        for key, value in saved.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
+
+
 def test_multicall_failure_is_transient() -> None:
     """A failed batch read must not disable batching for the whole process.
 
@@ -375,6 +418,7 @@ def main() -> int:
     test_state()
     test_pair_ranking()
     test_chain_scoped_config()
+    test_morpho_telegram_config()
     test_multicall_failure_is_transient()
     test_simulation_decoding()
 

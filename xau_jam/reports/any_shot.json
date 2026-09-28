@@ -1,0 +1,290 @@
+{
+  "best": {
+    "symbol": "MSTR",
+    "style": "day impulse",
+    "day": "2026-09-17",
+    "side": "buy",
+    "entry": 130.404534,
+    "exit": 170.009995,
+    "pct": 30.371,
+    "cash": 1518.56,
+    "hold": "24h"
+  },
+  "top": [
+    {
+      "symbol": "MSTR",
+      "style": "day impulse",
+      "day": "2026-09-17",
+      "side": "buy",
+      "entry": 130.404534,
+      "exit": 170.009995,
+      "pct": 30.371,
+      "cash": 1518.56,
+      "hold": "24h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "day impulse",
+      "day": "2026-09-18",
+      "side": "buy",
+      "entry": 137.126322,
+      "exit": 168.205093,
+      "pct": 22.664,
+      "cash": 1133.22,
+      "hold": "12h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "day impulse",
+      "day": "2026-09-18",
+      "side": "buy",
+      "entry": 137.126322,
+      "exit": 163.068802,
+      "pct": 18.919,
+      "cash": 945.93,
+      "hold": "24h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "day impulse",
+      "day": "2026-09-17",
+      "side": "buy",
+      "entry": 130.404534,
+      "exit": 153.559998,
+      "pct": 17.757,
+      "cash": 887.83,
+      "hold": "12h"
+    },
+    {
+      "symbol": "AMD",
+      "style": "day impulse",
+      "day": "2026-09-16",
+      "side": "buy",
+      "entry": 519.319,
+      "exit": 606.400024,
+      "pct": 16.768,
+      "cash": 838.42,
+      "hold": "24h"
+    },
+    {
+      "symbol": "AMD",
+      "style": "day impulse",
+      "day": "2026-09-17",
+      "side": "buy",
+      "entry": 536.035625,
+      "exit": 616.580017,
+      "pct": 15.026,
+      "cash": 751.3,
+      "hold": "24h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "day impulse",
+      "day": "2026-09-15",
+      "side": "buy",
+      "entry": 132.176594,
+      "exit": 150.442505,
+      "pct": 13.819,
+      "cash": 690.97,
+      "hold": "24h"
+    },
+    {
+      "symbol": "DOGE-USD",
+      "style": "day impulse",
+      "day": "2026-09-21",
+      "side": "buy",
+      "entry": 0.087599,
+      "exit": 0.09936,
+      "pct": 13.426,
+      "cash": 671.3,
+      "hold": "24h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "gap 2%",
+      "day": "2026-09-03",
+      "side": "buy",
+      "entry": 127.989998,
+      "exit": 144.820007,
+      "pct": 13.149,
+      "cash": 657.47,
+      "hold": "EOD"
+    },
+    {
+      "symbol": "COIN",
+      "style": "day impulse",
+      "day": "2026-09-18",
+      "side": "buy",
+      "entry": 178.867619,
+      "exit": 202.039993,
+      "pct": 12.955,
+      "cash": 647.75,
+      "hold": "12h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "gap 2%",
+      "day": "2026-09-18",
+      "side": "buy",
+      "entry": 136.580002,
+      "exit": 153.919998,
+      "pct": 12.696,
+      "cash": 634.79,
+      "hold": "EOD"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "day impulse",
+      "day": "2026-09-03",
+      "side": "buy",
+      "entry": 128.547144,
+      "exit": 144.839996,
+      "pct": 12.675,
+      "cash": 633.73,
+      "hold": "6h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "day impulse",
+      "day": "2026-09-03",
+      "side": "buy",
+      "entry": 128.547144,
+      "exit": 144.330002,
+      "pct": 12.278,
+      "cash": 613.89,
+      "hold": "12h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "day impulse",
+      "day": "2026-09-18",
+      "side": "buy",
+      "entry": 137.126322,
+      "exit": 153.910004,
+      "pct": 12.24,
+      "cash": 611.98,
+      "hold": "6h"
+    },
+    {
+      "symbol": "AMD",
+      "style": "day impulse",
+      "day": "2026-09-14",
+      "side": "buy",
+      "entry": 488.074525,
+      "exit": 547.5,
+      "pct": 12.175,
+      "cash": 608.77,
+      "hold": "24h"
+    },
+    {
+      "symbol": "PLTR",
+      "style": "gap 2%",
+      "day": "2026-08-04",
+      "side": "buy",
+      "entry": 145.145004,
+      "exit": 162.660004,
+      "pct": 12.067,
+      "cash": 603.36,
+      "hold": "EOD"
+    },
+    {
+      "symbol": "AMD",
+      "style": "day impulse",
+      "day": "2026-09-18",
+      "side": "buy",
+      "entry": 549.750238,
+      "exit": 614.479919,
+      "pct": 11.774,
+      "cash": 588.72,
+      "hold": "12h"
+    },
+    {
+      "symbol": "NG=F",
+      "style": "day impulse",
+      "day": "2026-09-22",
+      "side": "buy",
+      "entry": 2.842324,
+      "exit": 3.171,
+      "pct": 11.564,
+      "cash": 578.18,
+      "hold": "24h"
+    },
+    {
+      "symbol": "AMD",
+      "style": "day impulse",
+      "day": "2026-09-18",
+      "side": "buy",
+      "entry": 549.750238,
+      "exit": 612.099976,
+      "pct": 11.341,
+      "cash": 567.07,
+      "hold": "24h"
+    },
+    {
+      "symbol": "COIN",
+      "style": "day impulse",
+      "day": "2026-09-18",
+      "side": "buy",
+      "entry": 178.867619,
+      "exit": 198.960007,
+      "pct": 11.233,
+      "cash": 561.66,
+      "hold": "24h"
+    },
+    {
+      "symbol": "COIN",
+      "style": "day impulse",
+      "day": "2026-09-15",
+      "side": "sell",
+      "entry": 182.886518,
+      "exit": 162.345001,
+      "pct": 11.232,
+      "cash": 561.59,
+      "hold": "12h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "day impulse",
+      "day": "2026-08-26",
+      "side": "buy",
+      "entry": 123.68778,
+      "exit": 137.490005,
+      "pct": 11.159,
+      "cash": 557.95,
+      "hold": "12h"
+    },
+    {
+      "symbol": "UVXY",
+      "style": "day impulse",
+      "day": "2026-09-04",
+      "side": "buy",
+      "entry": 17.188481,
+      "exit": 19.035,
+      "pct": 10.743,
+      "cash": 537.14,
+      "hold": "24h"
+    },
+    {
+      "symbol": "COIN",
+      "style": "day impulse",
+      "day": "2026-09-02",
+      "side": "buy",
+      "entry": 174.997203,
+      "exit": 193.039993,
+      "pct": 10.31,
+      "cash": 515.52,
+      "hold": "12h"
+    },
+    {
+      "symbol": "MSTR",
+      "style": "gap 2%",
+      "day": "2026-08-19",
+      "side": "buy",
+      "entry": 94.540001,
+      "exit": 104.25,
+      "pct": 10.271,
+      "cash": 513.54,
+      "hold": "EOD"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
+from pathlib import Path
 
 import aiohttp
 
@@ -83,6 +84,36 @@ class Notifier:
             return True
         except (aiohttp.ClientError, asyncio.TimeoutError, OSError) as exc:
             log.warning("could not deliver telegram alert: %s", exc)
+            return False
+
+    async def send_document(self, path: Path, *, caption: str = "") -> bool:
+        """Send a file. Caption is truncated to Telegram's 1024-char limit."""
+        if not self.enabled:
+            return False
+        url = f"{TELEGRAM_API}/bot{self.config.bot_token}/sendDocument"
+        data = aiohttp.FormData()
+        data.add_field("chat_id", self.config.chat_id)
+        if caption:
+            body = f"{self.prefix}{caption}" if self.prefix else caption
+            data.add_field("caption", body[:1024])
+        data.add_field(
+            "document",
+            path.read_bytes(),
+            filename=path.name,
+            content_type="text/plain",
+        )
+        try:
+            async with self._lock:
+                session = await self._get_session()
+                async with session.post(url, data=data) as response:
+                    if response.status != 200:
+                        detail = (await response.text())[:200]
+                        log.warning("telegram rejected the document (%s): %s",
+                                    response.status, detail)
+                        return False
+            return True
+        except (aiohttp.ClientError, asyncio.TimeoutError, OSError) as exc:
+            log.warning("could not deliver telegram document: %s", exc)
             return False
 
     async def close(self) -> None:

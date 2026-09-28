@@ -1,0 +1,29 @@
+{
+  "params": {
+    "session": "london",
+    "model": "straddle",
+    "trigger": 2.5,
+    "layers": 8,
+    "step": 0.5,
+    "orb_bars": 8,
+    "hold_bars": 1,
+    "spread": 0.2,
+    "fail_through_open": false,
+    "flatten": "close",
+    "symbol": "GC=F",
+    "interval": "1m"
+  },
+  "start": "2026-09-20T22:10:00+00:00",
+  "end": "2026-09-25T20:59:59+00:00",
+  "bars": 6879,
+  "days": 5,
+  "sessions_traded": 5,
+  "clips": 23,
+  "wins": 15,
+  "losses": 8,
+  "win_rate": 65.22,
+  "net_pnl": 17.5953,
+  "avg_clip": 0.765,
+  "max_dd": 8.5,
+  "profit_factor": 2.629
+}

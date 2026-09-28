@@ -1,0 +1,45 @@
+Другие механики, простой %, $500, 1:10, с 2026-01-01 → сейчас.
+impulse = наша. jam / gap = другие стратегии.
+
+     pct      pm       end n   wr  symbol     style
+  1762.8   198.1      9314 76  75%  MSTR       impulse 0.6% hold=6
+  1706.7   191.8      9033 80  78%  COIN       impulse 0.6% hold=6
+  1577.3   177.2      8387 51  86%  COIN       impulse 0.3% hold=6
+  1456.5   163.6      7782 85  72%  SMCI       impulse 0.6% hold=6
+  1228.8   138.1      6644 79  76%  AMD        impulse 0.6% hold=6
+  1134.5   127.5      6173 105  64%  UVXY       impulse 0.6% hold=6
+  1126.6   126.6      6133 41  83%  SMCI       impulse 0.3% hold=6
+  1086.9   122.1      5934 41  78%  MSTR       impulse 0.3% hold=6
+  1019.3   114.5      5596 95  67%  PLTR       impulse 0.6% hold=6
+   892.0   100.2      4960 39  85%  AMD        impulse 0.3% hold=6
+   857.6    96.4      4788 54  72%  UVXY       impulse 0.3% hold=6
+   838.6    94.2      4693 116  69%  TSLA       impulse 0.6% hold=6
+   823.2    92.5      4616 49  53%  COIN       jam rr=2
+   810.2    91.0      4551 77  70%  NVDA       impulse 0.3% hold=6
+   808.2    90.8      4541 38  63%  SMCI       gap 3%
+   789.7    88.7      4448 61  75%  TSLA       impulse 0.3% hold=6
+   774.7    87.0      4374 91  56%  MSTR       gap 2%
+   767.5    86.2      4338 67  58%  SMCI       gap 2%
+   725.3    81.5      4127 133  66%  NVDA       impulse 0.6% hold=6
+   699.2    78.6      3996 46  48%  COIN       jam rr=3
+   664.1    74.6      3820 61  56%  MSTR       gap 3%
+   660.1    74.2      3801 48  75%  PLTR       impulse 0.3% hold=6
+   631.9    71.0      3660 67  76%  NFLX       impulse 0.3% hold=6
+   576.2    64.7      3381 81  75%  AMZN       impulse 0.3% hold=6
+   523.5    58.8      3118 129  61%  META       impulse 0.6% hold=6
+
+не-импульс с ≥+150% за окно: 14
+  COIN jam rr=2  +823.2%  n=49  $4616
+  SMCI gap 3%  +808.2%  n=38  $4541
+  MSTR gap 2%  +774.7%  n=91  $4374
+  SMCI gap 2%  +767.5%  n=67  $4338
+  COIN jam rr=3  +699.2%  n=46  $3996
+  MSTR gap 3%  +664.1%  n=61  $3820
+  COIN gap 3%  +493.2%  n=45  $2966
+  COIN gap 2%  +485.4%  n=81  $2927
+  META jam rr=3  +331.1%  n=53  $2155
+  AMD gap 2%  +213.1%  n=80  $1565
+  AMD gap 3%  +201.9%  n=46  $1509
+  BABA jam rr=2  +193.1%  n=40  $1466
+  META jam rr=2  +180.4%  n=58  $1402
+  TSLA jam rr=2  +157.1%  n=51  $1286

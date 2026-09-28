@@ -1,0 +1,33 @@
+ЗОЛОТО → IMPULSE. Каталог, не канон. Сам выбирай.
+Вход: signal_for_day (одна сторона от OPEN сессии, оба фитиля = skip).
+GC=F H1 Yahoo. 1 oz спред $0.30 RT. Банк: 20% × 1:10, лот 0.01oz, клип −stake.
+с 2026-01-01, последняя цена $4164.70, старт $350.
+usd_oz = сумма на 1 унцию (без плеча). bank = $350 20%. blown = банк умер.
+Это 2026 in-sample. hold=1 и WR 90%+ не канон — спред может съесть. Сам решай.
+
+name                         src         sess    trig    h  n  wr    usd/oz     bank
+oneshot-ny-$6-h12            oneshot     ny      $6.0    12  69  73.9%  1629.50   669.16
+paper-0.3-h6                 paper       daily   0.3%     6 168  58.9%  1251.92   576.48
+burst-ny-$6-h1               burst       ny      $6.0     1  69  78.3%  1193.90   571.23
+oneshot-london-$6-h12        oneshot     london  $6.0    12 136  55.1%  1024.40   550.94
+burst-ny-$2.5-h1             burst       ny      $2.5     1  35  94.3%  1028.10   535.44
+paper-0.6-h6                 paper       daily   0.6%     6 161  59.6%  1071.69   534.76
+jam-0.6-h24                  jam         daily   0.6%    24 161  52.8%  1371.79   528.82
+jam-0.3-h24                  jam         daily   0.3%    24 168  54.2%  1422.32   526.41
+scalp-ny-$4-h6               open_scalp  ny      $4.0     6  52  63.5%   970.70   514.19
+paper-0.6-h12                paper       daily   0.6%    12 161  53.4%   958.09   489.52
+burst-cme-$2.5-h1            burst       cme     $2.5     1  62  66.1%   696.00   462.40
+burst-london-$2.5-h1         burst       london  $2.5     1  58  79.3%   514.10   436.90
+burst-london-$6-h1           burst       london  $6.0     1 136  60.3%   503.10   435.67
+scalp-london-$4-h6           open_scalp  london  $4.0     6  87  57.5%   376.00   409.69
+scalp-cme-$4-h6              open_scalp  cme     $4.0     6 103  53.4%   197.40   383.20
+cme-0.3-h6                   impulse     cme     0.3%     6 167  50.3%   -18.76   351.94
+cme-0.6-h6                   impulse     cme     0.6%     6 155  53.5%   -80.97   339.77
+oneshot-cme-$6-h12           oneshot     cme     $6.0    12 133  48.9%  -446.70   288.29
+ny-0.6-h6                    impulse     ny      0.6%     6 166  45.2%  -307.59   285.07
+ny-0.3-h6                    impulse     ny      0.3%     6 159  48.4%  -365.17   282.57
+london-0.6-h6                impulse     london  0.6%     6 173  46.2%  -532.04   256.35
+london-0.3-h6                impulse     london  0.3%     6 176  41.5% -1284.49   195.61
+gld-0.3-h6                   paper/GLD   daily   0.3%     6 126  42.9%     0.00    35.64
+gld-0.6-h6                   paper/GLD   daily   0.6%     6 132  42.4%     0.00    32.35
+gld-0.6-h12                  paper/GLD   daily   0.6%    12  69  42.0%     0.00    25.26

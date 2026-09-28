@@ -1,0 +1,1162 @@
+{
+  "rules": {
+    "session": "london",
+    "model": "straddle",
+    "trigger": 2.5,
+    "layers": 8,
+    "step": 0.5,
+    "orb_bars": 8,
+    "hold_bars": 1,
+    "spread": 0.2,
+    "fail_through_open": false,
+    "flatten": "close",
+    "symbol": "GC=F",
+    "interval": "1m"
+  },
+  "books": [
+    {
+      "name": "1m 0.01 1:500",
+      "start": 500.0,
+      "end": 517.6,
+      "net": 17.6,
+      "max_dd": 8.5,
+      "blown": false,
+      "hit_10x": false,
+      "stacks": 5,
+      "clips": 23,
+      "skipped": 0,
+      "leverage": 500,
+      "notes": "1m 0.01 1:500: 1:500 lots=0.01 margin\u226440% stack, daily kill 20%",
+      "path": [
+        {
+          "time": "2026-09-21T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.01,
+          "margin": 70.21,
+          "pnl": 10.8,
+          "equity": 510.8,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-22T07:00:00+00:00",
+          "side": "buy",
+          "clips": 1,
+          "lots": 0.01,
+          "margin": 8.71,
+          "pnl": -1.7,
+          "equity": 509.1,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-23T07:07:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.01,
+          "margin": 8.73,
+          "pnl": -0.2,
+          "equity": 508.9,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-24T07:04:00+00:00",
+          "side": "buy",
+          "clips": 8,
+          "lots": 0.01,
+          "margin": 69.02,
+          "pnl": 17.2,
+          "equity": 526.1,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-25T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.01,
+          "margin": 43.13,
+          "pnl": -8.5,
+          "equity": 517.6,
+          "event": "ok"
+        }
+      ],
+      "interval": "1m",
+      "range": "7d"
+    },
+    {
+      "name": "1m 10x=0.10 1:500",
+      "start": 500.0,
+      "end": 522.49,
+      "net": 22.49,
+      "max_dd": 42.5,
+      "blown": false,
+      "hit_10x": false,
+      "stacks": 5,
+      "clips": 23,
+      "skipped": 0,
+      "leverage": 500,
+      "notes": "1m 10x=0.10 1:500: 1:500 lots=0.1 margin\u226440% stack, daily kill 20%",
+      "path": [
+        {
+          "time": "2026-09-21T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.03,
+          "margin": 210.63,
+          "pnl": 32.4,
+          "equity": 532.4,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-22T07:00:00+00:00",
+          "side": "buy",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 87.14,
+          "pnl": -17.0,
+          "equity": 515.4,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-23T07:07:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 87.3,
+          "pnl": -2.0,
+          "equity": 513.4,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-24T07:04:00+00:00",
+          "side": "buy",
+          "clips": 8,
+          "lots": 0.03,
+          "margin": 207.06,
+          "pnl": 51.59,
+          "equity": 564.99,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-25T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.05,
+          "margin": 215.67,
+          "pnl": -42.5,
+          "equity": 522.49,
+          "event": "ok"
+        }
+      ],
+      "interval": "1m",
+      "range": "7d"
+    },
+    {
+      "name": "1m 10x=0.10 1:1000",
+      "start": 500.0,
+      "end": 563.97,
+      "net": 63.97,
+      "max_dd": 85.0,
+      "blown": false,
+      "hit_10x": false,
+      "stacks": 5,
+      "clips": 23,
+      "skipped": 0,
+      "leverage": 1000,
+      "notes": "1m 10x=0.10 1:1000: 1:1000 lots=0.1 margin\u226440% stack, daily kill 20%",
+      "path": [
+        {
+          "time": "2026-09-21T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.06,
+          "margin": 210.63,
+          "pnl": 64.79,
+          "equity": 564.79,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-22T07:00:00+00:00",
+          "side": "buy",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 43.57,
+          "pnl": -17.0,
+          "equity": 547.79,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-23T07:07:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 43.65,
+          "pnl": -2.0,
+          "equity": 545.79,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-24T07:04:00+00:00",
+          "side": "buy",
+          "clips": 8,
+          "lots": 0.06,
+          "margin": 207.06,
+          "pnl": 103.18,
+          "equity": 648.97,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-25T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.1,
+          "margin": 215.67,
+          "pnl": -85.0,
+          "equity": 563.97,
+          "event": "ok"
+        }
+      ],
+      "interval": "1m",
+      "range": "7d"
+    },
+    {
+      "name": "1m compound 40% 1:1000",
+      "start": 500.0,
+      "end": 468.57,
+      "net": -31.43,
+      "max_dd": 97.2,
+      "blown": false,
+      "hit_10x": false,
+      "stacks": 5,
+      "clips": 23,
+      "skipped": 0,
+      "leverage": 1000,
+      "notes": "1m compound 40% 1:1000: 1:1000 lots=compound margin\u226440% stack, daily kill 20%",
+      "path": [
+        {
+          "time": "2026-09-21T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.06,
+          "margin": 210.63,
+          "pnl": 64.79,
+          "equity": 564.79,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-22T07:00:00+00:00",
+          "side": "buy",
+          "clips": 1,
+          "lots": 0.52,
+          "margin": 226.56,
+          "pnl": -88.4,
+          "equity": 476.39,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-23T07:07:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.44,
+          "margin": 192.07,
+          "pnl": -8.8,
+          "equity": 467.59,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-24T07:04:00+00:00",
+          "side": "buy",
+          "clips": 8,
+          "lots": 0.05,
+          "margin": 172.55,
+          "pnl": 85.98,
+          "equity": 553.57,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-25T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.1,
+          "margin": 215.67,
+          "pnl": -85.0,
+          "equity": 468.57,
+          "event": "ok"
+        }
+      ],
+      "interval": "1m",
+      "range": "7d"
+    },
+    {
+      "name": "5m 0.01 1:500",
+      "start": 500.0,
+      "end": 542.49,
+      "net": 42.49,
+      "max_dd": 66.9,
+      "blown": false,
+      "hit_10x": false,
+      "stacks": 20,
+      "clips": 79,
+      "skipped": 0,
+      "leverage": 500,
+      "notes": "5m 0.01 1:500: 1:500 lots=0.01 margin\u226440% stack, daily kill 20%",
+      "path": [
+        {
+          "time": "2026-08-27T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.01,
+          "margin": 18.63,
+          "pnl": 0.3,
+          "equity": 500.3,
+          "event": "ok"
+        },
+        {
+          "time": "2026-08-28T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.01,
+          "margin": 74.6,
+          "pnl": 10.0,
+          "equity": 510.3,
+          "event": "ok"
+        },
+        {
+          "time": "2026-08-31T07:05:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.01,
+          "margin": 8.97,
+          "pnl": -1.1,
+          "equity": 509.2,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-01T07:00:00+00:00",
+          "side": "buy",
+          "clips": 7,
+          "lots": 0.01,
+          "margin": 62.73,
+          "pnl": 4.2,
+          "equity": 513.4,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-02T07:00:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.01,
+          "margin": 8.73,
+          "pnl": -2.4,
+          "equity": 511.0,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-03T07:00:00+00:00",
+          "side": "buy",
+          "clips": 8,
+          "lots": 0.01,
+          "margin": 71.5,
+          "pnl": 52.4,
+          "equity": 563.4,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-04T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.01,
+          "margin": 45.12,
+          "pnl": -0.5,
+          "equity": 562.9,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-08T07:00:00+00:00",
+          "side": "buy",
+          "clips": 4,
+          "lots": 0.01,
+          "margin": 35.61,
+          "pnl": 2.2,
+          "equity": 565.1,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-09T07:05:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.01,
+          "margin": 26.68,
+          "pnl": -0.9,
+          "equity": 564.2,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-10T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.01,
+          "margin": 71.46,
+          "pnl": 45.2,
+          "equity": 609.4,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-11T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.01,
+          "margin": 17.59,
+          "pnl": -2.3,
+          "equity": 607.1,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-14T07:00:00+00:00",
+          "side": "sell",
+          "clips": 5,
+          "lots": 0.01,
+          "margin": 43.6,
+          "pnl": -15.5,
+          "equity": 591.6,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-15T07:00:00+00:00",
+          "side": "sell",
+          "clips": 4,
+          "lots": 0.01,
+          "margin": 34.65,
+          "pnl": -6.6,
+          "equity": 585.0,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-16T07:00:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.01,
+          "margin": 26.25,
+          "pnl": -3.3,
+          "equity": 581.7,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-17T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.01,
+          "margin": 17.41,
+          "pnl": -3.7,
+          "equity": 578.0,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-18T07:00:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.01,
+          "margin": 8.86,
+          "pnl": -0.8,
+          "equity": 577.2,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-22T07:00:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.01,
+          "margin": 26.14,
+          "pnl": -7.5,
+          "equity": 569.7,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-23T07:05:00+00:00",
+          "side": "sell",
+          "clips": 3,
+          "lots": 0.01,
+          "margin": 26.19,
+          "pnl": -1.8,
+          "equity": 567.9,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-24T07:00:00+00:00",
+          "side": "buy",
+          "clips": 4,
+          "lots": 0.01,
+          "margin": 34.51,
+          "pnl": 0.6,
+          "equity": 568.49,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-25T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.01,
+          "margin": 43.13,
+          "pnl": -26.0,
+          "equity": 542.49,
+          "event": "ok"
+        }
+      ],
+      "interval": "5m",
+      "range": "1mo"
+    },
+    {
+      "name": "5m 10x=0.10 1:500",
+      "start": 500.0,
+      "end": 365.87,
+      "net": -134.13,
+      "max_dd": 486.13,
+      "blown": false,
+      "hit_10x": false,
+      "stacks": 20,
+      "clips": 79,
+      "skipped": 0,
+      "leverage": 500,
+      "notes": "5m 10x=0.10 1:500: 1:500 lots=0.1 margin\u226440% stack, daily kill 20%",
+      "path": [
+        {
+          "time": "2026-08-27T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.1,
+          "margin": 186.28,
+          "pnl": 3.0,
+          "equity": 503.0,
+          "event": "ok"
+        },
+        {
+          "time": "2026-08-28T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.03,
+          "margin": 223.81,
+          "pnl": 29.99,
+          "equity": 533.0,
+          "event": "ok"
+        },
+        {
+          "time": "2026-08-31T07:05:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 89.73,
+          "pnl": -11.0,
+          "equity": 522.0,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-01T07:00:00+00:00",
+          "side": "buy",
+          "clips": 7,
+          "lots": 0.03,
+          "margin": 188.19,
+          "pnl": 12.6,
+          "equity": 534.59,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-02T07:00:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 87.32,
+          "pnl": -24.0,
+          "equity": 510.59,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-03T07:00:00+00:00",
+          "side": "buy",
+          "clips": 8,
+          "lots": 0.03,
+          "margin": 214.49,
+          "pnl": 157.2,
+          "equity": 667.79,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-04T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.06,
+          "margin": 270.71,
+          "pnl": -3.0,
+          "equity": 664.79,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-08T07:00:00+00:00",
+          "side": "buy",
+          "clips": 4,
+          "lots": 0.07,
+          "margin": 249.27,
+          "pnl": 15.4,
+          "equity": 680.19,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-09T07:05:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.1,
+          "margin": 266.82,
+          "pnl": -9.0,
+          "equity": 671.19,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-10T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.04,
+          "margin": 285.85,
+          "pnl": 180.8,
+          "equity": 851.99,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-11T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.1,
+          "margin": 175.87,
+          "pnl": -23.0,
+          "equity": 828.99,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-14T07:00:00+00:00",
+          "side": "sell",
+          "clips": 5,
+          "lots": 0.08,
+          "margin": 348.78,
+          "pnl": -124.0,
+          "equity": 704.99,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-15T07:00:00+00:00",
+          "side": "sell",
+          "clips": 4,
+          "lots": 0.08,
+          "margin": 277.18,
+          "pnl": -52.81,
+          "equity": 652.19,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-16T07:00:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.1,
+          "margin": 262.52,
+          "pnl": -33.01,
+          "equity": 619.17,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-17T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.1,
+          "margin": 174.08,
+          "pnl": -37.0,
+          "equity": 582.18,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-18T07:00:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 88.61,
+          "pnl": -8.0,
+          "equity": 574.18,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-22T07:00:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.09,
+          "margin": 235.27,
+          "pnl": -67.49,
+          "equity": 506.69,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-23T07:05:00+00:00",
+          "side": "sell",
+          "clips": 3,
+          "lots": 0.08,
+          "margin": 209.53,
+          "pnl": -14.41,
+          "equity": 492.28,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-24T07:00:00+00:00",
+          "side": "buy",
+          "clips": 4,
+          "lots": 0.06,
+          "margin": 207.06,
+          "pnl": 3.59,
+          "equity": 495.87,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-25T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.05,
+          "margin": 215.67,
+          "pnl": -130.0,
+          "equity": 365.87,
+          "event": "ok"
+        }
+      ],
+      "interval": "5m",
+      "range": "1mo"
+    },
+    {
+      "name": "5m 10x=0.10 1:1000",
+      "start": 500.0,
+      "end": 652.76,
+      "net": 152.76,
+      "max_dd": 669.03,
+      "blown": false,
+      "hit_10x": false,
+      "stacks": 20,
+      "clips": 79,
+      "skipped": 0,
+      "leverage": 1000,
+      "notes": "5m 10x=0.10 1:1000: 1:1000 lots=0.1 margin\u226440% stack, daily kill 20%",
+      "path": [
+        {
+          "time": "2026-08-27T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.1,
+          "margin": 93.14,
+          "pnl": 3.0,
+          "equity": 503.0,
+          "event": "ok"
+        },
+        {
+          "time": "2026-08-28T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.05,
+          "margin": 186.51,
+          "pnl": 49.99,
+          "equity": 552.99,
+          "event": "ok"
+        },
+        {
+          "time": "2026-08-31T07:05:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 44.87,
+          "pnl": -11.0,
+          "equity": 541.99,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-01T07:00:00+00:00",
+          "side": "buy",
+          "clips": 7,
+          "lots": 0.07,
+          "margin": 219.55,
+          "pnl": 29.39,
+          "equity": 571.38,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-02T07:00:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 43.66,
+          "pnl": -24.0,
+          "equity": 547.38,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-03T07:00:00+00:00",
+          "side": "buy",
+          "clips": 8,
+          "lots": 0.06,
+          "margin": 214.49,
+          "pnl": 314.4,
+          "equity": 861.78,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-04T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.1,
+          "margin": 225.59,
+          "pnl": -5.0,
+          "equity": 856.78,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-08T07:00:00+00:00",
+          "side": "buy",
+          "clips": 4,
+          "lots": 0.1,
+          "margin": 178.05,
+          "pnl": 22.0,
+          "equity": 878.78,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-09T07:05:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.1,
+          "margin": 133.41,
+          "pnl": -9.0,
+          "equity": 869.78,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-10T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.1,
+          "margin": 357.31,
+          "pnl": 452.01,
+          "equity": 1321.79,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-11T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.1,
+          "margin": 87.94,
+          "pnl": -23.0,
+          "equity": 1298.79,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-14T07:00:00+00:00",
+          "side": "sell",
+          "clips": 5,
+          "lots": 0.1,
+          "margin": 217.99,
+          "pnl": -154.99,
+          "equity": 1143.79,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-15T07:00:00+00:00",
+          "side": "sell",
+          "clips": 4,
+          "lots": 0.1,
+          "margin": 173.24,
+          "pnl": -66.01,
+          "equity": 1077.78,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-16T07:00:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.1,
+          "margin": 131.26,
+          "pnl": -33.01,
+          "equity": 1044.77,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-17T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.1,
+          "margin": 87.04,
+          "pnl": -37.0,
+          "equity": 1007.77,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-18T07:00:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.1,
+          "margin": 44.31,
+          "pnl": -8.0,
+          "equity": 999.78,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-22T07:00:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.1,
+          "margin": 130.71,
+          "pnl": -74.99,
+          "equity": 924.78,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-23T07:05:00+00:00",
+          "side": "sell",
+          "clips": 3,
+          "lots": 0.1,
+          "margin": 130.96,
+          "pnl": -18.01,
+          "equity": 906.77,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-24T07:00:00+00:00",
+          "side": "buy",
+          "clips": 4,
+          "lots": 0.1,
+          "margin": 172.55,
+          "pnl": 5.98,
+          "equity": 912.76,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-25T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.1,
+          "margin": 215.67,
+          "pnl": -260.0,
+          "equity": 652.76,
+          "event": "ok"
+        }
+      ],
+      "interval": "5m",
+      "range": "1mo"
+    },
+    {
+      "name": "5m compound 40% 1:1000",
+      "start": 500.0,
+      "end": 162.15,
+      "net": -337.85,
+      "max_dd": 880.84,
+      "blown": false,
+      "hit_10x": false,
+      "stacks": 20,
+      "clips": 79,
+      "skipped": 0,
+      "leverage": 1000,
+      "notes": "5m compound 40% 1:1000: 1:1000 lots=compound margin\u226440% stack, daily kill 20%",
+      "path": [
+        {
+          "time": "2026-08-27T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.21,
+          "margin": 195.59,
+          "pnl": 6.3,
+          "equity": 506.3,
+          "event": "ok"
+        },
+        {
+          "time": "2026-08-28T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.05,
+          "margin": 186.51,
+          "pnl": 49.99,
+          "equity": 556.29,
+          "event": "ok"
+        },
+        {
+          "time": "2026-08-31T07:05:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.5,
+          "margin": 224.33,
+          "pnl": -55.0,
+          "equity": 501.3,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-01T07:00:00+00:00",
+          "side": "buy",
+          "clips": 7,
+          "lots": 0.06,
+          "margin": 188.19,
+          "pnl": 25.19,
+          "equity": 526.49,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-02T07:00:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.48,
+          "margin": 209.56,
+          "pnl": -115.21,
+          "equity": 411.28,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-03T07:00:00+00:00",
+          "side": "buy",
+          "clips": 8,
+          "lots": 0.05,
+          "margin": 178.74,
+          "pnl": 262.0,
+          "equity": 673.28,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-04T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.12,
+          "margin": 270.71,
+          "pnl": -5.99,
+          "equity": 667.29,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-08T07:00:00+00:00",
+          "side": "buy",
+          "clips": 4,
+          "lots": 0.15,
+          "margin": 267.07,
+          "pnl": 33.0,
+          "equity": 700.29,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-09T07:05:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.21,
+          "margin": 280.16,
+          "pnl": -18.91,
+          "equity": 681.38,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-10T07:00:00+00:00",
+          "side": "sell",
+          "clips": 8,
+          "lots": 0.08,
+          "margin": 285.85,
+          "pnl": 361.61,
+          "equity": 1042.99,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-11T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.47,
+          "margin": 413.3,
+          "pnl": -108.12,
+          "equity": 934.87,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-14T07:00:00+00:00",
+          "side": "sell",
+          "clips": 5,
+          "lots": 0.17,
+          "margin": 370.58,
+          "pnl": -263.49,
+          "equity": 671.38,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-15T07:00:00+00:00",
+          "side": "sell",
+          "clips": 4,
+          "lots": 0.16,
+          "margin": 277.18,
+          "pnl": -105.61,
+          "equity": 565.76,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-16T07:00:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.17,
+          "margin": 223.14,
+          "pnl": -56.12,
+          "equity": 509.64,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-17T07:00:00+00:00",
+          "side": "buy",
+          "clips": 2,
+          "lots": 0.23,
+          "margin": 200.19,
+          "pnl": -85.1,
+          "equity": 424.55,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-18T07:00:00+00:00",
+          "side": "sell",
+          "clips": 1,
+          "lots": 0.38,
+          "margin": 168.36,
+          "pnl": -30.39,
+          "equity": 394.16,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-22T07:00:00+00:00",
+          "side": "buy",
+          "clips": 3,
+          "lots": 0.12,
+          "margin": 156.85,
+          "pnl": -89.99,
+          "equity": 304.17,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-23T07:05:00+00:00",
+          "side": "sell",
+          "clips": 3,
+          "lots": 0.09,
+          "margin": 117.86,
+          "pnl": -16.21,
+          "equity": 287.96,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-24T07:00:00+00:00",
+          "side": "buy",
+          "clips": 4,
+          "lots": 0.07,
+          "margin": 120.79,
+          "pnl": 4.19,
+          "equity": 292.15,
+          "event": "ok"
+        },
+        {
+          "time": "2026-09-25T07:00:00+00:00",
+          "side": "buy",
+          "clips": 5,
+          "lots": 0.05,
+          "margin": 107.84,
+          "pnl": -130.0,
+          "equity": 162.15,
+          "event": "ok"
+        }
+      ],
+      "interval": "5m",
+      "range": "1mo"
+    }
+  ]
+}

@@ -1,0 +1,2078 @@
+{
+  "3 \u043c\u0435\u0441": {
+    "end": 2357.16,
+    "pct": 371.4,
+    "n": 20,
+    "compound": false,
+    "begin": "2024-12-25",
+    "path": [
+      {
+        "time": "2024-12-26T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 463.7545,
+        "exit": 453.96,
+        "cash": 94.95,
+        "equity": 594.95,
+        "event": "ok"
+      },
+      {
+        "time": "2024-12-27T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 448.1495,
+        "exit": 431.7057,
+        "cash": 177.78,
+        "equity": 772.73,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-16T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 422.2195,
+        "exit": 413.51,
+        "cash": 92.7,
+        "equity": 865.43,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-21T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 431.5116,
+        "exit": 424.08,
+        "cash": 78.65,
+        "equity": 944.08,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-22T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 417.9702,
+        "exit": 415.1,
+        "cash": -34.67,
+        "equity": 909.41,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-27T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 395.7156,
+        "exit": 397.06,
+        "cash": 12.93,
+        "equity": 922.34,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-31T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 402.7196,
+        "exit": 404.58,
+        "cash": 19.13,
+        "equity": 941.47,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-04T14:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 384.149,
+        "exit": 392.4,
+        "cash": 103.96,
+        "equity": 1045.43,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-05T14:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 386.3475,
+        "exit": 378.17,
+        "cash": 94.93,
+        "equity": 1140.36,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-07T14:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 371.2905,
+        "exit": 361.49,
+        "cash": -130.71,
+        "equity": 1009.65,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-12T14:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 330.97,
+        "exit": 336.46,
+        "cash": 78.85,
+        "equity": 1088.5,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-19T14:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 355.0319,
+        "exit": 360.6,
+        "cash": 74.55,
+        "equity": 1163.05,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-20T14:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 360.4554,
+        "exit": 354.38,
+        "cash": 75.68,
+        "equity": 1238.73,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-25T14:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 326.1486,
+        "exit": 302.49,
+        "cash": 351.38,
+        "equity": 1590.11,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-06T14:30:00+00:00",
+        "side": "sell",
+        "shares": 18,
+        "entry": 271.184,
+        "exit": 263.43,
+        "cash": 135.77,
+        "equity": 1725.89,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-07T14:30:00+00:00",
+        "side": "buy",
+        "shares": 19,
+        "entry": 260.0528,
+        "exit": 262.63,
+        "cash": 45.07,
+        "equity": 1770.95,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-12T13:30:00+00:00",
+        "side": "buy",
+        "shares": 20,
+        "entry": 245.3868,
+        "exit": 248.28,
+        "cash": 53.86,
+        "equity": 1824.82,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-13T13:30:00+00:00",
+        "side": "sell",
+        "shares": 20,
+        "entry": 247.3806,
+        "exit": 240.69,
+        "cash": 129.81,
+        "equity": 1954.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-17T13:30:00+00:00",
+        "side": "sell",
+        "shares": 20,
+        "entry": 244.2351,
+        "exit": 237.8,
+        "cash": 124.7,
+        "equity": 2079.33,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 21,
+        "entry": 235.69,
+        "exit": 249.115,
+        "cash": 277.83,
+        "equity": 2357.16,
+        "event": "ok"
+      }
+    ]
+  },
+  "6 \u043c\u0435\u0441": {
+    "end": 4846.27,
+    "pct": 869.3,
+    "n": 42,
+    "compound": false,
+    "begin": "2024-12-25",
+    "path": [
+      {
+        "time": "2024-12-26T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 463.7545,
+        "exit": 453.96,
+        "cash": 94.95,
+        "equity": 594.95,
+        "event": "ok"
+      },
+      {
+        "time": "2024-12-27T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 448.1495,
+        "exit": 431.7057,
+        "cash": 177.78,
+        "equity": 772.73,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-16T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 422.2195,
+        "exit": 413.51,
+        "cash": 92.7,
+        "equity": 865.43,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-21T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 431.5116,
+        "exit": 424.08,
+        "cash": 78.65,
+        "equity": 944.08,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-22T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 417.9702,
+        "exit": 415.1,
+        "cash": -34.67,
+        "equity": 909.41,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-27T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 395.7156,
+        "exit": 397.06,
+        "cash": 12.93,
+        "equity": 922.34,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-31T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 402.7196,
+        "exit": 404.58,
+        "cash": 19.13,
+        "equity": 941.47,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-04T14:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 384.149,
+        "exit": 392.4,
+        "cash": 103.96,
+        "equity": 1045.43,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-05T14:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 386.3475,
+        "exit": 378.17,
+        "cash": 94.93,
+        "equity": 1140.36,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-07T14:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 371.2905,
+        "exit": 361.49,
+        "cash": -130.71,
+        "equity": 1009.65,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-12T14:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 330.97,
+        "exit": 336.46,
+        "cash": 78.85,
+        "equity": 1088.5,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-19T14:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 355.0319,
+        "exit": 360.6,
+        "cash": 74.55,
+        "equity": 1163.05,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-20T14:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 360.4554,
+        "exit": 354.38,
+        "cash": 75.68,
+        "equity": 1238.73,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-25T14:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 326.1486,
+        "exit": 302.49,
+        "cash": 351.38,
+        "equity": 1590.11,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-06T14:30:00+00:00",
+        "side": "sell",
+        "shares": 18,
+        "entry": 271.184,
+        "exit": 263.43,
+        "cash": 135.77,
+        "equity": 1725.89,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-07T14:30:00+00:00",
+        "side": "buy",
+        "shares": 19,
+        "entry": 260.0528,
+        "exit": 262.63,
+        "cash": 45.07,
+        "equity": 1770.95,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-12T13:30:00+00:00",
+        "side": "buy",
+        "shares": 20,
+        "entry": 245.3868,
+        "exit": 248.28,
+        "cash": 53.86,
+        "equity": 1824.82,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-13T13:30:00+00:00",
+        "side": "sell",
+        "shares": 20,
+        "entry": 247.3806,
+        "exit": 240.69,
+        "cash": 129.81,
+        "equity": 1954.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-17T13:30:00+00:00",
+        "side": "sell",
+        "shares": 20,
+        "entry": 244.2351,
+        "exit": 237.8,
+        "cash": 124.7,
+        "equity": 2079.33,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 21,
+        "entry": 235.69,
+        "exit": 249.115,
+        "cash": 277.83,
+        "equity": 2357.16,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-25T13:30:00+00:00",
+        "side": "sell",
+        "shares": 17,
+        "entry": 282.6495,
+        "exit": 288.15,
+        "cash": -97.21,
+        "equity": 2259.95,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 18,
+        "entry": 273.2975,
+        "exit": 273.23,
+        "cash": -5.01,
+        "equity": 2254.94,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-28T13:30:00+00:00",
+        "side": "sell",
+        "shares": 18,
+        "entry": 274.6735,
+        "exit": 263.49,
+        "cash": 197.5,
+        "equity": 2452.44,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-09T13:30:00+00:00",
+        "side": "buy",
+        "shares": 22,
+        "entry": 225.2362,
+        "exit": 272.0,
+        "cash": 1024.6,
+        "equity": 3477.04,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-16T13:30:00+00:00",
+        "side": "buy",
+        "shares": 20,
+        "entry": 248.4331,
+        "exit": 241.55,
+        "cash": -141.66,
+        "equity": 3335.38,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 21,
+        "entry": 231.0324,
+        "exit": 238.15,
+        "cash": 145.37,
+        "equity": 3480.75,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-23T13:30:00+00:00",
+        "side": "sell",
+        "shares": 19,
+        "entry": 254.0954,
+        "exit": 250.79,
+        "cash": 58.9,
+        "equity": 3539.65,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-24T13:30:00+00:00",
+        "side": "buy",
+        "shares": 19,
+        "entry": 250.2535,
+        "exit": 259.51,
+        "cash": 171.97,
+        "equity": 3711.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-30T13:30:00+00:00",
+        "side": "sell",
+        "shares": 17,
+        "entry": 279.0304,
+        "exit": 282.1172,
+        "cash": -56.18,
+        "equity": 3655.45,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-01T13:30:00+00:00",
+        "side": "buy",
+        "shares": 17,
+        "entry": 280.9202,
+        "exit": 280.51,
+        "cash": -10.67,
+        "equity": 3644.78,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-05T13:30:00+00:00",
+        "side": "sell",
+        "shares": 17,
+        "entry": 283.7163,
+        "exit": 280.2,
+        "cash": 56.08,
+        "equity": 3700.85,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-08T13:30:00+00:00",
+        "side": "buy",
+        "shares": 17,
+        "entry": 280.4689,
+        "exit": 284.89,
+        "cash": 71.46,
+        "equity": 3772.31,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-12T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 320.9692,
+        "exit": 318.62,
+        "cash": 31.74,
+        "equity": 3804.05,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 332.9358,
+        "exit": 340.98,
+        "cash": 117.16,
+        "equity": 3921.21,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 348.3921,
+        "exit": 362.751,
+        "cash": 197.63,
+        "equity": 4118.84,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-28T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 363.7455,
+        "exit": 356.92,
+        "cash": 85.43,
+        "equity": 4204.27,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-04T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 344.0597,
+        "exit": 332.21,
+        "cash": 162.5,
+        "equity": 4366.77,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-12T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 324.0442,
+        "exit": 319.175,
+        "cash": -76.54,
+        "equity": 4290.23,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-16T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 330.1865,
+        "exit": 329.11,
+        "cash": 12.65,
+        "equity": 4302.87,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-17T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 325.2962,
+        "exit": 316.28,
+        "cash": 131.74,
+        "equity": 4434.62,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-23T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 331.9312,
+        "exit": 348.71,
+        "cash": 248.18,
+        "equity": 4682.8,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-24T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 352.3997,
+        "exit": 340.4807,
+        "cash": 163.47,
+        "equity": 4846.27,
+        "event": "ok"
+      }
+    ]
+  },
+  "9 \u043c\u0435\u0441": {
+    "end": 6991.92,
+    "pct": 1298.4,
+    "n": 61,
+    "compound": false,
+    "begin": "2024-12-25",
+    "path": [
+      {
+        "time": "2024-12-26T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 463.7545,
+        "exit": 453.96,
+        "cash": 94.95,
+        "equity": 594.95,
+        "event": "ok"
+      },
+      {
+        "time": "2024-12-27T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 448.1495,
+        "exit": 431.7057,
+        "cash": 177.78,
+        "equity": 772.73,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-16T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 422.2195,
+        "exit": 413.51,
+        "cash": 92.7,
+        "equity": 865.43,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-21T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 431.5116,
+        "exit": 424.08,
+        "cash": 78.65,
+        "equity": 944.08,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-22T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 417.9702,
+        "exit": 415.1,
+        "cash": -34.67,
+        "equity": 909.41,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-27T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 395.7156,
+        "exit": 397.06,
+        "cash": 12.93,
+        "equity": 922.34,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-31T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 402.7196,
+        "exit": 404.58,
+        "cash": 19.13,
+        "equity": 941.47,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-04T14:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 384.149,
+        "exit": 392.4,
+        "cash": 103.96,
+        "equity": 1045.43,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-05T14:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 386.3475,
+        "exit": 378.17,
+        "cash": 94.93,
+        "equity": 1140.36,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-07T14:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 371.2905,
+        "exit": 361.49,
+        "cash": -130.71,
+        "equity": 1009.65,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-12T14:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 330.97,
+        "exit": 336.46,
+        "cash": 78.85,
+        "equity": 1088.5,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-19T14:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 355.0319,
+        "exit": 360.6,
+        "cash": 74.55,
+        "equity": 1163.05,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-20T14:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 360.4554,
+        "exit": 354.38,
+        "cash": 75.68,
+        "equity": 1238.73,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-25T14:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 326.1486,
+        "exit": 302.49,
+        "cash": 351.38,
+        "equity": 1590.11,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-06T14:30:00+00:00",
+        "side": "sell",
+        "shares": 18,
+        "entry": 271.184,
+        "exit": 263.43,
+        "cash": 135.77,
+        "equity": 1725.89,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-07T14:30:00+00:00",
+        "side": "buy",
+        "shares": 19,
+        "entry": 260.0528,
+        "exit": 262.63,
+        "cash": 45.07,
+        "equity": 1770.95,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-12T13:30:00+00:00",
+        "side": "buy",
+        "shares": 20,
+        "entry": 245.3868,
+        "exit": 248.28,
+        "cash": 53.86,
+        "equity": 1824.82,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-13T13:30:00+00:00",
+        "side": "sell",
+        "shares": 20,
+        "entry": 247.3806,
+        "exit": 240.69,
+        "cash": 129.81,
+        "equity": 1954.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-17T13:30:00+00:00",
+        "side": "sell",
+        "shares": 20,
+        "entry": 244.2351,
+        "exit": 237.8,
+        "cash": 124.7,
+        "equity": 2079.33,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 21,
+        "entry": 235.69,
+        "exit": 249.115,
+        "cash": 277.83,
+        "equity": 2357.16,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-25T13:30:00+00:00",
+        "side": "sell",
+        "shares": 17,
+        "entry": 282.6495,
+        "exit": 288.15,
+        "cash": -97.21,
+        "equity": 2259.95,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 18,
+        "entry": 273.2975,
+        "exit": 273.23,
+        "cash": -5.01,
+        "equity": 2254.94,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-28T13:30:00+00:00",
+        "side": "sell",
+        "shares": 18,
+        "entry": 274.6735,
+        "exit": 263.49,
+        "cash": 197.5,
+        "equity": 2452.44,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-09T13:30:00+00:00",
+        "side": "buy",
+        "shares": 22,
+        "entry": 225.2362,
+        "exit": 272.0,
+        "cash": 1024.6,
+        "equity": 3477.04,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-16T13:30:00+00:00",
+        "side": "buy",
+        "shares": 20,
+        "entry": 248.4331,
+        "exit": 241.55,
+        "cash": -141.66,
+        "equity": 3335.38,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 21,
+        "entry": 231.0324,
+        "exit": 238.15,
+        "cash": 145.37,
+        "equity": 3480.75,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-23T13:30:00+00:00",
+        "side": "sell",
+        "shares": 19,
+        "entry": 254.0954,
+        "exit": 250.79,
+        "cash": 58.9,
+        "equity": 3539.65,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-24T13:30:00+00:00",
+        "side": "buy",
+        "shares": 19,
+        "entry": 250.2535,
+        "exit": 259.51,
+        "cash": 171.97,
+        "equity": 3711.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-30T13:30:00+00:00",
+        "side": "sell",
+        "shares": 17,
+        "entry": 279.0304,
+        "exit": 282.1172,
+        "cash": -56.18,
+        "equity": 3655.45,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-01T13:30:00+00:00",
+        "side": "buy",
+        "shares": 17,
+        "entry": 280.9202,
+        "exit": 280.51,
+        "cash": -10.67,
+        "equity": 3644.78,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-05T13:30:00+00:00",
+        "side": "sell",
+        "shares": 17,
+        "entry": 283.7163,
+        "exit": 280.2,
+        "cash": 56.08,
+        "equity": 3700.85,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-08T13:30:00+00:00",
+        "side": "buy",
+        "shares": 17,
+        "entry": 280.4689,
+        "exit": 284.89,
+        "cash": 71.46,
+        "equity": 3772.31,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-12T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 320.9692,
+        "exit": 318.62,
+        "cash": 31.74,
+        "equity": 3804.05,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 332.9358,
+        "exit": 340.98,
+        "cash": 117.16,
+        "equity": 3921.21,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 348.3921,
+        "exit": 362.751,
+        "cash": 197.63,
+        "equity": 4118.84,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-28T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 363.7455,
+        "exit": 356.92,
+        "cash": 85.43,
+        "equity": 4204.27,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-04T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 344.0597,
+        "exit": 332.21,
+        "cash": 162.5,
+        "equity": 4366.77,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-12T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 324.0442,
+        "exit": 319.175,
+        "cash": -76.54,
+        "equity": 4290.23,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-16T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 330.1865,
+        "exit": 329.11,
+        "cash": 12.65,
+        "equity": 4302.87,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-17T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 325.2962,
+        "exit": 316.28,
+        "cash": 131.74,
+        "equity": 4434.62,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-23T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 331.9312,
+        "exit": 348.71,
+        "cash": 248.18,
+        "equity": 4682.8,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-24T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 352.3997,
+        "exit": 340.4807,
+        "cash": 163.47,
+        "equity": 4846.27,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-25T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 340.7646,
+        "exit": 327.59,
+        "cash": 181.04,
+        "equity": 5027.31,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-03T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 316.9962,
+        "exit": 292.61,
+        "cash": 362.29,
+        "equity": 5389.6,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-10T13:30:00+00:00",
+        "side": "buy",
+        "shares": 16,
+        "entry": 301.0306,
+        "exit": 309.935,
+        "cash": 138.87,
+        "equity": 5528.47,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-16T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 313.7384,
+        "exit": 321.67,
+        "cash": 115.47,
+        "equity": 5643.95,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-18T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 322.966,
+        "exit": 329.55,
+        "cash": 95.26,
+        "equity": 5739.21,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-22T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 328.7508,
+        "exit": 332.08,
+        "cash": -53.44,
+        "equity": 5685.77,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-24T13:30:00+00:00",
+        "side": "sell",
+        "shares": 16,
+        "entry": 309.1348,
+        "exit": 305.07,
+        "cash": 61.44,
+        "equity": 5747.21,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-25T13:30:00+00:00",
+        "side": "buy",
+        "shares": 16,
+        "entry": 309.6662,
+        "exit": 316.105,
+        "cash": 99.42,
+        "equity": 5846.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-29T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 324.6755,
+        "exit": 321.4,
+        "cash": 45.63,
+        "equity": 5892.26,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-08T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 322.3943,
+        "exit": 329.68,
+        "cash": 105.79,
+        "equity": 5998.05,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-11T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 336.005,
+        "exit": 339.185,
+        "cash": 41.12,
+        "equity": 6039.17,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-12T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 344.0148,
+        "exit": 340.755,
+        "cash": 42.24,
+        "equity": 6081.4,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-14T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 336.7673,
+        "exit": 335.57,
+        "cash": -20.16,
+        "equity": 6061.24,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-18T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 330.5788,
+        "exit": 335.15,
+        "cash": 65.07,
+        "equity": 6126.31,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 321.0804,
+        "exit": 340.01,
+        "cash": 280.44,
+        "equity": 6406.76,
+        "event": "ok"
+      },
+      {
+        "time": "2025-09-12T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 372.9909,
+        "exit": 396.0,
+        "cash": 295.82,
+        "equity": 6702.57,
+        "event": "ok"
+      },
+      {
+        "time": "2025-09-19T13:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 423.2359,
+        "exit": 425.87,
+        "cash": 25.87,
+        "equity": 6728.45,
+        "event": "ok"
+      },
+      {
+        "time": "2025-09-23T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 438.695,
+        "exit": 425.83,
+        "cash": 138.41,
+        "equity": 6866.86,
+        "event": "ok"
+      },
+      {
+        "time": "2025-09-24T13:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 431.1195,
+        "exit": 442.77,
+        "cash": 125.06,
+        "equity": 6991.92,
+        "event": "ok"
+      }
+    ]
+  },
+  "12 \u043c\u0435\u0441": {
+    "end": 8132.38,
+    "pct": 1526.5,
+    "n": 81,
+    "compound": false,
+    "begin": "2024-12-25",
+    "path": [
+      {
+        "time": "2024-12-26T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 463.7545,
+        "exit": 453.96,
+        "cash": 94.95,
+        "equity": 594.95,
+        "event": "ok"
+      },
+      {
+        "time": "2024-12-27T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 448.1495,
+        "exit": 431.7057,
+        "cash": 177.78,
+        "equity": 772.73,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-16T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 422.2195,
+        "exit": 413.51,
+        "cash": 92.7,
+        "equity": 865.43,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-21T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 431.5116,
+        "exit": 424.08,
+        "cash": 78.65,
+        "equity": 944.08,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-22T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 417.9702,
+        "exit": 415.1,
+        "cash": -34.67,
+        "equity": 909.41,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-27T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 395.7156,
+        "exit": 397.06,
+        "cash": 12.93,
+        "equity": 922.34,
+        "event": "ok"
+      },
+      {
+        "time": "2025-01-31T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 402.7196,
+        "exit": 404.58,
+        "cash": 19.13,
+        "equity": 941.47,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-04T14:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 384.149,
+        "exit": 392.4,
+        "cash": 103.96,
+        "equity": 1045.43,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-05T14:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 386.3475,
+        "exit": 378.17,
+        "cash": 94.93,
+        "equity": 1140.36,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-07T14:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 371.2905,
+        "exit": 361.49,
+        "cash": -130.71,
+        "equity": 1009.65,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-12T14:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 330.97,
+        "exit": 336.46,
+        "cash": 78.85,
+        "equity": 1088.5,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-19T14:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 355.0319,
+        "exit": 360.6,
+        "cash": 74.55,
+        "equity": 1163.05,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-20T14:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 360.4554,
+        "exit": 354.38,
+        "cash": 75.68,
+        "equity": 1238.73,
+        "event": "ok"
+      },
+      {
+        "time": "2025-02-25T14:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 326.1486,
+        "exit": 302.49,
+        "cash": 351.38,
+        "equity": 1590.11,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-06T14:30:00+00:00",
+        "side": "sell",
+        "shares": 18,
+        "entry": 271.184,
+        "exit": 263.43,
+        "cash": 135.77,
+        "equity": 1725.89,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-07T14:30:00+00:00",
+        "side": "buy",
+        "shares": 19,
+        "entry": 260.0528,
+        "exit": 262.63,
+        "cash": 45.07,
+        "equity": 1770.95,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-12T13:30:00+00:00",
+        "side": "buy",
+        "shares": 20,
+        "entry": 245.3868,
+        "exit": 248.28,
+        "cash": 53.86,
+        "equity": 1824.82,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-13T13:30:00+00:00",
+        "side": "sell",
+        "shares": 20,
+        "entry": 247.3806,
+        "exit": 240.69,
+        "cash": 129.81,
+        "equity": 1954.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-17T13:30:00+00:00",
+        "side": "sell",
+        "shares": 20,
+        "entry": 244.2351,
+        "exit": 237.8,
+        "cash": 124.7,
+        "equity": 2079.33,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-21T13:30:00+00:00",
+        "side": "buy",
+        "shares": 21,
+        "entry": 235.69,
+        "exit": 249.115,
+        "cash": 277.83,
+        "equity": 2357.16,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-25T13:30:00+00:00",
+        "side": "sell",
+        "shares": 17,
+        "entry": 282.6495,
+        "exit": 288.15,
+        "cash": -97.21,
+        "equity": 2259.95,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 18,
+        "entry": 273.2975,
+        "exit": 273.23,
+        "cash": -5.01,
+        "equity": 2254.94,
+        "event": "ok"
+      },
+      {
+        "time": "2025-03-28T13:30:00+00:00",
+        "side": "sell",
+        "shares": 18,
+        "entry": 274.6735,
+        "exit": 263.49,
+        "cash": 197.5,
+        "equity": 2452.44,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-09T13:30:00+00:00",
+        "side": "buy",
+        "shares": 22,
+        "entry": 225.2362,
+        "exit": 272.0,
+        "cash": 1024.6,
+        "equity": 3477.04,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-16T13:30:00+00:00",
+        "side": "buy",
+        "shares": 20,
+        "entry": 248.4331,
+        "exit": 241.55,
+        "cash": -141.66,
+        "equity": 3335.38,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 21,
+        "entry": 231.0324,
+        "exit": 238.15,
+        "cash": 145.37,
+        "equity": 3480.75,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-23T13:30:00+00:00",
+        "side": "sell",
+        "shares": 19,
+        "entry": 254.0954,
+        "exit": 250.79,
+        "cash": 58.9,
+        "equity": 3539.65,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-24T13:30:00+00:00",
+        "side": "buy",
+        "shares": 19,
+        "entry": 250.2535,
+        "exit": 259.51,
+        "cash": 171.97,
+        "equity": 3711.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-04-30T13:30:00+00:00",
+        "side": "sell",
+        "shares": 17,
+        "entry": 279.0304,
+        "exit": 282.1172,
+        "cash": -56.18,
+        "equity": 3655.45,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-01T13:30:00+00:00",
+        "side": "buy",
+        "shares": 17,
+        "entry": 280.9202,
+        "exit": 280.51,
+        "cash": -10.67,
+        "equity": 3644.78,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-05T13:30:00+00:00",
+        "side": "sell",
+        "shares": 17,
+        "entry": 283.7163,
+        "exit": 280.2,
+        "cash": 56.08,
+        "equity": 3700.85,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-08T13:30:00+00:00",
+        "side": "buy",
+        "shares": 17,
+        "entry": 280.4689,
+        "exit": 284.89,
+        "cash": 71.46,
+        "equity": 3772.31,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-12T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 320.9692,
+        "exit": 318.62,
+        "cash": 31.74,
+        "equity": 3804.05,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 332.9358,
+        "exit": 340.98,
+        "cash": 117.16,
+        "equity": 3921.21,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 348.3921,
+        "exit": 362.751,
+        "cash": 197.63,
+        "equity": 4118.84,
+        "event": "ok"
+      },
+      {
+        "time": "2025-05-28T13:30:00+00:00",
+        "side": "sell",
+        "shares": 13,
+        "entry": 363.7455,
+        "exit": 356.92,
+        "cash": 85.43,
+        "equity": 4204.27,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-04T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 344.0597,
+        "exit": 332.21,
+        "cash": 162.5,
+        "equity": 4366.77,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-12T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 324.0442,
+        "exit": 319.175,
+        "cash": -76.54,
+        "equity": 4290.23,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-16T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 330.1865,
+        "exit": 329.11,
+        "cash": 12.65,
+        "equity": 4302.87,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-17T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 325.2962,
+        "exit": 316.28,
+        "cash": 131.74,
+        "equity": 4434.62,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-23T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 331.9312,
+        "exit": 348.71,
+        "cash": 248.18,
+        "equity": 4682.8,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-24T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 352.3997,
+        "exit": 340.4807,
+        "cash": 163.47,
+        "equity": 4846.27,
+        "event": "ok"
+      },
+      {
+        "time": "2025-06-25T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 340.7646,
+        "exit": 327.59,
+        "cash": 181.04,
+        "equity": 5027.31,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-03T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 316.9962,
+        "exit": 292.61,
+        "cash": 362.29,
+        "equity": 5389.6,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-10T13:30:00+00:00",
+        "side": "buy",
+        "shares": 16,
+        "entry": 301.0306,
+        "exit": 309.935,
+        "cash": 138.87,
+        "equity": 5528.47,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-16T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 313.7384,
+        "exit": 321.67,
+        "cash": 115.47,
+        "equity": 5643.95,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-18T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 322.966,
+        "exit": 329.55,
+        "cash": 95.26,
+        "equity": 5739.21,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-22T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 328.7508,
+        "exit": 332.08,
+        "cash": -53.44,
+        "equity": 5685.77,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-24T13:30:00+00:00",
+        "side": "sell",
+        "shares": 16,
+        "entry": 309.1348,
+        "exit": 305.07,
+        "cash": 61.44,
+        "equity": 5747.21,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-25T13:30:00+00:00",
+        "side": "buy",
+        "shares": 16,
+        "entry": 309.6662,
+        "exit": 316.105,
+        "cash": 99.42,
+        "equity": 5846.63,
+        "event": "ok"
+      },
+      {
+        "time": "2025-07-29T13:30:00+00:00",
+        "side": "sell",
+        "shares": 15,
+        "entry": 324.6755,
+        "exit": 321.4,
+        "cash": 45.63,
+        "equity": 5892.26,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-08T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 322.3943,
+        "exit": 329.68,
+        "cash": 105.79,
+        "equity": 5998.05,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-11T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 336.005,
+        "exit": 339.185,
+        "cash": 41.12,
+        "equity": 6039.17,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-12T13:30:00+00:00",
+        "side": "sell",
+        "shares": 14,
+        "entry": 344.0148,
+        "exit": 340.755,
+        "cash": 42.24,
+        "equity": 6081.4,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-14T13:30:00+00:00",
+        "side": "buy",
+        "shares": 14,
+        "entry": 336.7673,
+        "exit": 335.57,
+        "cash": -20.16,
+        "equity": 6061.24,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-18T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 330.5788,
+        "exit": 335.15,
+        "cash": 65.07,
+        "equity": 6126.31,
+        "event": "ok"
+      },
+      {
+        "time": "2025-08-22T13:30:00+00:00",
+        "side": "buy",
+        "shares": 15,
+        "entry": 321.0804,
+        "exit": 340.01,
+        "cash": 280.44,
+        "equity": 6406.76,
+        "event": "ok"
+      },
+      {
+        "time": "2025-09-12T13:30:00+00:00",
+        "side": "buy",
+        "shares": 13,
+        "entry": 372.9909,
+        "exit": 396.0,
+        "cash": 295.82,
+        "equity": 6702.57,
+        "event": "ok"
+      },
+      {
+        "time": "2025-09-19T13:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 423.2359,
+        "exit": 425.87,
+        "cash": 25.87,
+        "equity": 6728.45,
+        "event": "ok"
+      },
+      {
+        "time": "2025-09-23T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 438.695,
+        "exit": 425.83,
+        "cash": 138.41,
+        "equity": 6866.86,
+        "event": "ok"
+      },
+      {
+        "time": "2025-09-24T13:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 431.1195,
+        "exit": 442.77,
+        "cash": 125.06,
+        "equity": 6991.92,
+        "event": "ok"
+      },
+      {
+        "time": "2025-09-25T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 433.9343,
+        "exit": 423.23,
+        "cash": 114.65,
+        "equity": 7106.57,
+        "event": "ok"
+      },
+      {
+        "time": "2025-10-02T13:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 469.1284,
+        "exit": 435.97,
+        "cash": 328.58,
+        "equity": 7435.15,
+        "event": "ok"
+      },
+      {
+        "time": "2025-10-08T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 436.4447,
+        "exit": 438.6,
+        "cash": -26.81,
+        "equity": 7408.34,
+        "event": "ok"
+      },
+      {
+        "time": "2025-10-14T13:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 425.5096,
+        "exit": 429.23,
+        "cash": -44.02,
+        "equity": 7364.32,
+        "event": "ok"
+      },
+      {
+        "time": "2025-10-27T13:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 441.2097,
+        "exit": 452.35,
+        "cash": 119.44,
+        "equity": 7483.76,
+        "event": "ok"
+      },
+      {
+        "time": "2025-10-31T13:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 448.0702,
+        "exit": 456.52,
+        "cash": 89.85,
+        "equity": 7573.61,
+        "event": "ok"
+      },
+      {
+        "time": "2025-11-07T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 436.5763,
+        "exit": 429.38,
+        "cash": 76.06,
+        "equity": 7649.67,
+        "event": "ok"
+      },
+      {
+        "time": "2025-11-12T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 440.7837,
+        "exit": 430.62,
+        "cash": 108.7,
+        "equity": 7758.37,
+        "event": "ok"
+      },
+      {
+        "time": "2025-11-17T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 400.0867,
+        "exit": 408.98,
+        "cash": 103.52,
+        "equity": 7861.89,
+        "event": "ok"
+      },
+      {
+        "time": "2025-11-20T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 415.8739,
+        "exit": 395.07,
+        "cash": -252.85,
+        "equity": 7609.04,
+        "event": "ok"
+      },
+      {
+        "time": "2025-11-21T14:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 401.0881,
+        "exit": 391.2,
+        "cash": 115.46,
+        "equity": 7724.5,
+        "event": "ok"
+      },
+      {
+        "time": "2025-11-24T14:30:00+00:00",
+        "side": "buy",
+        "shares": 12,
+        "entry": 403.3665,
+        "exit": 417.59,
+        "cash": 167.48,
+        "equity": 7891.98,
+        "event": "ok"
+      },
+      {
+        "time": "2025-11-25T14:30:00+00:00",
+        "side": "sell",
+        "shares": 12,
+        "entry": 413.1668,
+        "exit": 419.31,
+        "cash": -76.92,
+        "equity": 7815.06,
+        "event": "ok"
+      },
+      {
+        "time": "2025-11-28T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 427.7494,
+        "exit": 429.1465,
+        "cash": 12.27,
+        "equity": 7827.33,
+        "event": "ok"
+      },
+      {
+        "time": "2025-12-01T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 426.6261,
+        "exit": 430.2999,
+        "cash": 37.31,
+        "equity": 7864.64,
+        "event": "ok"
+      },
+      {
+        "time": "2025-12-03T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 433.1405,
+        "exit": 446.88,
+        "cash": 148.03,
+        "equity": 8012.68,
+        "event": "ok"
+      },
+      {
+        "time": "2025-12-05T14:30:00+00:00",
+        "side": "buy",
+        "shares": 11,
+        "entry": 454.3289,
+        "exit": 454.94,
+        "cash": 3.62,
+        "equity": 8016.3,
+        "event": "ok"
+      },
+      {
+        "time": "2025-12-11T14:30:00+00:00",
+        "side": "sell",
+        "shares": 11,
+        "entry": 447.4785,
+        "exit": 446.94,
+        "cash": 2.82,
+        "equity": 8019.12,
+        "event": "ok"
+      },
+      {
+        "time": "2025-12-23T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 489.2778,
+        "exit": 485.61,
+        "cash": 33.68,
+        "equity": 8052.8,
+        "event": "ok"
+      },
+      {
+        "time": "2025-12-24T14:30:00+00:00",
+        "side": "sell",
+        "shares": 10,
+        "entry": 487.8919,
+        "exit": 479.634,
+        "cash": 79.58,
+        "equity": 8132.38,
+        "event": "ok"
+      }
+    ]
+  }
+}

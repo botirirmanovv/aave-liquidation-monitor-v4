@@ -1,0 +1,402 @@
+[
+  {
+    "symbol": "MSTR",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 9313.89,
+    "pct": 1762.8,
+    "per_month": 198.1,
+    "n": 76,
+    "wins": 57
+  },
+  {
+    "symbol": "COIN",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 9033.3,
+    "pct": 1706.7,
+    "per_month": 191.8,
+    "n": 80,
+    "wins": 62
+  },
+  {
+    "symbol": "COIN",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 8386.52,
+    "pct": 1577.3,
+    "per_month": 177.2,
+    "n": 51,
+    "wins": 44
+  },
+  {
+    "symbol": "SMCI",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 7782.36,
+    "pct": 1456.5,
+    "per_month": 163.6,
+    "n": 85,
+    "wins": 61
+  },
+  {
+    "symbol": "AMD",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 6643.79,
+    "pct": 1228.8,
+    "per_month": 138.1,
+    "n": 79,
+    "wins": 60
+  },
+  {
+    "symbol": "UVXY",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 6172.58,
+    "pct": 1134.5,
+    "per_month": 127.5,
+    "n": 105,
+    "wins": 67
+  },
+  {
+    "symbol": "SMCI",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 6132.84,
+    "pct": 1126.6,
+    "per_month": 126.6,
+    "n": 41,
+    "wins": 34
+  },
+  {
+    "symbol": "MSTR",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 5934.37,
+    "pct": 1086.9,
+    "per_month": 122.1,
+    "n": 41,
+    "wins": 32
+  },
+  {
+    "symbol": "PLTR",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 5596.33,
+    "pct": 1019.3,
+    "per_month": 114.5,
+    "n": 95,
+    "wins": 64
+  },
+  {
+    "symbol": "AMD",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 4959.82,
+    "pct": 892.0,
+    "per_month": 100.2,
+    "n": 39,
+    "wins": 33
+  },
+  {
+    "symbol": "UVXY",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 4787.82,
+    "pct": 857.6,
+    "per_month": 96.4,
+    "n": 54,
+    "wins": 39
+  },
+  {
+    "symbol": "TSLA",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 4692.8,
+    "pct": 838.6,
+    "per_month": 94.2,
+    "n": 116,
+    "wins": 80
+  },
+  {
+    "symbol": "COIN",
+    "style": "jam rr=2",
+    "window": "from",
+    "end": 4615.92,
+    "pct": 823.2,
+    "per_month": 92.5,
+    "n": 49,
+    "wins": 26
+  },
+  {
+    "symbol": "NVDA",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 4550.96,
+    "pct": 810.2,
+    "per_month": 91.0,
+    "n": 77,
+    "wins": 54
+  },
+  {
+    "symbol": "SMCI",
+    "style": "gap 3%",
+    "window": "from",
+    "end": 4541.11,
+    "pct": 808.2,
+    "per_month": 90.8,
+    "n": 38,
+    "wins": 24
+  },
+  {
+    "symbol": "TSLA",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 4448.34,
+    "pct": 789.7,
+    "per_month": 88.7,
+    "n": 61,
+    "wins": 46
+  },
+  {
+    "symbol": "MSTR",
+    "style": "gap 2%",
+    "window": "from",
+    "end": 4373.68,
+    "pct": 774.7,
+    "per_month": 87.0,
+    "n": 91,
+    "wins": 51
+  },
+  {
+    "symbol": "SMCI",
+    "style": "gap 2%",
+    "window": "from",
+    "end": 4337.67,
+    "pct": 767.5,
+    "per_month": 86.2,
+    "n": 67,
+    "wins": 39
+  },
+  {
+    "symbol": "NVDA",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 4126.71,
+    "pct": 725.3,
+    "per_month": 81.5,
+    "n": 133,
+    "wins": 88
+  },
+  {
+    "symbol": "COIN",
+    "style": "jam rr=3",
+    "window": "from",
+    "end": 3995.89,
+    "pct": 699.2,
+    "per_month": 78.6,
+    "n": 46,
+    "wins": 22
+  },
+  {
+    "symbol": "MSTR",
+    "style": "gap 3%",
+    "window": "from",
+    "end": 3820.35,
+    "pct": 664.1,
+    "per_month": 74.6,
+    "n": 61,
+    "wins": 34
+  },
+  {
+    "symbol": "PLTR",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 3800.66,
+    "pct": 660.1,
+    "per_month": 74.2,
+    "n": 48,
+    "wins": 36
+  },
+  {
+    "symbol": "NFLX",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 3659.68,
+    "pct": 631.9,
+    "per_month": 71.0,
+    "n": 67,
+    "wins": 51
+  },
+  {
+    "symbol": "AMZN",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 3381.14,
+    "pct": 576.2,
+    "per_month": 64.7,
+    "n": 81,
+    "wins": 61
+  },
+  {
+    "symbol": "META",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 3117.55,
+    "pct": 523.5,
+    "per_month": 58.8,
+    "n": 129,
+    "wins": 79
+  },
+  {
+    "symbol": "BABA",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 3111.17,
+    "pct": 522.2,
+    "per_month": 58.7,
+    "n": 88,
+    "wins": 57
+  },
+  {
+    "symbol": "META",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 3088.74,
+    "pct": 517.7,
+    "per_month": 58.2,
+    "n": 73,
+    "wins": 52
+  },
+  {
+    "symbol": "COIN",
+    "style": "gap 3%",
+    "window": "from",
+    "end": 2966.18,
+    "pct": 493.2,
+    "per_month": 55.4,
+    "n": 45,
+    "wins": 28
+  },
+  {
+    "symbol": "COIN",
+    "style": "gap 2%",
+    "window": "from",
+    "end": 2927.07,
+    "pct": 485.4,
+    "per_month": 54.5,
+    "n": 81,
+    "wins": 47
+  },
+  {
+    "symbol": "AAPL",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 2739.21,
+    "pct": 447.8,
+    "per_month": 50.3,
+    "n": 98,
+    "wins": 65
+  },
+  {
+    "symbol": "AMZN",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 2532.37,
+    "pct": 406.5,
+    "per_month": 45.7,
+    "n": 145,
+    "wins": 86
+  },
+  {
+    "symbol": "META",
+    "style": "jam rr=3",
+    "window": "from",
+    "end": 2155.3,
+    "pct": 331.1,
+    "per_month": 37.2,
+    "n": 53,
+    "wins": 28
+  },
+  {
+    "symbol": "NFLX",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 2143.75,
+    "pct": 328.8,
+    "per_month": 36.9,
+    "n": 132,
+    "wins": 73
+  },
+  {
+    "symbol": "BABA",
+    "style": "impulse 0.6% hold=6",
+    "window": "from",
+    "end": 1831.23,
+    "pct": 266.2,
+    "per_month": 29.9,
+    "n": 144,
+    "wins": 81
+  },
+  {
+    "symbol": "AMD",
+    "style": "gap 2%",
+    "window": "from",
+    "end": 1565.32,
+    "pct": 213.1,
+    "per_month": 23.9,
+    "n": 80,
+    "wins": 44
+  },
+  {
+    "symbol": "AMD",
+    "style": "gap 3%",
+    "window": "from",
+    "end": 1509.28,
+    "pct": 201.9,
+    "per_month": 22.7,
+    "n": 46,
+    "wins": 28
+  },
+  {
+    "symbol": "BABA",
+    "style": "jam rr=2",
+    "window": "from",
+    "end": 1465.62,
+    "pct": 193.1,
+    "per_month": 21.7,
+    "n": 40,
+    "wins": 22
+  },
+  {
+    "symbol": "META",
+    "style": "jam rr=2",
+    "window": "from",
+    "end": 1402.17,
+    "pct": 180.4,
+    "per_month": 20.3,
+    "n": 58,
+    "wins": 29
+  },
+  {
+    "symbol": "TSLA",
+    "style": "jam rr=2",
+    "window": "from",
+    "end": 1285.65,
+    "pct": 157.1,
+    "per_month": 17.7,
+    "n": 51,
+    "wins": 20
+  },
+  {
+    "symbol": "SI=F",
+    "style": "impulse 0.3% hold=6",
+    "window": "from",
+    "end": 1190.31,
+    "pct": 138.1,
+    "per_month": 15.5,
+    "n": 146,
+    "wins": 80
+  }
+]
