@@ -1,0 +1,37 @@
+ЗАПАС К COMBINE (не вторая охота)
+Дата: 28.09.2026. Книгу A не менять. Live/7496/Aave/Morpho live нельзя.
+
+
+УРОК MORPHO
+Не строить второй стек (KYC, деплой, ждать ленту), пока первый paper не считает дни.
+10168 и delayed data — не стоп теста. Сигнал уже с Yahoo H1.
+
+
+ГЛАВНАЯ (A) — уже идёт
+  BOOK: MSTR COIN SMCI AMD UVXY PLTR TSLA
+  сигнал: Yahoo 60m, signal_for_day, HOLD=6
+  банк $350, 20%→$25k, потолок $2500
+  цикл: --venue ibkr, TWS Paper 7497, DUR216113
+  журнал: combine_state_ibkr_350.json  (не сбрасывать)
+
+
+ЗАПАС (B) — тот же движок, если TWS/ibkr-loop умер
+  Не новая стратегия. Не NVDA-книга. Не XM. Не Binance. Не Morpho.
+  Команда:
+    python -m xau_jam.auto --bank 350 --risk 0.2 --max-stake 2500 --venue yahoo --interval 3600
+  Журнал: combine_state_yahoo_350.json
+  Не крутить A и B одновременно (дубль сигнала).
+  Включать B только если A мёртв (нет PID / TWS закрыт).
+
+
+НЕ ЗАПАС
+  Morpho live / Aave
+  XM CFD, Binance
+  jam/gap из hunt_styles.txt
+  вторая семёрка (NVDA NFLX AMZN META…) — это новая охота
+  Live IBKR 7496, депозит
+
+
+ЧТО ДЕЛАТЬ ПОКА HOLD
+  Не ждать 10168. Сверка после close PLTR (fi+6).
+  slip_report — read-only, пороги не крутить.
